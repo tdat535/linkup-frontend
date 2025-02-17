@@ -1,51 +1,87 @@
-import React from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
-const Sidebar: React.FC = () => {
+const Sidebar = () => {
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  
+    const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
+  
     return (
-        <div className="flex min-h-screen  text-white bg-[#080A0B]">
-            {/* Sidebar */}
-            <aside className="w-64 border-r-1 border-white p-5 flex flex-col  min-h-screen fixed left-0 top-0 overflow-y-auto ">
-                <div>
-                <h1 className="text-2xl font-bold text-white mb-12">LinkUp</h1>
-                <nav className="space-y-4">
-                    <Link to="/home" className="flex items-center space-x-2 hover:text-blue-400">
-                    <span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
-                        <path d="M11.47 3.841a.75.75 0 0 1 1.06 0l8.69 8.69a.75.75 0 1 0 1.06-1.061l-8.689-8.69a2.25 2.25 0 0 0-3.182 0l-8.69 8.69a.75.75 0 1 0 1.061 1.06l8.69-8.689Z" />
-                        <path d="m12 5.432 8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 0 1-.75-.75v-4.5a.75.75 0 0 0-.75-.75h-3a.75.75 0 0 0-.75.75V21a.75.75 0 0 1-.75.75H5.625a1.875 1.875 0 0 1-1.875-1.875v-6.198a2.29 2.29 0 0 0 .091-.086L12 5.432Z" />
-                    </svg>
-                    </span> <span>Trang chủ</span>
+      <div className="flex sidebar w-[223px]">
+        {/* Sidebar Container */}
+        <div className={`flex flex-col w-64 border-r border-gray-400 text-white p-4 fixed top-0 left-0 h-screen transition-all ${isMobileMenuOpen ? 'block' : 'hidden md:block'}`}>
+          <h1 className="text-2xl font-bold mb-6">LinkUp</h1>
+          <nav className="space-y-4">
+            <Link to="/" className="flex py-2 px-4 rounded hover:bg-gray-600">
+                <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                    <path fillRule="evenodd" d="M11.293 3.293a1 1 0 0 1 1.414 0l6 6 2 2a1 1 0 0 1-1.414 1.414L19 12.414V19a2 2 0 0 1-2 2h-3a1 1 0 0 1-1-1v-3h-2v3a1 1 0 0 1-1 1H7a2 2 0 0 1-2-2v-6.586l-.293.293a1 1 0 0 1-1.414-1.414l2-2 6-6Z" clipRule="evenodd"/>
+                </svg>
+                <p className='ml-2'>Trang chủ</p>
+            </Link>
 
-                    </Link>
-                    <Link to="/messages" className="flex items-center space-x-2 hover:text-blue-400">
-                    <span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
-                        <path fillRule="evenodd" d="M4.848 2.771A49.144 49.144 0 0 1 12 2.25c2.43 0 4.817.178 7.152.52 1.978.292 3.348 2.024 3.348 3.97v6.02c0 1.946-1.37 3.678-3.348 3.97a48.901 48.901 0 0 1-3.476.383.39.39 0 0 0-.297.17l-2.755 4.133a.75.75 0 0 1-1.248 0l-2.755-4.133a.39.39 0 0 0-.297-.17 48.9 48.9 0 0 1-3.476-.384c-1.978-.29-3.348-2.024-3.348-3.97V6.741c0-1.946 1.37-3.68 3.348-3.97ZM6.75 8.25a.75.75 0 0 1 .75-.75h9a.75.75 0 0 1 0 1.5h-9a.75.75 0 0 1-.75-.75Zm.75 2.25a.75.75 0 0 0 0 1.5H12a.75.75 0 0 0 0-1.5H7.5Z" clipRule="evenodd" />
-                    </svg>
-                    </span> <span>Tin nhắn</span>
-                    </Link>
-                    <Link to="/notifications" className="flex items-center space-x-2 hover:text-blue-400">
-                    <span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
-                        <path d="M5.85 3.5a.75.75 0 0 0-1.117-1 9.719 9.719 0 0 0-2.348 4.876.75.75 0 0 0 1.479.248A8.219 8.219 0 0 1 5.85 3.5ZM19.267 2.5a.75.75 0 1 0-1.118 1 8.22 8.22 0 0 1 1.987 4.124.75.75 0 0 0 1.48-.248A9.72 9.72 0 0 0 19.266 2.5Z" />
-                        <path fillRule="evenodd" d="M12 2.25A6.75 6.75 0 0 0 5.25 9v.75a8.217 8.217 0 0 1-2.119 5.52.75.75 0 0 0 .298 1.206c1.544.57 3.16.99 4.831 1.243a3.75 3.75 0 1 0 7.48 0 24.583 24.583 0 0 0 4.83-1.244.75.75 0 0 0 .298-1.205 8.217 8.217 0 0 1-2.118-5.52V9A6.75 6.75 0 0 0 12 2.25ZM9.75 18c0-.034 0-.067.002-.1a25.05 25.05 0 0 0 4.496 0l.002.1a2.25 2.25 0 1 1-4.5 0Z" clipRule="evenodd" />
-                    </svg>
-                    </span> <span>Thông báo</span>
-                    </Link>
-                    <Link to="/profile" className="flex items-center space-x-2 hover:text-blue-400">
-                    <span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
-                        <path fillRule="evenodd" d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z" clipRule="evenodd" />
-                    </svg>
-                    </span> <span>Trang cá nhân</span>
-                    </Link>
-                </nav>
-                </div>
-                <button className="w-full bg-blue-500 p-2 rounded hover:bg-blue-700 transition mt-20">Đăng bài</button>
-            </aside>
-            {/* Nội dung chính */}
-            <main className="lg:ml-64 lg:mr-64 w-full">
-                <Outlet />
-            </main>
+            <Link to="/discorver" className="flex py-2 px-4 rounded hover:bg-gray-600">
+                <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M10 2a8 8 0 1 0 0 16 8 8 0 0 0 0-16Z"/>
+                    <path fillRule="evenodd" d="M21.707 21.707a1 1 0 0 1-1.414 0l-3.5-3.5a1 1 0 0 1 1.414-1.414l3.5 3.5a1 1 0 0 1 0 1.414Z" clipRule="evenodd"/>
+                </svg>
+                <p className='ml-2'>Khám phá</p>
+            </Link>
+
+            <Link to="/messages" className="flex py-2 px-4 rounded hover:bg-gray-600">
+                <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                    <path fillRule="evenodd" d="M4 3a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h1v2a1 1 0 0 0 1.707.707L9.414 13H15a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1H4Z" clipRule="evenodd"/>
+                    <path fillRule="evenodd" d="M8.023 17.215c.033-.03.066-.062.098-.094L10.243 15H15a3 3 0 0 0 3-3V8h2a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1h-1v2a1 1 0 0 1-1.707.707L14.586 18H9a1 1 0 0 1-.977-.785Z" clipRule="evenodd"/>
+                </svg>
+                <p className='ml-2'>Tin nhắn</p>
+            </Link>
+
+            <Link to="/notifications" className="flex py-2 px-4 rounded hover:bg-gray-600">
+                <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M17.133 12.632v-1.8a5.406 5.406 0 0 0-4.154-5.262.955.955 0 0 0 .021-.106V3.1a1 1 0 0 0-2 0v2.364a.955.955 0 0 0 .021.106 5.406 5.406 0 0 0-4.154 5.262v1.8C6.867 15.018 5 15.614 5 16.807 5 17.4 5 18 5.538 18h12.924C19 18 19 17.4 19 16.807c0-1.193-1.867-1.789-1.867-4.175ZM8.823 19a3.453 3.453 0 0 0 6.354 0H8.823Z"/>
+                </svg>
+                <p className='ml-2'>Thông báo</p>
+            </Link>
+
+            <Link to="/profile" className="flex py-2 px-4 rounded hover:bg-gray-600">
+                <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                    <path fillRule="evenodd" d="M12 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm-2 9a4 4 0 0 0-4 4v1a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-1a4 4 0 0 0-4-4h-4Z" clipRule="evenodd"/>
+                </svg>
+                <p className='ml-2'>Trang cá nhân</p>
+            </Link>
+
+            <Link to="/about" className="flex py-2 px-4 rounded hover:bg-gray-600">
+                <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                    <path fillRule="evenodd" d="M4 4a1 1 0 0 1 1-1h14a1 1 0 1 1 0 2v14a1 1 0 1 1 0 2H5a1 1 0 1 1 0-2V5a1 1 0 0 1-1-1Zm5 2a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1H9Zm5 0a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1h-1Zm-5 4a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-1a1 1 0 0 0-1-1H9Zm5 0a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-1a1 1 0 0 0-1-1h-1Zm-3 4a2 2 0 0 0-2 2v3h2v-3h2v3h2v-3a2 2 0 0 0-2-2h-2Z" clipRule="evenodd"/>
+                </svg>
+                <p className='ml-2'>About Us</p>
+            </Link>
+
+            <Link to="/more" className="flex py-2 px-4 rounded hover:bg-gray-600">
+                <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" strokeLinecap="round" strokeWidth="2" d="M6 12h.01m6 0h.01m5.99 0h.01"/>
+                </svg>
+                <p className='ml-2'>Thêm</p>
+            </Link>
+          </nav>
         </div>
+  
+        {/* Main content area */}
+        <div className="flex-1 ml-64 p-8">
+          {/* Your page content goes here */}
+        </div>
+  
+        {/* Mobile Menu */}
+        <div className="fixed bottom-4 left-4 z-50 md:hidden">
+          <button
+            onClick={toggleMobileMenu}
+            className="p-3 bg-gray-800 text-white rounded-full shadow-lg">
+            <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                <path stroke="currentColor" strokeLinecap="round" strokeWidth="2" d="M5 7h14M5 12h14M5 17h14"/>
+            </svg>
+          </button>
+        </div>
+      </div>
     );
-}
-
-export default Sidebar;
+  };
+  
+  export default Sidebar;
