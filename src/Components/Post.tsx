@@ -5,7 +5,7 @@ import React from 'react';
 
 const Post = () => {
   return (
-    <div className="bg-[#080A0B] text-white rounded-2xl shadow-md p-4 mb-4 border border-white">
+    <div className="bg-[#080A0B] text-white shadow-md p-4 border-b border-gray-400">
       <div className="flex items-center mb-4">
         <img src="https://media.tenor.com/9vTAoKqOXPQAAAAM/shrek-shrek-meme.gif" alt="Avatar" className="w-10 h-10 rounded-full mr-2 object-cover" />
         <div>
@@ -17,9 +17,9 @@ const Post = () => {
         <p className="text-gray-300">Caption của bài post sẽ hiển thị ở đây...</p>
       </div>
       <div className="mb-4">
-        <img src="https://cdn.pixabay.com/photo/2018/05/13/20/21/lake-3397784_1280.jpg" alt="Post" className="w-full max-h-96 rounded-lg object-contain" />
+        <img src="https://cdn.pixabay.com/photo/2018/05/13/20/21/lake-3397784_1280.jpg" alt="Post" className="w-full max-h-96 rounded-2xl object-contain" />
       </div>
-      <div className="flex justify-around text-2xl text-gray-400">
+      <div className="flex gap-5 text-gray-400">
         <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
           <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z"/>
         </svg>

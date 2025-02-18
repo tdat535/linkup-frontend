@@ -13,7 +13,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     <div className="min-h-screen bg-[#080A0B] text-white">
       <Sidebar />
       <Follow_Sidebar />
-      <main className="md:ml-64 md:mr-64 p-4">
+      <main className="md:ml-64 md:mr-64">
         <NewPost />
         <Post />
         <Post />
