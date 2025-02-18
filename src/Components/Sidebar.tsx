@@ -7,9 +7,9 @@ const Sidebar = () => {
     const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
   
     return (
-      <div className="flex sidebar w-[223px]">
+      <div className="flex sidebar w-[223px] bg-[#080A0B]">
         {/* Sidebar Container */}
-        <div className={`flex flex-col w-64 border-r border-gray-400 text-white p-4 fixed top-0 left-0 h-screen transition-all ${isMobileMenuOpen ? 'block' : 'hidden md:block'}`}>
+        <div className={`flex flex-col w-64 border-r border-gray-400 text-white p-4 fixed top-0 left-0 h-screen transition-all bg-[#080A0B] ${isMobileMenuOpen ? 'block' : 'hidden md:block'}`}>
           <h1 className="text-2xl font-bold mb-6">LinkUp</h1>
           <nav className="space-y-4">
             <Link to="/" className="flex py-2 px-4 rounded hover:bg-gray-600">

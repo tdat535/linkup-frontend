@@ -3,10 +3,8 @@ import Post from '../Components/Post';
 
 const Home: React.FC = () => {
   return (
-    <div className='flex flex-col lg:flex-row'>
-      <main className="flex-1 p-5">
+    <div className=''>
         <Post />
-      </main>
     </div>
   )
 };
