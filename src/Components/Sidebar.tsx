@@ -64,10 +64,6 @@ const Sidebar = () => {
           </nav>
         </div>
   
-        {/* Main content area */}
-        <div className="flex-1 ml-64 p-8">
-          {/* Your page content goes here */}
-        </div>
   
         {/* Mobile Menu */}
         <div className="fixed bottom-4 left-4 z-50 md:hidden">
