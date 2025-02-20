@@ -14,6 +14,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       <Sidebar />
       <Follow_Sidebar />
       <main className="md:ml-64 md:mr-64 p-4">
+        {children}
         <NewPost />
         <Post />
         <Post />
