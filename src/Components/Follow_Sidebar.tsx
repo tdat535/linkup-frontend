@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 
 const Follow_Sidebar = () => {
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
-    const [followings, setFollowings] = useState([
+    const [followings] = useState([
         // Dữ liệu mẫu, bạn có thể thay bằng dữ liệu thực tế
         { id: 1, name: 'Stark', avatar: 'https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500' },
         { id: 2, name: 'Tony', avatar: 'https://thumbs.dreamstime.com/b/happy-smiling-young-handsome-asian-man-face-white-background-195696321.jpg' },
