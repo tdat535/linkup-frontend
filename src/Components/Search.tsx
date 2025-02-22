@@ -18,11 +18,19 @@ export default function Search() {
         setLoading(true);
         setTimeout(() => setLoading(false), 500);
     };
+<<<<<<< HEAD
 
     // Xử lý Follow/Unfollow
     const handleFollow = (userId: number) => {
         setFollowedUsers((prev) =>
             prev.includes(userId) ? prev.filter((id) => id !== userId) : [...prev, userId]
+=======
+    
+    // Xử lý Follow/Unfollow
+    const handleFollow = (userId: number) => {
+        setFollowedUsers((prev) =>
+        prev.includes(userId) ? prev.filter((id) => id !== userId) : [...prev, userId]
+>>>>>>> c1fdd3a558b86d4208cbdb6d9d21167914ae4bbf
         );
     };
 
@@ -32,7 +40,11 @@ export default function Search() {
                 <div className="relative">
                     {/* Search input */}
                     <svg className="w-6 h-6 text-gray-800 dark:text-white absolute left-3 top-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+<<<<<<< HEAD
                         <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z" />
+=======
+                        <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"/>
+>>>>>>> c1fdd3a558b86d4208cbdb6d9d21167914ae4bbf
                     </svg>
 
                     <input
@@ -48,6 +60,7 @@ export default function Search() {
                 {loading ? (
                     <p className="text-gray-400 text-center mt-4 animate-pulse">Đang tìm kiếm...</p>
                 ) : filtererdUsers.length > 0 ? (filtererdUsers.map((user) => (
+<<<<<<< HEAD
                     // User card  
                     <a href="#" className="bg-gray-800 my-2 p-3 flex items-center gap-3 rounded-lg">
                         <img src={user.avatar} alt={user.name} className="w-12 h-12 rounded-full" />
@@ -71,6 +84,32 @@ export default function Search() {
                             <span>{followedUsers.includes(user.id) ? "Đang theo dõi" : "Follow"}</span>
                         </button>
                     </a>
+=======
+                // User card  
+                    <a href="#" className="bg-gray-800 my-2 p-3 flex items-center gap-3 rounded-lg">
+                    <img src={user.avatar} alt={user.name} className="w-12 h-12 rounded-full"/>
+                    <div className="flex-1">
+                        <p className="text-lg font-semibold">{user.name}</p>
+                        <p className="text-gray-400">@{user.username}</p>
+                        <p className="text-sm text-gray-500">{user.bio}</p>
+                    </div>
+                    
+                    <button 
+                        className={`px-3 py-1 rounded-lg flex items-center gap-2 ${
+                        followedUsers.includes(user.id) ? "bg-green-500" : "bg-blue-500 hover:bg-blue-600"
+                        } text-white`}
+                        onClick={() => handleFollow(user.id)}
+                    >
+                        
+                        {followedUsers.includes(user.id) ? <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 11.917 9.724 16.5 19 7.5"/>
+                        </svg> : <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                            <path fill-rule="evenodd" d="M9 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm-2 9a4 4 0 0 0-4 4v1a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-1a4 4 0 0 0-4-4H7Zm8-1a1 1 0 0 1 1-1h1v-1a1 1 0 1 1 2 0v1h1a1 1 0 1 1 0 2h-1v1a1 1 0 1 1-2 0v-1h-1a1 1 0 0 1-1-1Z" clip-rule="evenodd"/>
+                        </svg> }
+                        <span>{followedUsers.includes(user.id) ? "Đang theo dõi" : "Follow"}</span>
+                    </button>
+                </a>
+>>>>>>> c1fdd3a558b86d4208cbdb6d9d21167914ae4bbf
                 ))) : (
                     <p className="text-gray-400 text-center mt-4">Không tìm thấy người dùng nào</p>
                 )}

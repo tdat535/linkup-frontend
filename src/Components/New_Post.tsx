@@ -2,8 +2,12 @@ import React, { useState } from 'react';
 import TextareaAutosize from "react-textarea-autosize";
 
 const NewPost = () => {
+<<<<<<< HEAD
   const [value, setValue] = useState('');
 
+=======
+  const newLocal = "dropzone-file";
+>>>>>>> c1fdd3a558b86d4208cbdb6d9d21167914ae4bbf
   return (
     <div className="bg-[#080A0B] text-white rounded-2xl shadow-md p-4 mb-4 border border-white">
       <div className="flex items-center mb-4"> 
@@ -22,16 +26,27 @@ const NewPost = () => {
       </div>
 
       <div className="flex justify-between items-center mt-2">
+<<<<<<< HEAD
         <div className="flex space-x-4 ml-10">
 
           <label htmlFor="dropzone-file" className=" cursor-pointer">
             <svg className="w-6 h-6 text-blue-500 hover:text-blue-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+=======
+        <div className="flex space-x-4">
+
+          <label htmlFor="dropzone-file" className="hover:text-white cursor-pointer">
+            <svg className="w-6 h-6 text-blue-500 hover:text-blue-700 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+>>>>>>> c1fdd3a558b86d4208cbdb6d9d21167914ae4bbf
               <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m3 16 5-7 6 6.5m6.5 2.5L16 13l-4.286 6M14 10h.01M4 19h16a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Z" />
             </svg>
             <input id="dropzone-file" type="file" className="hidden" />
           </label>
 
+<<<<<<< HEAD
           <label htmlFor="dropzone-file" className="cursor-pointer ">
+=======
+          <label htmlFor="dropzone-file" className="hover:text-white cursor-pointer">
+>>>>>>> c1fdd3a558b86d4208cbdb6d9d21167914ae4bbf
             <svg className="w-6 h-6 text-blue-500 hover:text-blue-700 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
               <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 6H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1Zm7 11-6-2V9l6-2v10Z" />
             </svg>
