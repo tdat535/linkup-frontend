@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 const NewPost = () => {
   const newLocal = "dropzone-file";
   return (
-    <div className="bg-[#080A0B] text-white rounded-2xl shadow-md p-4 mb-4 border border-white">
+    <div className="bg-[#080A0B] text-white shadow-md p-4 mb-4 border-b border-white">
       <div className="flex items-center mb-4">
         <img src="https://media.tenor.com/9vTAoKqOXPQAAAAM/shrek-shrek-meme.gif" alt="Avatar" className="w-10 h-10 rounded-full mr-2 object-cover" />
         <input type="text" placeholder="Bạn đang nghĩ gì?" className="bg-[#181A1B] text-white rounded-lg p-2 w-full outline-none" />
