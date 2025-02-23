@@ -1,14 +1,16 @@
 import React from 'react';
-import Post from '../Components/Post';
 import NewPost from '../Components/New_Post';
+import Post from '../Components/Post';
 
 const Home: React.FC = () => {
   return (
-    <div className=''>
-        <NewPost />
-        <Post />
+    <div>
+      <NewPost />
+      <Post />
+      <Post />
+      <Post />
     </div>
-  )
+  );
 };
 
 export default Home;
