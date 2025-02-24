@@ -16,7 +16,7 @@ const ChatPage = () => {
   return (
     <div className="">
       {/* Sidebar trái, có thể nhấp khi ở màn hình lớn */}
-      <aside className={`fixed inset-0 md:left-auto md:right-0 md:top-0 border-l border-gray-400 md:w-64 md:h-full  bg-[#080A0B] shadow-lg  z-50 ${isChatOpen ? 'hidden md:block' : ''}`}>
+      <aside className={`fixed  inset-0 md:left-64 md:right-0 md:top-0 border-l border-gray-400 border-r border-gray-400 md:w-64 md:h-full  bg-[#080A0B] shadow-lg  z-50 ${isChatOpen ? 'hidden md:block' : ''}`}>
         <h2 className="text-lg font-bold mb-4"></h2>
         <ul>
           <li className="p-2 hover:bg-gray-500 border-b border-gray-400  mb-2 flex cursor-pointer" onClick={() => setIsChatOpen(true)}>
@@ -25,26 +25,26 @@ const ChatPage = () => {
         </ul>
       </aside>
       {/* Khu vực chat */}
-      <div className={`flex-1 flex flex-col ml-0 mr-0 h-full ${!isChatOpen ? 'hidden md:flex' : ''}`}>
+      <div className={`flex-1 flex flex-col ml-0 mr-0 h-full  md:ml-64 ${!isChatOpen ? 'hidden md:flex' : ''}`}>
 
         {/* Nút quay lại trên mobile */}
-        <button className="md:hidden p-2 bg-black rounded" onClick={() => setIsChatOpen(false)}><ArrowLeft size={24} /></button>
 
         {/* Phần hiển thị tin nhắn */}
-        <div className="flex-1  overflow-y-auto p-4 space-y-2 ms-20 max-h-[calc(100vh-100px)]">
+        <div className="flex-1  overflow-y-auto pt-20 pb-10 pr-5 space-y-2 ms-30 max-h-[calc(100vh-100px)] ">
           {messages.map((msg, index) => (
-            <div key={index} className="max-w-fit break-all whitespace-pre-wrap bg-blue-500 text-white p-2 ms-auto rounded-lg">
+            <div key={index} className="max-w-fit break-all whitespace-pre-wrap bg-blue-500 text-white p-3 rounded-lg ml-auto">
               {msg}
             </div>
           ))}
         </div>
 
-        <div className="p-4 bg-black  fixed border-b border-gray-400 left-0 right-0 md:left-64 md:right-64">
+        <div className="p-4 bg-black shadow-lg border-b border-gray-400 fixed  left-0 right-0 md:left-128 md:right-0">
+        <button className="md:hidden p-2 bg-black rounded" onClick={() => setIsChatOpen(false)}><ArrowLeft size={24} /></button>
           dpoipigkmogfmomo
         </div>
 
         {/* Ô nhập tin nhắn cố định */}
-        <div className="p-4 bg-black shadow-lg fixed bottom-0 left-0 right-0 md:left-64 md:right-64">
+        <div className="p-4 bg-black shadow-lg fixed bottom-0 left-0 right-0 md:left-128 md:right-0 ">
           <div className="flex justify-start gap-4 pb-3 pl-2">
             <label htmlFor="dropzone-file" className=" cursor-pointer">
               <svg className="w-8 h-8 text-blue-500 hover:text-blue-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -64,7 +64,6 @@ const ChatPage = () => {
             <TextareaAutosize
               className="w-full p-2 border rounded-lg resize-none focus:outline-none"
               minRows={1}
-              maxRows={6}
               placeholder="Nhập tin nhắn..."
               value={input}
               onChange={(e) => setInput(e.target.value)}
