@@ -1,6 +1,6 @@
 import React from 'react';
-import NewPost from '../Components/New_Post';
-import Post from '../Components/Post';
+import NewPost from '../Components/Layout/New_Post';
+import Post from '../Components/Layout/Post';
 
 const Home: React.FC = () => {
   return (

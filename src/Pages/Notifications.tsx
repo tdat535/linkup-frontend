@@ -1,5 +1,5 @@
 import React from 'react';
-import Noti from '../Components/Noti';
+import Noti from '../Components/Layout/Noti';
 const Notifications: React.FC = () => {
   return (
     <div className="">

@@ -5,7 +5,7 @@ const NewPost = () => {
   const [value, setValue] = useState('');
 
   return (
-    <div className="bg-[#080A0B] text-white rounded-2xl shadow-md p-4 mb-4 border border-white">
+    <div className="bg-[#080A0B] text-white shadow-md p-4 mb-4 border-b border-gray-400">
       <div className="flex items-center mb-4"> 
         <img 
           src="https://media.tenor.com/9vTAoKqOXPQAAAAM/shrek-shrek-meme.gif" 
