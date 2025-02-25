@@ -28,9 +28,9 @@ const Follow_Sidebar = () => {
                         alt="Avatar"
                         className="w-10 h-10 rounded-full mr-3 object-cover"
                     />
-                    <span className="font-semibold text-lg">User Name</span>
+                    <span className="font-semibold">Steve Harvey</span>
                 </div>
-                <button className="text-red-500 hover:text-red-700">Đăng xuất</button>
+                <button className="text-red-500 text-sm hover:text-red-700">Đăng xuất</button>
             </div>
             <h4 className="text-[#676869] mb-3 font-medium">Đã theo dõi</h4>
             <ul>
