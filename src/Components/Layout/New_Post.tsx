@@ -1,8 +1,35 @@
 import React, { useState } from 'react';
 import TextareaAutosize from "react-textarea-autosize";
+import Post_Button from '../Buttons/Post_Button';
+import Modal from '../UI/Modal';
 
 const NewPost = () => {
   const [value, setValue] = useState('');
+  const [isOpen, setIsOpen] = useState(false); // State của modal
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            setImagePreview(reader.result as string);
+        };
+        reader.readAsDataURL(file);
+    }
+  };
+
+  const handleRemoveImage = () => {
+    setImagePreview(null);
+  };
+
+  const handleConfirm = () => {
+    alert("Đã xác nhận!");// Alert trước
+    setTimeout(() => {
+      setIsOpen(false);
+        // Đóng sau khi hiển thị alert
+    }, 100); // Chờ 100ms để tránh lỗi UI
+  };
 
   return (
     <div className="bg-[#080A0B] text-white shadow-md p-4 mb-4 border-b border-gray-400">
@@ -40,9 +67,74 @@ const NewPost = () => {
 
           <button className="text-gray-400 hover:text-white">📍</button>
         </div>
-        <button className="bg-white text-black rounded-lg px-4 py-2 hover:bg-blue-500 hover:text-white cursor-pointer">Đăng</button>
+
+        <Post_Button text="Đăng" onClick={() => setIsOpen(true)} variant='secondary' size="sm" />
+
+        <Modal
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        title="Tạo bài viết mới"
+        content={
+          <div>
+            <div className='flex items-center'>
+              <img
+                  src="https://media.tenor.com/9vTAoKqOXPQAAAAM/shrek-shrek-meme.gif"
+                  alt="Avatar"
+                  className="w-10 h-10 rounded-full mr-3 object-cover"
+              />
+              <span className="font-semibold">Steve Harvey</span>
+            </div>
+            <div className='mt-2'>
+              <TextareaAutosize
+                minRows={1}
+                className="bg-[#181A1B] text-white rounded-lg p-2 w-full outline-none"
+                placeholder="Bạn đang nghĩ gì?"
+                value={value}
+                onChange={(e) => setValue(e.target.value)}
+              />
+            </div>
+
+            <div className="mt-3 flex items-center">
+                <label className="block text-gray-400 mb-2">Đính kèm ảnh?</label>
+                <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageChange}
+                    className="hidden"
+                    id="imageUpload"
+                />
+                <label 
+                    htmlFor="imageUpload" 
+                    className="cursor-pointer bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 ms-auto"
+                >
+                    Chọn ảnh
+                </label>
+            </div>
+
+            {/* Hiển thị ảnh preview nếu có */}
+            {imagePreview && (
+              
+                <div className="mt-3 relative rounded border border-[#626466] p-2">
+                    <img src={imagePreview} alt="Preview" className="w-full max-h-64 object-cover rounded-lg shadow-md" />
+                    <button 
+                        onClick={handleRemoveImage} 
+                        className="absolute top-0 right-0 bg-red-600 text-white p-2 py-1 text-sm rounded-full hover:bg-red-700"
+                    >
+                        X
+                    </button>
+                </div>
+            )}
+          </div>
+        }
+        footer={
+          <div className="flex justify-end space-x-2">
+            <Post_Button text="Đăng bài" onClick={handleConfirm} variant="primary" fullWidth />
+          </div>
+        }
+        />
       </div>
+
     </div>
   );
 };
-export default NewPost
+export default NewPost;
