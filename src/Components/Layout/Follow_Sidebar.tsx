@@ -1,7 +1,10 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Button from '../Buttons/Button';
 
 const Follow_Sidebar = () => {
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+    const navigate = useNavigate();
     const [followings] = useState([
         // Dữ liệu mẫu, bạn có thể thay bằng dữ liệu thực tế
         { id: 1, name: 'Stark', avatar: 'https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500' },
@@ -19,6 +22,13 @@ const Follow_Sidebar = () => {
 
     if (isMobile) return null;
 
+    const handleLogout = () => {
+        localStorage.removeItem('accessToken');  // Xóa Access Token
+        localStorage.removeItem('refreshToken'); // Xóa Refresh Token
+        navigate('/login');  // Chuyển về trang đăng nhập
+        window.location.reload(); // Làm mới trang để cập nhật state
+    };
+
     return (
         <aside className="fixed top-0 right-0 h-full w-64 bg-[#080A0B] p-4 text-white border-l border-gray-600 transition-transform duration-300 ease-in-out transform">
             <div className="flex items-center justify-between mb-4">
@@ -30,7 +40,7 @@ const Follow_Sidebar = () => {
                     />
                     <span className="font-semibold">Steve Harvey</span>
                 </div>
-                <button className="text-red-500 text-sm hover:text-red-700">Đăng xuất</button>
+                <button onClick={handleLogout} className="text-blue-500 text-sm hover:text-blue-700">Đăng xuất</button>
             </div>
             <h4 className="text-[#676869] mb-3 font-medium">Đã theo dõi</h4>
             <ul>
