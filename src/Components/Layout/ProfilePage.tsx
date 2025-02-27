@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { FaHeart, FaComment, FaShare, FaArrowLeft } from "react-icons/fa";
 import TextareaAutosize from "react-textarea-autosize";
+import Post from "./Post";
 
 const ProfilePage = () => {
   const [openModal, setOpenModal] = useState(false);
@@ -11,11 +12,25 @@ const ProfilePage = () => {
   const [followers] = useState(12);
   const [following] = useState(20);
 
+  const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]; // Kiểm tra file có tồn tại không
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      if (e.target?.result) {
+        setAvatar(e.target.result as string);
+      }
+    };
+    reader.readAsDataURL(file);
+  };
+
+
   return (
-    <div className="flex-1 pt-4">
-      <div className="">
+    <div className="flex-1">
+      <div className="mt-30">
         {/* Header */}
-        <div className="flex items-center p-4 border-b border-gray-700"><FaArrowLeft className="text-white text-lg cursor-pointer" />
+        <div className="fixed top-0 left-0 right-0 md:left-64 md:right-64 bg-black p-4 border-b border-gray-700 z-10"><FaArrowLeft className="text-white text-lg cursor-pointer" />
           <div className="ml-4">
             <h2 className="text-lg font-bold">{name}</h2>
             <p className="text-gray-400 text-sm">{posts} Bài viết</p>
@@ -23,11 +38,11 @@ const ProfilePage = () => {
         </div>
 
         {/* Profile Header */}
-        <div className="flex flex-col max-w-4xl mx-auto sm:flex-row items-center gap-4 p-4 ">
+        <div className="flex flex-col max-w-4xl mx-auto sm:flex-row items-center gap-4 pt-5 pb-8 px-4">
           <img
             src={avatar}
             alt="Avatar"
-            className="w-20 h-20 rounded-full"
+            className="w-30 h-30 rounded-full"
           />
           <div className="flex-1">
             <h2 className="text-xl font-bold">{name}</h2>
@@ -56,22 +71,25 @@ const ProfilePage = () => {
 
         {/* Edit Profile Modal */}
         {openModal && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-            <div className="bg-white p-6 rounded-md w-full max-w-md sm:max-w-lg md:max-w-xl h-full sm:h-auto overflow-y-auto text-black">
+          <div className="fixed inset-0 flex justify-center items-center  bg-opacity-30 backdrop-blur-sm">
+            <div className="bg-black mt-25 p-6 rounded-md w-full max-w-md sm:max-w-lg md:max-w-xl h-full sm:h-auto overflow-y-auto text-white">
               <h2 className="text-lg font-bold mb-4">Sửa Hồ Sơ</h2>
               <input
                 type="text"
                 placeholder="Tên"
-                className="w-full p-2 border rounded-md mb-2"
+                className="w-full p-2 border rounded-md "
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               />
+              <img
+                src={avatar}
+                alt="Avatar"
+                className="w-20 h-20 rounded-full p-2" />
               <input
-                type="text"
-                placeholder="Ảnh đại diện (URL)"
+                type="file"
                 className="w-full p-2 border rounded-md mb-2"
-                value={avatar}
-                onChange={(e) => setAvatar(e.target.value)}
+                accept="image/*"
+                onChange={handleAvatarChange}
               />
               <TextareaAutosize
                 className="w-full p-2 border rounded-md resize-none"
@@ -92,7 +110,7 @@ const ProfilePage = () => {
         )}
 
         {/* Posts */}
-        <div className="mt-4 space-y-6">
+        <div className="mt-4 max-w-5xl mx-auto space-y-6">
           {/* Post Item */}
           <div className="p-4 border border-gray-700 rounded-lg">
             <div className="flex items-center gap-3">
@@ -106,15 +124,23 @@ const ProfilePage = () => {
                 <p className="text-gray-400 text-sm">4 giờ trước</p>
               </div>
             </div>
-            <p className="mt-2">Buổi sáng thức dậy bỗng thấy mình quá đẹp trai 😏</p>
+            <p className="mt-2">Buổi sáng thức dậy bỗng thấy mình quá đẹp trai </p>
             <div className="flex gap-4 mt-3 text-gray-400">
               <FaHeart /> <FaComment /> <FaShare />
             </div>
           </div>
         </div>
+
+        <div className="mt-4 max-w-5xl mx-auto space-y-6 p-4 border border-gray-700 rounded-lg">
+          <Post />
+        </div>
+
+        <div className="mt-4 max-w-5xl mx-auto space-y-6 p-4 border border-gray-700 rounded-lg">
+          <Post />
+        </div>
+
       </div>
     </div>
   );
 };
-
 export default ProfilePage;
