@@ -56,7 +56,7 @@ const Login = () => {
 
     return (
         <div className="flex justify-center items-center min-h-screen bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `url(${background})` }}>
-            <div className="flex flex-col md:flex-row w-full bg-opacity-50 bg-black">
+            <div className="flex flex-col md:flex-row w-full bg-opacity-50">
                 <div className='div-left flex flex-col justify-center items-center md:w-1/2 w-full md:min-h-screen h-auto p-6'>
                     <div className='text-5xl w-full ps-16 break-words text-white'>𝓛𝓲𝓷𝓴𝓤𝓹</div>
                     <div className="mt-4 w-full text-xl ps-16 break-words text-white hidden md:block">Kết nối với bạn bè và chia sẻ những khoảnh khắc vui vẻ cùng nhau thông qua LinkUp</div>
