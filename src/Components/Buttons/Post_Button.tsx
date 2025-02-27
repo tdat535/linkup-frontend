@@ -29,7 +29,7 @@ const PostButton: React.FC<PostButtonProps> = ({
     const sizeClasses = {
         sm: "text-sm px-2 py-1",
         md: "text-base px-4 py-2",
-        lg: "text-lg px-6 py-3",
+        lg: "text-base px-6 py-2 rounded-full",
     };
 
     //  fullWitdh: true => w-full, false => w-auto

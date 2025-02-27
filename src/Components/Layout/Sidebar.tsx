@@ -1,14 +1,17 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import Post_Button from '../Buttons/Post_Button';
+import Post_Modal from '../UI/Post_Modal';
 
 const Sidebar = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  
-  
+    const [isOpen, setIsOpen] = useState(false); // State để điều khiển modal
+
+
     return (
       <div className="flex sidebar  bg-[#080A0B]">
         {/* Sidebar Container */}
-        <div className={`flex flex-col w-64 border-r border-gray-400 text-white p-4 fixed top-0 left-0 h-screen transition-all bg-[#080A0B] ${isMobileMenuOpen ? 'block' : 'hidden md:block'}`}>
+        <div className={`flex flex-col w-64 border-r border-gray-600 text-white p-4 fixed top-0 left-0 h-screen transition-all bg-[#080A0B] ${isMobileMenuOpen ? 'block' : 'hidden md:block'}`}>
           <h1 className="text-2xl font-bold mb-6">LinkUp</h1>
           <nav className="space-y-4">
             <Link to="/" className="flex py-2 px-4 rounded hover:bg-gray-600">
@@ -61,9 +64,12 @@ const Sidebar = () => {
                 </svg>
                 <p className='ml-2'>Thêm</p>
             </Link>
-            <button className="w-full bg-blue-500 p-2 rounded-full hover:bg-blue-700 cursor-pointer transition mt-10">Đăng bài</button>
+            <Post_Button text="Đăng" onClick={() => setIsOpen(true)} variant='primary' size="lg" fullWidth/>
           </nav>
         </div>
+
+        {/* Hiển thị Modal khi isOpen = true */}
+        {isOpen && <Post_Modal isOpen={isOpen} onClose={() => setIsOpen(false)} />}
         
         {/* Mobile Menu */}
         <div className="fixed bottom-4 left-4 z-50 md:hidden">
