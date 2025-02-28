@@ -24,34 +24,23 @@ const App: React.FC = () => {
   return (
     <Router>
       <Routes>
-        {!token ? (
-          <>
-            <Route path="/login" element={<Login />} />
-            <Route path="*" element={<Navigate to="/login" replace />} />
-          </>
+        {token ? (
+          <Route path="/home" element={<Layout />}>
+            <Route index element={<Home />} />
+            <Route path="search" element={<Explore />} />
+            <Route path="messages" element={<Messages />} />
+            <Route path="notifications" element={<Notifications />} />
+            <Route path="profile" element={<Profile />} />
+          </Route>
         ) : (
           <>
-<<<<<<< HEAD
-            <Route path="/" element={<Navigate to="/home" replace />} />
-            <Route path="/home" element={<Layout />}>
-              <Route index element={<Home />} />
-              <Route path="/home/search" element={<Explore />} />
-              <Route path="messages" element={<Messages />} />
-              <Route path="notifications" element={<Notifications />} />
-              <Route path="profile" element={<Profile />} />
-            </Route>
-          </>
-        )}
-=======
-            <Route path="*" element={<Navigate to="/login" replace />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="*" element={<Navigate to="/login" replace />} />
           </>
         )}
         
->>>>>>> 68128296a4e4e3169cfc46328ad378a40704d5a6
       </Routes>
-
     </Router>
   );
 };
