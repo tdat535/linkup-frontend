@@ -7,6 +7,7 @@ import Messages from './Pages/Messages';
 import Notifications from './Pages/Notifications';
 import Profile from './Pages/Profile';
 import Login from './Pages/Login';
+import Register from './Pages/Register';
 
 const App: React.FC = () => {
   const [token, setToken] = useState<string | null>(localStorage.getItem('accessToken'));
@@ -32,9 +33,13 @@ const App: React.FC = () => {
             <Route path="profile" element={<Profile />} />
           </Route>
         ) : (
-          <Route path="*" element={<Navigate to="/login" replace />} />
+          <>
+            <Route path="*" element={<Navigate to="/login" replace />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+          </>
         )}
-        <Route path="/login" element={<Login />} />
+        
       </Routes>
     </Router>
   );
