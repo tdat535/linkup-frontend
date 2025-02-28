@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Modal from "./Modal";
 import TextareaAutosize from "react-textarea-autosize";
 import Post_Button from "../Buttons/Post_Button";
@@ -11,6 +11,7 @@ interface PostModalProps {
 const Post_Modal: React.FC<PostModalProps> = ({ isOpen, onClose }) => {
   const [value, setValue] = useState('');
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [user, setUser] = useState<{ username: string, email: string, phonenumber: string, realname: string } | null>(null); // Thông tin người dùng
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -34,6 +35,13 @@ const Post_Modal: React.FC<PostModalProps> = ({ isOpen, onClose }) => {
     }, 100);
   };
 
+  useEffect(() => {
+      const storedUser = localStorage.getItem('user');  // Lấy thông tin người dùng từ localStorage
+      if (storedUser) {
+        setUser(JSON.parse(storedUser));
+      }
+  }, []);
+
   return (
     <Modal
       isOpen={isOpen}
@@ -47,7 +55,7 @@ const Post_Modal: React.FC<PostModalProps> = ({ isOpen, onClose }) => {
               alt="Avatar"
               className="w-10 h-10 rounded-full mr-3 object-cover"
             />
-            <span className="font-semibold">Steve Harvey</span>
+            <span className="font-semibold">{user?.username}</span>
           </div>
           <div className="mt-2">
             <TextareaAutosize
