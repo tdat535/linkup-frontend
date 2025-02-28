@@ -5,7 +5,7 @@ import Follow_Sidebar from "./Follow_Sidebar";
 
 const Layout: React.FC = () => {
   const location = useLocation();
-  const hideFollowSidebar = location.pathname === "/messages";
+  const hideFollowSidebar = location.pathname === "/home/messages";
 
   return (
     <div className="min-h-screen bg-[#080A0B] text-white flex">

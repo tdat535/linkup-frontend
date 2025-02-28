@@ -1,51 +1,73 @@
 import { useState } from "react";
-import { ArrowLeft, Send } from "lucide-react"; // Import icon quay lại
-import TextareaAutosize from "react-textarea-autosize"; // Import TextareaAutosize
+import { ArrowLeft, Send } from "lucide-react";
+import TextareaAutosize from "react-textarea-autosize";
 
 const ChatPage = () => {
-  const [messages, setMessages] = useState<string[]>([]);
+  const [messages, setMessages] = useState<{ text: string; sender: string }[]>([]);
   const [input, setInput] = useState("");
-  const [isChatOpen, setIsChatOpen] = useState(false); // Kiểm soát hiển thị nội dung chat
+  const [isChatOpen, setIsChatOpen] = useState(false);
 
   const sendMessage = () => {
     if (input.trim()) {
-      setMessages([...messages, input]);
+      setMessages([...messages, { text: input, sender: "Tôi" }]);
       setInput("");
+
+      // Giả lập tin nhắn từ người khác sau 1 giây
+      setTimeout(() => {
+        setMessages((prev) => [...prev, { text: "Xin chào! Tôi là Bot.", sender: "Bot" }]);
+      }, 1000);
     }
   };
+
   return (
-    <div className="">
-      {/* Sidebar trái, có thể nhấp khi ở màn hình lớn */}
-      <aside className={`fixed  inset-0 md:left-64 md:right-0 md:top-0 border-l border-gray-400 border-r border-gray-400 md:w-64 md:h-full  bg-[#080A0B] shadow-lg  z-50 ${isChatOpen ? 'hidden md:block' : ''}`}>
-        <h2 className="text-lg font-bold mb-4"></h2>
+    <div className="flex h-screen">
+      {/* Sidebar trái */}
+      <aside className={`fixed inset-0 md:left-64 md:w-64 bg-[#080A0B] shadow-lg border-r border-gray-400 z-50 ${isChatOpen ? "hidden md:block" : ""}`}>
         <ul>
-          <li className="p-2 hover:bg-gray-500 border-b border-gray-400  mb-2 flex cursor-pointer" onClick={() => setIsChatOpen(true)}>
-             <span><img className="w-10 h-10 rounded-full" src="/docs/images/people/profile-picture-5.jpg" alt="Rounded avatar" /></span>username
+          <li
+            className="p-2 hover:bg-gray-500 border-b border-gray-400 flex items-center gap-2 cursor-pointer"
+            onClick={() => setIsChatOpen(true)}
+          >
+            <img className="w-10 h-10 rounded-full" src="/docs/images/people/profile-picture-5.jpg" alt="Avatar" />
+            <span>Username</span>
           </li>
         </ul>
       </aside>
-      {/* Khu vực chat */}
-      <div className={`flex-1 flex flex-col ml-0 mr-0 h-full  md:ml-64 ${!isChatOpen ? 'hidden md:flex' : ''}`}>
 
+      {/* Khu vực chat */}
+      <div className={`flex-1 flex flex-col ml-0 md:ml-64 h-full ${!isChatOpen ? "hidden md:flex" : ""}`}>
         {/* Nút quay lại trên mobile */}
+        <div className="p-4 bg-black border-b border-gray-400 fixed left-0 right-0 md:left-128 md:right-0 flex items-center">
+          <button className="md:hidden p-2 bg-black rounded" onClick={() => setIsChatOpen(false)}>
+            <ArrowLeft size={24} />
+          </button>
+          <img className="w-10 h-10 rounded-full" src="/docs/images/people/profile-picture-5.jpg" alt="Avatar" />
+          <span className="ml-4 text-white">Username</span>
+        </div>
 
         {/* Phần hiển thị tin nhắn */}
-        <div className="flex-1  overflow-y-auto pt-20 pb-10 pr-5 space-y-2 ms-30 max-h-[calc(100vh-100px)] ">
+        <div className="flex-1 overflow-y-auto pt-25 pb-20 pr-5 space-y-2 px-4 max-h-[calc(100vh-100px)]">
           {messages.map((msg, index) => (
-            <div key={index} className="max-w-fit break-all whitespace-pre-wrap bg-blue-500 text-white p-3 rounded-lg ml-auto">
-              {msg}
+            <div key={index} className={`flex ${msg.sender === "Tôi" ? "justify-end" : "justify-start items-center gap-2"}`}>
+              {msg.sender !== "Tôi" && (
+                <img className="w-8 h-8 rounded-full" src="/docs/images/people/profile-picture-6.jpg" alt="Avatar" />
+              )}
+              <div
+                className={`max-w-2xl break-all whitespace-pre-wrap p-3 rounded-lg ${
+                  msg.sender === "Tôi" ? "bg-blue-500 text-white ml-auto" : "bg-gray-700 text-white"
+                }`}
+              >
+                <span className="block font-bold">{msg.sender}</span>
+                {msg.text}
+              </div>
             </div>
           ))}
         </div>
 
-        <div className="p-4 bg-black shadow-lg border-b border-gray-400 fixed  left-0 right-0 md:left-128 md:right-0">
-        <button className="md:hidden p-2 bg-black rounded" onClick={() => setIsChatOpen(false)}><ArrowLeft size={24} /></button>
-          dpoipigkmogfmomo
-        </div>
+        {/* Ô nhập tin nhắn */}
+        <div className="p-4 bg-black shadow-lg fixed bottom-0 left-0 right-0 md:left-128 md:right-0">
 
-        {/* Ô nhập tin nhắn cố định */}
-        <div className="p-4 bg-black shadow-lg fixed bottom-0 left-0 right-0 md:left-128 md:right-0 ">
-          <div className="flex justify-start gap-4 pb-3 pl-2">
+        <div className="flex justify-start gap-4 pb-3 pl-2">
             <label htmlFor="dropzone-file" className=" cursor-pointer">
               <svg className="w-8 h-8 text-blue-500 hover:text-blue-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m3 16 5-7 6 6.5m6.5 2.5L16 13l-4.286 6M14 10h.01M4 19h16a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Z" />
@@ -60,20 +82,24 @@ const ChatPage = () => {
               <input id="dropzone-file" type="file" className="hidden" />
             </label>
           </div>
+          
           <div className="flex items-center">
             <TextareaAutosize
-              className="w-full p-2 border rounded-lg resize-none focus:outline-none"
+              className="w-full p-2 border rounded-lg resize-none focus:outline-none bg-gray-800 text-white"
               minRows={1}
               placeholder="Nhập tin nhắn..."
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && sendMessage()} />
-
-            <button className="ml-2 p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600" onClick={sendMessage}><Send size={24} /></button>
+              onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && sendMessage()}
+            />
+            <button className="ml-2 p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600" onClick={sendMessage}>
+              <Send size={24} />
+            </button>
           </div>
         </div>
       </div>
     </div>
   );
 };
+
 export default ChatPage;

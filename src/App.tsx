@@ -1,25 +1,49 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Layout from './Components/Layout/Layout';
 import Home from './Pages/Home';
 import Explore from './Pages/Explore';
 import Messages from './Pages/Messages';
 import Notifications from './Pages/Notifications';
 import Profile from './Pages/Profile';
+import Login from './Pages/Login';
 
 const App: React.FC = () => {
+  const [token, setToken] = useState<string | null>(localStorage.getItem('accessToken'));
+
+  useEffect(() => {
+    const handleStorageChange = () => {
+      setToken(localStorage.getItem('accessToken'));
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, []);
+
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Home />} />
-          <Route path="search" element={<Explore />} />
-          <Route path='messages' element={<Messages/>}/>
-          <Route path='notifications'element={<Notifications/>}/>
-          <Route path='profile'element={<Profile/>}/>
-        </Route>
+        {!token ? (
+          <>
+            <Route path="/login" element={<Login />} />
+            <Route path="*" element={<Navigate to="/login" replace />} />
+          </>
+        ) : (
+          <>
+            <Route path="/" element={<Navigate to="/home" replace />} />
+            <Route path="/home" element={<Layout />}>
+              <Route index element={<Home />} />
+              <Route path="/home/search" element={<Explore />} />
+              <Route path="messages" element={<Messages />} />
+              <Route path="notifications" element={<Notifications />} />
+              <Route path="profile" element={<Profile />} />
+            </Route>
+          </>
+        )}
       </Routes>
+
     </Router>
   );
 };
+
 export default App;

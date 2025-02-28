@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FaHeart, FaComment, FaShare, FaArrowLeft } from "react-icons/fa";
 import TextareaAutosize from "react-textarea-autosize";
-import Post from "./Post";
+
 
 const ProfilePage = () => {
   const [openModal, setOpenModal] = useState(false);
@@ -71,7 +71,7 @@ const ProfilePage = () => {
 
         {/* Edit Profile Modal */}
         {openModal && (
-          <div className="fixed inset-0 flex justify-center items-center  bg-opacity-30 backdrop-blur-sm">
+          <div className="fixed inset-0 flex justify-center items-center z-50 backdrop-blur-sm">
             <div className="bg-black mt-25 p-6 rounded-md w-full max-w-md sm:max-w-lg md:max-w-xl h-full sm:h-auto overflow-y-auto text-white">
               <h2 className="text-lg font-bold mb-4">Sửa Hồ Sơ</h2>
               <input
@@ -129,16 +129,7 @@ const ProfilePage = () => {
               <FaHeart /> <FaComment /> <FaShare />
             </div>
           </div>
-        </div>
-
-        <div className="mt-4 max-w-5xl mx-auto space-y-6 p-4 border border-gray-700 rounded-lg">
-          <Post />
-        </div>
-
-        <div className="mt-4 max-w-5xl mx-auto space-y-6 p-4 border border-gray-700 rounded-lg">
-          <Post />
-        </div>
-
+        </div>  
       </div>
     </div>
   );

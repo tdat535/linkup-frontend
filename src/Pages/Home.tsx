@@ -1,14 +1,12 @@
 import React from 'react';
 import NewPost from '../Components/Layout/New_Post';
-import Post from '../Components/Layout/Post';
+import PostList from '../Components/Layout/Post/PostList';
 
 const Home: React.FC = () => {
   return (
     <div>
       <NewPost />
-      <Post />
-      <Post />
-      <Post />
+      <PostList />
     </div>
   );
 };

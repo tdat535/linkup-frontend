@@ -1,15 +1,18 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import Post_Button from '../Buttons/Post_Button';
+import Post_Modal from '../UI/Post_Modal';
 
 const Sidebar = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  
-  
+    const [isOpen, setIsOpen] = useState(false); // State để điều khiển modal
+
+
     return (
       <div className="flex sidebar  bg-[#080A0B]">
         {/* Sidebar Container */}
-        <div className={`flex flex-col w-64 border-r border-gray-400 text-white p-4 fixed top-0 left-0 h-screen transition-all bg-[#080A0B] ${isMobileMenuOpen ? 'block' : 'hidden md:block'}`}>
-          <h1 className="text-2xl font-bold mb-6">LinkUp</h1>
+        <div className={`flex flex-col w-64 border-r border-gray-600 text-white p-4 fixed top-0 left-0 h-screen transition-all bg-[#080A0B] ${isMobileMenuOpen ? 'block' : 'hidden md:block'}`}>
+          <h1 className="text-3xl font-bold mb-6">𝓛𝓲𝓷𝓴𝓤𝓹</h1>
           <nav className="space-y-4">
             <Link to="/" className="flex py-2 px-4 rounded hover:bg-gray-600">
                 <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" viewBox="0 0 24 24">
@@ -18,7 +21,7 @@ const Sidebar = () => {
                 <p className='ml-2'>Trang chủ</p>
             </Link>
 
-            <Link to="/search" className="flex py-2 px-4 rounded hover:bg-gray-600">
+            <Link to="/home/search" className="flex py-2 px-4 rounded hover:bg-gray-600">
                 <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" viewBox="0 0 24 24">
                     <path d="M10 2a8 8 0 1 0 0 16 8 8 0 0 0 0-16Z"/>
                     <path fillRule="evenodd" d="M21.707 21.707a1 1 0 0 1-1.414 0l-3.5-3.5a1 1 0 0 1 1.414-1.414l3.5 3.5a1 1 0 0 1 0 1.414Z" clipRule="evenodd"/>
@@ -26,7 +29,7 @@ const Sidebar = () => {
                 <p className='ml-2'>Khám phá</p>
             </Link>
 
-            <Link to="/messages" className="flex py-2 px-4 rounded hover:bg-gray-600">
+            <Link to="/home/messages" className="flex py-2 px-4 rounded hover:bg-gray-600">
                 <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" viewBox="0 0 24 24">
                     <path fillRule="evenodd" d="M4 3a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h1v2a1 1 0 0 0 1.707.707L9.414 13H15a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1H4Z" clipRule="evenodd"/>
                     <path fillRule="evenodd" d="M8.023 17.215c.033-.03.066-.062.098-.094L10.243 15H15a3 3 0 0 0 3-3V8h2a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1h-1v2a1 1 0 0 1-1.707.707L14.586 18H9a1 1 0 0 1-.977-.785Z" clipRule="evenodd"/>
@@ -34,14 +37,14 @@ const Sidebar = () => {
                 <p className='ml-2'>Tin nhắn</p>
             </Link>
 
-            <Link to="/notifications" className="flex py-2 px-4 rounded hover:bg-gray-600">
+            <Link to="/home/notifications" className="flex py-2 px-4 rounded hover:bg-gray-600">
                 <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" viewBox="0 0 24 24">
                     <path d="M17.133 12.632v-1.8a5.406 5.406 0 0 0-4.154-5.262.955.955 0 0 0 .021-.106V3.1a1 1 0 0 0-2 0v2.364a.955.955 0 0 0 .021.106 5.406 5.406 0 0 0-4.154 5.262v1.8C6.867 15.018 5 15.614 5 16.807 5 17.4 5 18 5.538 18h12.924C19 18 19 17.4 19 16.807c0-1.193-1.867-1.789-1.867-4.175ZM8.823 19a3.453 3.453 0 0 0 6.354 0H8.823Z"/>
                 </svg>
                 <p className='ml-2'>Thông báo</p>
             </Link>
 
-            <Link to="/profile" className="flex py-2 px-4 rounded hover:bg-gray-600">
+            <Link to="/home/profile" className="flex py-2 px-4 rounded hover:bg-gray-600">
                 <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" viewBox="0 0 24 24">
                     <path fillRule="evenodd" d="M12 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm-2 9a4 4 0 0 0-4 4v1a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-1a4 4 0 0 0-4-4h-4Z" clipRule="evenodd"/>
                 </svg>
@@ -61,9 +64,12 @@ const Sidebar = () => {
                 </svg>
                 <p className='ml-2'>Thêm</p>
             </Link>
-            <button className="w-full bg-blue-500 p-2 rounded-full hover:bg-blue-700 cursor-pointer transition mt-10">Đăng bài</button>
+            <Post_Button text="Đăng" onClick={() => setIsOpen(true)} variant='primary' size="lg" fullWidth/>
           </nav>
         </div>
+
+        {/* Hiển thị Modal khi isOpen = true */}
+        {isOpen && <Post_Modal isOpen={isOpen} onClose={() => setIsOpen(false)} />}
         
         {/* Mobile Menu */}
         <div className="fixed bottom-4 left-4 z-50 md:hidden">
