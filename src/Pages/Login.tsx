@@ -14,9 +14,9 @@ const Login = () => {
 
     useEffect(() => {
         const handleStorageChange = () => {
-          setToken(localStorage.getItem('token')); // Cập nhật token khi thay đổi
+            setToken(localStorage.getItem('token')); // Cập nhật token khi thay đổi
         };
-    
+
         window.addEventListener('storage', handleStorageChange);
         return () => window.removeEventListener('storage', handleStorageChange);
     }, []);
@@ -26,26 +26,38 @@ const Login = () => {
         try {
             const body = { username, password };
             console.log("📤 Gửi yêu cầu đến:", url);
-            
+
             const response = await axios.post(url, body, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
             });
 
-            const accessToken = response.data.data.AccessToken;
-            const refreshToken = response.data.data.RefreshToken;
+            console.log("📥 Phản hồi API:", response.data); // Debug API trả về
 
-            if (accessToken && refreshToken) {
+            // Kiểm tra API trả về có `data` không
+            if (!response.data || !response.data.data) {
+                throw new Error("Phản hồi API không hợp lệ!");
+            }
+
+            // Lấy dữ liệu từ API
+            const { AccessToken, RefreshToken, username: apiUsername, email, phonenumber, realname } = response.data.data;
+
+            // Kiểm tra dữ liệu nhận được
+            if (AccessToken && RefreshToken && username) {
                 // ✅ Lưu token vào localStorage
-                localStorage.setItem('accessToken', accessToken);
-                localStorage.setItem('refreshToken', refreshToken);
+                localStorage.setItem('accessToken', AccessToken);
+                localStorage.setItem('refreshToken', RefreshToken);
+
+                // ✅ Lưu thông tin người dùng
+                const userData = { username, email, phonenumber, realname };
+                localStorage.setItem('user', JSON.stringify(userData));
 
                 console.log("✅ Đăng nhập thành công, chuyển hướng...");
                 navigate('/home'); // Chuyển hướng sau khi đăng nhập thành công
                 window.location.reload(); // Reload lại trang để App.tsx nhận diện token
             } else {
-                throw new Error("Token không hợp lệ!");
+                throw new Error("Dữ liệu trả về không đầy đủ!");
             }
         } catch (err: any) {
             console.error("❌ Lỗi đăng nhập:", err.response?.data || err.message);
