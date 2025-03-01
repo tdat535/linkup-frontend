@@ -7,10 +7,10 @@ import { useEffect, useState } from 'react';
 const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
+    const [error] = useState('');
     const navigate = useNavigate();
     const url = 'https://api-linkup.id.vn/api/auth/login';
-    const [token, setToken] = useState<string | null>(localStorage.getItem('token'));
+    const [, setToken] = useState<string | null>(localStorage.getItem('token'));
 
     useEffect(() => {
         const handleStorageChange = () => {
@@ -109,4 +109,4 @@ const Login = () => {
     );
 }
 
-export default Login;
+export default Login;   
