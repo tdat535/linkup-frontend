@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaHeart, FaComment, FaShare, FaArrowLeft } from "react-icons/fa";
 import TextareaAutosize from "react-textarea-autosize";
 
 
 const ProfilePage = () => {
+  const [user, setUser] = useState<{ username: string, email: string, phonenumber: string, realname: string } | null>(null); // Thông tin người dùng
   const [openModal, setOpenModal] = useState(false);
   const [name, setName] = useState("SoHanDz29");
   const [bio, setBio] = useState("");
@@ -13,6 +14,7 @@ const ProfilePage = () => {
   const [following] = useState(20);
 
   const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    
     const file = event.target.files?.[0]; // Kiểm tra file có tồn tại không
     if (!file) return;
 
@@ -25,6 +27,12 @@ const ProfilePage = () => {
     reader.readAsDataURL(file);
   };
 
+  useEffect(() => {
+        const storedUser = localStorage.getItem('user');  // Lấy thông tin người dùng từ localStorage
+        if (storedUser) {
+          setUser(JSON.parse(storedUser));
+        }
+    }, []);
 
   return (
     <div className="flex-1">
@@ -32,7 +40,7 @@ const ProfilePage = () => {
         {/* Header */}
         <div className="fixed top-0 left-0 right-0 md:left-64 md:right-64 bg-black p-4 border-b border-gray-700 z-10"><FaArrowLeft className="text-white text-lg cursor-pointer" />
           <div className="ml-4">
-            <h2 className="text-lg font-bold">{name}</h2>
+            <h2 className="text-lg font-bold">{user?.username}</h2>
             <p className="text-gray-400 text-sm">{posts} Bài viết</p>
           </div>
         </div>
@@ -45,7 +53,7 @@ const ProfilePage = () => {
             className="w-30 h-30 rounded-full"
           />
           <div className="flex-1">
-            <h2 className="text-xl font-bold">{name}</h2>
+            <h2 className="text-xl font-bold">{user?.username}</h2>
             <p className="text-gray-400 text-sm break-words whitespace-pre-wrap max-w-xs">
               {bio || "Chưa có tiểu sử"}
             </p>

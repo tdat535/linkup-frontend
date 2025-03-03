@@ -24,13 +24,14 @@ const App: React.FC = () => {
   return (
     <Router>
       <Routes>
+        <Route path="/" element={<Navigate to="/home" />}/>
         {token ? (
           <Route path="/home" element={<Layout />}>
-            <Route index element={<Home />} />
-            <Route path="search" element={<Explore />} />
-            <Route path="messages" element={<Messages />} />
-            <Route path="notifications" element={<Notifications />} />
-            <Route path="profile" element={<Profile />} />
+              <Route index element={<Home />} />
+              <Route path="search" element={<Explore />} />
+              <Route path="messages" element={<Messages />} />
+              <Route path="notifications" element={<Notifications />} />
+              <Route path="profile" element={<Profile />} />
           </Route>
         ) : (
           <>
