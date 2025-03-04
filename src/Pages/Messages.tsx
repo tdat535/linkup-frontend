@@ -1,13 +1,12 @@
-
 import React from 'react';
-import  chatUI from '../Components/Layout/ChatUI';
+import ChatUI from '../Components/Layout/ChatUI';
 
-const ChatUI: React.FC = () => {
+const Messages: React.FC = () => {
   return (
-    <div className="">
-      < ChatUI/>
+    <div className="messages-container">
+      <ChatUI />
     </div>
   );
 };
 
-export default chatUI;
+export default Messages;

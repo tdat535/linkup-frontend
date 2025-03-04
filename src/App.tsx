@@ -10,6 +10,7 @@ import Login from './Pages/Login';
 import Register from './Pages/Register';
 
 const App: React.FC = () => {
+  // Changed this to be more explicit about what we're checking for
   const [token, setToken] = useState<string | null>(localStorage.getItem('accessToken'));
 
   useEffect(() => {
@@ -40,7 +41,6 @@ const App: React.FC = () => {
             <Route path="*" element={<Navigate to="/login" replace />} />
           </>
         )}
-        
       </Routes>
     </Router>
   );

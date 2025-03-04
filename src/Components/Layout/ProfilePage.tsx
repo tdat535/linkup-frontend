@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { FaHeart, FaComment, FaShare, FaArrowLeft } from "react-icons/fa";
 import TextareaAutosize from "react-textarea-autosize";
-
+import { Tabs } from "flowbite";
+import type { TabsOptions, TabItem } from "flowbite";
 
 const ProfilePage = () => {
-  const [user, setUser] = useState<{ username: string, email: string, phonenumber: string, realname: string } | null>(null); // Thông tin người dùng
+  const [user, setUser] = useState<{ username: string, email: string, phonenumber: string, realname: string } | null>(null);
   const [openModal, setOpenModal] = useState(false);
   const [name, setName] = useState("SoHanDz29");
   const [bio, setBio] = useState("");
@@ -14,8 +15,7 @@ const ProfilePage = () => {
   const [following] = useState(20);
 
   const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    
-    const file = event.target.files?.[0]; // Kiểm tra file có tồn tại không
+    const file = event.target.files?.[0];
     if (!file) return;
 
     const reader = new FileReader();
@@ -28,17 +28,47 @@ const ProfilePage = () => {
   };
 
   useEffect(() => {
-        const storedUser = localStorage.getItem('user');  // Lấy thông tin người dùng từ localStorage
-        if (storedUser) {
-          setUser(JSON.parse(storedUser));
-        }
-    }, []);
+    const tabsElement = document.getElementById("default-tab");
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+
+    if (tabsElement) {
+      const tabElements: TabItem[] = [
+        {
+          id: "post",
+          triggerEl: document.getElementById("Post-tab")!,
+          targetEl: document.getElementById("post")!,
+        },
+        {
+          id: "followed",
+          triggerEl: document.getElementById("Followed-tab")!,
+          targetEl: document.getElementById("followed")!,
+        },
+        {
+          id: "follower",
+          triggerEl: document.getElementById("Follower-tab")!,
+          targetEl: document.getElementById("follower")!,
+        },
+      ];
+
+      const options: TabsOptions = {
+        defaultTabId: "post",
+        activeClasses: "text-blue-600 border-blue-600",
+        inactiveClasses: "text-gray-500 border-transparent",
+      };
+
+      new Tabs(tabsElement, tabElements, options);
+    }
+  }, []);
 
   return (
     <div className="flex-1">
       <div className="mt-30">
         {/* Header */}
-        <div className="fixed top-0 left-0 right-0 md:left-64 md:right-64 bg-black p-4 border-b border-gray-700 z-10"><FaArrowLeft className="text-white text-lg cursor-pointer" />
+        <div className="fixed top-0 left-0 right-0 md:left-64 md:right-64 bg-black p-4 border-b border-gray-700 z-10">
+          <FaArrowLeft className="text-white text-lg cursor-pointer" />
           <div className="ml-4">
             <h2 className="text-lg font-bold">{user?.username}</h2>
             <p className="text-gray-400 text-sm">{posts} Bài viết</p>
@@ -47,11 +77,7 @@ const ProfilePage = () => {
 
         {/* Profile Header */}
         <div className="flex flex-col max-w-4xl mx-auto sm:flex-row items-center gap-4 pt-5 pb-8 px-4">
-          <img
-            src={avatar}
-            alt="Avatar"
-            className="w-30 h-30 rounded-full"
-          />
+          <img src={avatar} alt="Avatar" className="w-30 h-30 rounded-full" />
           <div className="flex-1">
             <h2 className="text-xl font-bold">{user?.username}</h2>
             <p className="text-gray-400 text-sm break-words whitespace-pre-wrap max-w-xs">
@@ -85,14 +111,11 @@ const ProfilePage = () => {
               <input
                 type="text"
                 placeholder="Tên"
-                className="w-full p-2 border rounded-md "
+                className="w-full p-2 border rounded-md"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               />
-              <img
-                src={avatar}
-                alt="Avatar"
-                className="w-20 h-20 rounded-full p-2" />
+              <img src={avatar} alt="Avatar" className="w-20 h-20 rounded-full p-2" />
               <input
                 type="file"
                 className="w-full p-2 border rounded-md mb-2"
@@ -110,8 +133,12 @@ const ProfilePage = () => {
               />
               <p className="text-gray-400 text-sm text-right">{bio.length}/160</p>
               <div className="flex justify-end gap-2 mt-4">
-                <button className="bg-blue-500 text-white px-4 py-2 rounded-md" onClick={() => setOpenModal(false)}>Lưu</button>
-                <button className="bg-gray-500 text-white px-4 py-2 rounded-md" onClick={() => setOpenModal(false)}>Hủy</button>
+                <button className="bg-blue-500 text-white px-4 py-2 rounded-md" onClick={() => setOpenModal(false)}>
+                  Lưu
+                </button>
+                <button className="bg-gray-500 text-white px-4 py-2 rounded-md" onClick={() => setOpenModal(false)}>
+                  Hủy
+                </button>
               </div>
             </div>
           </div>
@@ -119,27 +146,86 @@ const ProfilePage = () => {
 
         {/* Posts */}
         <div className="mt-4 max-w-5xl mx-auto space-y-6">
-          {/* Post Item */}
-          <div className="p-4 border border-gray-700 rounded-lg">
-            <div className="flex items-center gap-3">
-              <img
-                src={avatar}
-                alt="Avatar"
-                className="w-10 h-10 rounded-full"
-              />
-              <div>
-                <h3 className="font-semibold">{name}</h3>
-                <p className="text-gray-400 text-sm">4 giờ trước</p>
+          {/* Tabs */}
+          <div className="mb-4 border-b border-gray-700">
+            <ul className="flex flex-wrap -mb-px text-sm font-medium text-center" id="default-tab" role="tablist">
+              <li className="me-2" role="presentation">
+                <button
+                  className="inline-block p-4 border-b-2 rounded-t-lg active"
+                  id="Post-tab"
+                  type="button"
+                  role="tab"
+                  aria-controls="post"
+                  aria-selected="true"
+                >
+                  Bài đăng
+                </button>
+              </li>
+              <li className="me-2" role="presentation">
+                <button
+                  className="inline-block p-4 border-b-2 rounded-t-lg hover:text-gray-400 hover:border-gray-500"
+                  id="Followed-tab"
+                  type="button"
+                  role="tab"
+                  aria-controls="followed"
+                  aria-selected="false"
+                >
+                  Người theo dõi
+                </button>
+              </li>
+              <li className="me-2" role="presentation">
+                <button
+                  className="inline-block p-4 border-b-2 rounded-t-lg hover:text-gray-400 hover:border-gray-500"
+                  id="Follower-tab"
+                  type="button"
+                  role="tab"
+                  aria-controls="follower"
+                  aria-selected="false"
+                >
+                  Đang theo dõi
+                </button>
+              </li>
+            </ul>
+          </div>
+
+          {/* Nội dung của các tab */}
+          <div>
+            {/* Post Item */}
+            <div className="p-4 border border-gray-700 rounded-lg" id="post" role="tabpanel">
+              <div className="flex items-center gap-3">
+                <img src={avatar} alt="Avatar" className="w-10 h-10 rounded-full" />
+                <div>
+                  <h3 className="font-semibold">{name}</h3>
+                  <p className="text-gray-400 text-sm">4 giờ trước</p>
+                </div>
+              </div>
+              <p className="mt-2">Buổi sáng thức dậy bỗng thấy mình quá đẹp trai</p>
+              <div className="flex gap-4 mt-3 text-gray-400">
+                <FaHeart /> <FaComment /> <FaShare />
               </div>
             </div>
-            <p className="mt-2">Buổi sáng thức dậy bỗng thấy mình quá đẹp trai </p>
-            <div className="flex gap-4 mt-3 text-gray-400">
-              <FaHeart /> <FaComment /> <FaShare />
+          
+            {/* Followed Item */} 
+            <div>
+              <div className="p-4 border border-gray-700 rounded-lg" id="followed" role="tabpanel">
+                <div className="flex items-center gap-3">
+                  <img src={avatar} alt="Avatar" className="w-10 h-10 rounded-full" />
+                </div>
+              </div>
             </div>
+
+            {/* Follower Item */}
+            <div className="p-4 border border-gray-700 rounded-lg" id="follower" role="tabpanel">
+                <div className="flex items-center gap-3">
+                  <img src={avatar} alt="Avatar" className="w-10 h-10 rounded-full" />
+                </div>
+              </div>
           </div>
-        </div>  
+          
+        </div>
       </div>
     </div>
   );
 };
+
 export default ProfilePage;

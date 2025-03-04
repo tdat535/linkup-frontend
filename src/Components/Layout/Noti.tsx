@@ -71,7 +71,7 @@ export default function Notification() {
                     id="default-tab"
                     role="tablist"
                 >
-                    <li className="me-2" role="presentation">
+                    <li className="mr-2" role="presentation">
                         <button
                             className="inline-block p-4 border-b-2 rounded-t-lg active"
                             id="Today-tab"
@@ -83,7 +83,7 @@ export default function Notification() {
                             Hôm nay
                         </button>
                     </li>
-                    <li className="me-2" role="presentation">
+                    <li className="mr-2" role="presentation">
                         <button
                             className="inline-block p-4 border-b-2 rounded-t-lg hover:text-gray-400 hover:border-gray-500"
                             id="All-tab"
