@@ -7,6 +7,8 @@ const Home: React.FC = () => {
     <div>
       <NewPost />
       <PostList />
+      <PostList />
+      <PostList />
     </div>
   );
 };

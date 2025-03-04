@@ -1,88 +1,124 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import Post_Button from '../Buttons/Post_Button';
-import Post_Modal from '../UI/Post_Modal';
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { Menu } from "lucide-react";
+import { motion } from "framer-motion";
+import Post_Button from "../Buttons/Post_Button";
+import Post_Modal from "../UI/Post_Modal";
 
 const Sidebar = () => {
-    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    const [isOpen, setIsOpen] = useState(false); // State để điều khiển modal
+  const [isOpen, setIsOpen] = useState(false); // Điều khiển modal
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isBottomNavVisible, setIsBottomNavVisible] = useState(true); // Điều khiển ẩn thanh menu dưới
 
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
 
-    return (
-      <div className="flex sidebar  bg-[#080A0B]">
-        {/* Sidebar Container */}
-        <div className={`flex flex-col w-64 border-r border-gray-600 text-white p-4 fixed top-0 left-0 h-screen transition-all bg-[#080A0B] ${isMobileMenuOpen ? 'block' : 'hidden md:block'}`}>
-          <h1 className="text-3xl font-bold mb-6">𝓛𝓲𝓷𝓴𝓤𝓹</h1>
-          <nav className="space-y-4">
-            <Link to="/home" className="flex py-2 px-4 rounded hover:bg-gray-600">
-                <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" viewBox="0 0 24 24">
-                    <path fillRule="evenodd" d="M11.293 3.293a1 1 0 0 1 1.414 0l6 6 2 2a1 1 0 0 1-1.414 1.414L19 12.414V19a2 2 0 0 1-2 2h-3a1 1 0 0 1-1-1v-3h-2v3a1 1 0 0 1-1 1H7a2 2 0 0 1-2-2v-6.586l-.293.293a1 1 0 0 1-1.414-1.414l2-2 6-6Z" clipRule="evenodd"/>
-                </svg>
-                <p className='ml-2'>Trang chủ</p>
-            </Link>
+    const resetTimer = () => {
+      if (window.innerWidth < 768) {
+        setIsBottomNavVisible(true); // Hiện lại nếu có thao tác
+        clearTimeout(timer);
+        timer = setTimeout(() => setIsBottomNavVisible(false), 10000); // Ẩn sau 3 giây
+      }
+    };
 
-            <Link to="/home/search" className="flex py-2 px-4 rounded hover:bg-gray-600">
-                <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" viewBox="0 0 24 24">
-                    <path d="M10 2a8 8 0 1 0 0 16 8 8 0 0 0 0-16Z"/>
-                    <path fillRule="evenodd" d="M21.707 21.707a1 1 0 0 1-1.414 0l-3.5-3.5a1 1 0 0 1 1.414-1.414l3.5 3.5a1 1 0 0 1 0 1.414Z" clipRule="evenodd"/>
-                </svg>
-                <p className='ml-2'>Khám phá</p>
-            </Link>
+    window.addEventListener("mousemove", resetTimer);
+    window.addEventListener("touchstart", resetTimer);
+    window.addEventListener("scroll", resetTimer);
+    window.addEventListener("resize", resetTimer);
 
-            <Link to="/home/messages" className="flex py-2 px-4 rounded hover:bg-gray-600">
-                <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" viewBox="0 0 24 24">
-                    <path fillRule="evenodd" d="M4 3a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h1v2a1 1 0 0 0 1.707.707L9.414 13H15a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1H4Z" clipRule="evenodd"/>
-                    <path fillRule="evenodd" d="M8.023 17.215c.033-.03.066-.062.098-.094L10.243 15H15a3 3 0 0 0 3-3V8h2a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1h-1v2a1 1 0 0 1-1.707.707L14.586 18H9a1 1 0 0 1-.977-.785Z" clipRule="evenodd"/>
-                </svg>
-                <p className='ml-2'>Tin nhắn</p>
-            </Link>
+    resetTimer();
 
-            <Link to="/home/notifications" className="flex py-2 px-4 rounded hover:bg-gray-600">
-                <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" viewBox="0 0 24 24">
-                    <path d="M17.133 12.632v-1.8a5.406 5.406 0 0 0-4.154-5.262.955.955 0 0 0 .021-.106V3.1a1 1 0 0 0-2 0v2.364a.955.955 0 0 0 .021.106 5.406 5.406 0 0 0-4.154 5.262v1.8C6.867 15.018 5 15.614 5 16.807 5 17.4 5 18 5.538 18h12.924C19 18 19 17.4 19 16.807c0-1.193-1.867-1.789-1.867-4.175ZM8.823 19a3.453 3.453 0 0 0 6.354 0H8.823Z"/>
-                </svg>
-                <p className='ml-2'>Thông báo</p>
-            </Link>
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("mousemove", resetTimer);
+      window.removeEventListener("touchstart", resetTimer);
+      window.removeEventListener("scroll", resetTimer);
+      window.removeEventListener("resize", resetTimer);
+    };
+  }, []);
 
-            <Link to="/home/profile" className="flex py-2 px-4 rounded hover:bg-gray-600">
-                <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" viewBox="0 0 24 24">
-                    <path fillRule="evenodd" d="M12 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm-2 9a4 4 0 0 0-4 4v1a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-1a4 4 0 0 0-4-4h-4Z" clipRule="evenodd"/>
-                </svg>
-                <p className='ml-2'>Trang cá nhân</p>
-            </Link>
-
-            <Link to="/home/about" className="flex py-2 px-4 rounded hover:bg-gray-600">
-                <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" viewBox="0 0 24 24">
-                    <path fillRule="evenodd" d="M4 4a1 1 0 0 1 1-1h14a1 1 0 1 1 0 2v14a1 1 0 1 1 0 2H5a1 1 0 1 1 0-2V5a1 1 0 0 1-1-1Zm5 2a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1H9Zm5 0a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1h-1Zm-5 4a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-1a1 1 0 0 0-1-1H9Zm5 0a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-1a1 1 0 0 0-1-1h-1Zm-3 4a2 2 0 0 0-2 2v3h2v-3h2v3h2v-3a2 2 0 0 0-2-2h-2Z" clipRule="evenodd"/>
-                </svg>
-                <p className='ml-2'>About Us</p>
-            </Link>
-
-            <Link to="/home/more" className="flex py-2 px-4 rounded hover:bg-gray-600">
-                <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" viewBox="0 0 24 24">
-                    <path stroke="white" strokeLinecap="round" strokeWidth="2" d="M6 12h.01m6 0h.01m5.99 0h.01"/>
-                </svg>
-                <p className='ml-2'>Thêm</p>
-            </Link>
-            <Post_Button text="Đăng" onClick={() => setIsOpen(true)} variant='primary' size="lg" fullWidth/>
-          </nav>
-        </div>
-
-        {/* Hiển thị Modal khi isOpen = true */}
-        {isOpen && <Post_Modal isOpen={isOpen} onClose={() => setIsOpen(false)} />}
-        
-        {/* Mobile Menu */}
-        <div className="fixed bottom-4 left-4 z-50 md:hidden">
-          <button
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="p-3 bg-gray-800 text-white rounded-full shadow-lg">
-           <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" viewBox="0 0 24 24">
-            <path fill-rule="evenodd" d="M4.857 3A1.857 1.857 0 0 0 3 4.857v4.286C3 10.169 3.831 11 4.857 11h4.286A1.857 1.857 0 0 0 11 9.143V4.857A1.857 1.857 0 0 0 9.143 3H4.857Zm10 0A1.857 1.857 0 0 0 13 4.857v4.286c0 1.026.831 1.857 1.857 1.857h4.286A1.857 1.857 0 0 0 21 9.143V4.857A1.857 1.857 0 0 0 19.143 3h-4.286Zm-10 10A1.857 1.857 0 0 0 3 14.857v4.286C3 20.169 3.831 21 4.857 21h4.286A1.857 1.857 0 0 0 11 19.143v-4.286A1.857 1.857 0 0 0 9.143 13H4.857Zm10 0A1.857 1.857 0 0 0 13 14.857v4.286c0 1.026.831 1.857 1.857 1.857h4.286A1.857 1.857 0 0 0 21 19.143v-4.286A1.857 1.857 0 0 0 19.143 13h-4.286Z" clip-rule="evenodd"/>
-            </svg>
-            </button>
-        </div>
+  return (
+    <>
+      {/* Sidebar chính - LUÔN HIỂN THỊ TRÊN DESKTOP */}
+      <div className="fixed top-0 left-0 h-screen w-64 bg-[#080A0B] border-r border-gray-600 text-white p-4 z-50 hidden md:block">
+        <h1 className="text-3xl font-bold mb-6">𝓛𝓲𝓷𝓴𝓤𝓹</h1>
+        <nav className="space-y-4">
+          <SidebarLink to="/home" label="Trang chủ" icon="home" />
+          <SidebarLink to="/home/search" label="Khám phá" icon="search" />
+          <SidebarLink to="/home/messages" label="Tin nhắn" icon="message" />
+          <SidebarLink to="/home/notifications" label="Thông báo" icon="bell" />
+          <SidebarLink to="/home/profile" label="Trang cá nhân" icon="user" />
+          <SidebarLink to="/home/about" label="About Us" icon="info" />
+          <SidebarLink to="/home/more" label="Thêm" icon="more" />
+          <Post_Button text="Đăng" onClick={() => setIsOpen(true)} variant="primary" size="lg" fullWidth />
+        </nav>
       </div>
-    );
+
+      {/* Sidebar Mobile (Ẩn mặc định, bấm Menu để mở) */}
+      <motion.div
+        initial={{ x: -260 }}
+        animate={{ x: isMobileMenuOpen ? 0 : -260 }}
+        transition={{ type: "tween", duration: 0.3 }}
+        className="fixed top-0 left-0 h-screen w-64 bg-[#080A0B] border-r border-gray-600 text-white p-4 z-50 md:hidden"
+      >
+        <h1 className="text-3xl font-bold mb-6">𝓛𝓲𝓷𝓴𝓤𝓹</h1>
+        <nav className="space-y-4">
+          <SidebarLink to="/home" label="Trang chủ" icon="home" />
+          <SidebarLink to="/home/search" label="Khám phá" icon="search" />
+          <SidebarLink to="/home/messages" label="Tin nhắn" icon="message" />
+          <SidebarLink to="/home/notifications" label="Thông báo" icon="bell" />
+          <SidebarLink to="/home/profile" label="Trang cá nhân" icon="user" />
+          <SidebarLink to="/home/about" label="About Us" icon="info" />
+          <SidebarLink to="/home/more" label="Thêm" icon="more" />
+          <Post_Button text="Đăng" onClick={() => setIsOpen(true)} variant="primary" size="lg" fullWidth />
+        </nav>
+      </motion.div>
+
+      {/* Nút mở Sidebar trên Mobile */}
+      <div className="fixed top-4 left-4 md:hidden">
+        <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="text-white p-2 bg-gray-800 rounded-lg">
+          <Menu size={24} />
+        </button>
+      </div>
+
+      {/* Thanh điều hướng Mobile (Tự động ẩn sau 3 giây) */}
+      <motion.div
+        initial={{ y: 0 }}
+        animate={{ y: isBottomNavVisible ? 0 : 100 }}
+        transition={{ duration: 0.3 }}
+        className="fixed bottom-0 left-0 w-full  bg-[#080A0B] border-t border-gray-600 md:hidden md:block flex justify-around  ">
+        <SidebarLink to="/home" icon="home" />
+        <SidebarLink to="/home/search" icon="search" />
+        <SidebarLink to="/home/messages" icon="message" />
+        <SidebarLink to="/home/notifications" icon="bell" />
+        <SidebarLink to="/home/profile" icon="user" />
+
+      </motion.div>
+
+      {/* Hiển thị modal đăng bài */}
+      {isOpen && <Post_Modal isOpen={isOpen} onClose={() => setIsOpen(false)} />}
+    </>
+  );
+};
+
+// Component tái sử dụng cho các Link Sidebar
+const SidebarLink = ({ to, label, icon }: { to: string; label?: string; icon: string }) => {
+  const icons: { [key: string]: string } = {
+    home: "M11.293 3.293a1 1 0 011.414 0l6 6 2 2a1 1 0 01-1.414 1.414L19 12.414V19a2 2 0 01-2 2h-3a1 1 0 01-1-1v-3h-2v3a1 1 0 01-1 1H7a2 2 0 01-2-2v-6.586l-.293.293a1 1 0 01-1.414-1.414l2-2 6-6Z",
+    search: "M10 2a8 8 0 100 16 8 8 0 000-16Z M21.707 21.707a1 1 0 01-1.414 0l-3.5-3.5a1 1 0 011.414-1.414l3.5 3.5a1 1 0 010 1.414Z",
+    message: "M4 3a1 1 0 00-1 1v8a1 1 0 001 1h1v2a1 1 0 001.707.707L9.414 13H15a1 1 0 001-1V4a1 1 0 00-1-1H4Z",
+    bell: "M17.133 12.632v-1.8a5.406 5.406 0 00-4.154-5.262.955.955 0 00.021-.106V3.1a1 1 0 00-2 0v2.364a.955.955 0 00.021.106 5.406 5.406 0 00-4.154 5.262v1.8C6.867 15.018 5 15.614 5 16.807 5 17.4 5 18 5.538 18h12.924C19 18 19 17.4 19 16.807c0-1.193-1.867-1.789-1.867-4.175Z",
+    user: "M12 4a4 4 0 100 8 4 4 0 000-8Zm-2 9a4 4 0 00-4 4v1a2 2 0 002 2h8a2 2 0 002-2v-1a4 4 0 00-4-4h-4Z",
   };
-  
-  export default Sidebar;
+
+  return (
+    <Link to={to} className="flex items-center justify-center md:justify-start py-2 px-4 rounded hover:bg-gray-600">
+      <svg className="w-6 h-6 text-gray-300" aria-hidden="true" fill="white" viewBox="0 0 24 24">
+        <path fillRule="evenodd" d={icons[icon]} clipRule="evenodd" />
+      </svg>
+      {label && <p className="ml-2 hidden md:block">{label}</p>}
+    </Link>
+  );
+};
+
+export default Sidebar;
