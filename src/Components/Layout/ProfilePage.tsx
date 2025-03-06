@@ -109,7 +109,11 @@ const ProfilePage = () => {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               />
-              <img src={avatar} alt="Avatar" className="w-20 h-20 rounded-full p-2" />
+              <img
+                src={avatar}
+                alt="Avatar"
+                className="w-20 h-20 rounded-full p-2" />
+                
               <input
                 type="file"
                 className="w-full p-2 border rounded-md mb-2"

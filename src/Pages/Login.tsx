@@ -14,6 +14,7 @@ const Login = () => {
 
     useEffect(() => {
         // If token exists, redirect to home
+        const token = localStorage.getItem('token');
         if (token) {
             navigate('/home');
         }
@@ -24,7 +25,7 @@ const Login = () => {
 
         window.addEventListener('storage', handleStorageChange);
         return () => window.removeEventListener('storage', handleStorageChange);
-    }, [token, navigate]);
+    }, [navigate]);
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -150,4 +151,4 @@ const Login = () => {
     );
 }
 
-export default Login;
+export default Login;   
