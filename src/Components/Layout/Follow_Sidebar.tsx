@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Button from '../Buttons/Button';
 
 const Follow_Sidebar = () => {
-    const [user, setUser] = useState<{ username: string, email: string, phonenumber: string, realname: string } | null>(null); // Thông tin người dùng
+    const [user, setUser] = useState<{ username: string, email: string, phonenumber: string } | null>(null); // Thông tin người dùng
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
     const navigate = useNavigate();
     const [followings] = useState([

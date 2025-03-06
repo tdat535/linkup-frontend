@@ -5,12 +5,11 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 
 const Login = () => {
-    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const navigate = useNavigate();
     const url = 'https://api-linkup.id.vn/api/auth/login';
-    // Changed this to check for accessToken instead of token to match App.tsx
     const [token, setToken] = useState<string | null>(localStorage.getItem('accessToken'));
 
     useEffect(() => {
@@ -30,7 +29,8 @@ const Login = () => {
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            const body = { username, password };
+            // Changed to use email instead of username to match API requirements
+            const body = { email, password };
             console.log("📤 Sending request to:", url);
 
             const response = await axios.post(url, body, {
@@ -46,17 +46,24 @@ const Login = () => {
                 throw new Error("Invalid API response!");
             }
 
-            // Get data from API
-            const { AccessToken, RefreshToken, username: apiUsername, email, phonenumber, realname } = response.data.data;
+            // Get data from API - updated to match actual API response structure
+            const { AccessToken, RefreshToken, Username, Email, Phonenumber, UserType, UserId, Avatar } = response.data.data;
 
             // Check received data
-            if (AccessToken && RefreshToken && username) {
+            if (AccessToken && RefreshToken) {
                 // Save tokens to localStorage
                 localStorage.setItem('accessToken', AccessToken);
                 localStorage.setItem('refreshToken', RefreshToken);
 
-                // Save user info
-                const userData = { username, email, phonenumber, realname };
+                // Save user info - updated to match actual response structure
+                const userData = { 
+                    username: Username, 
+                    email: Email, 
+                    phonenumber: Phonenumber,
+                    userType: UserType,
+                    userId: UserId,
+                    avatar: Avatar
+                };
                 localStorage.setItem('user', JSON.stringify(userData));
 
                 console.log("✅ Login successful, redirecting...");
@@ -82,12 +89,29 @@ const Login = () => {
                 <div className='div-right flex justify-center items-center p-6 md:w-1/2 w-full md:min-h-screen h-auto'>
                     <form onSubmit={handleLogin} className="max-w-sm mx-auto p-6 border rounded-2xl border-stone-800 bg-black w-full bg-opacity-75" style={{ maxWidth: "32rem", height: "24rem" }}>
                         <div className="mb-3">
-                            <label htmlFor="username" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tên đăng nhập</label>
-                            <input type="text" id="username" value={username} onChange={(e) => setUsername(e.target.value)} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Tên đăng nhập" required />
+                            {/* Changed to use email input and label */}
+                            <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
+                            <input 
+                                type="email" 
+                                id="email" 
+                                value={email} 
+                                onChange={(e) => setEmail(e.target.value)} 
+                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                                placeholder="email@example.com" 
+                                required 
+                            />
                         </div>
                         <div className="mb-3">
                             <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Mật khẩu</label>
-                            <input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder='•••••••••' required />
+                            <input 
+                                type="password" 
+                                id="password" 
+                                value={password} 
+                                onChange={(e) => setPassword(e.target.value)} 
+                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                                placeholder='•••••••••' 
+                                required 
+                            />
                         </div>
                         
                         <div className='w-full flex justify-between'>

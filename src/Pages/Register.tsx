@@ -7,8 +7,7 @@ import Button from '../Components/Buttons/Button';
 const Register = () => {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
-        username: '',
-        realname: '',  
+        username: '',  
         email: '',
         phonenumber: '', 
         password: '',
@@ -26,7 +25,7 @@ const Register = () => {
         e.preventDefault();
         setError('');
     
-        if (!formData.username || !formData.realname || !formData.email || !formData.phonenumber || !formData.password) {
+        if (!formData.username || !formData.email || !formData.phonenumber || !formData.password) {
             setError('Vui lòng điền đầy đủ thông tin.');
             return;
         }
@@ -41,7 +40,6 @@ const Register = () => {
         try {
             console.log("Dữ liệu gửi lên API:", JSON.stringify({
                 username: formData.username,
-                realname: formData.realname,
                 email: formData.email,
                 phone: formData.phonenumber,
                 password: formData.password,
@@ -55,7 +53,6 @@ const Register = () => {
                     email: formData.email,
                     password: formData.password,
                     phonenumber: formData.phonenumber,  
-                    realname: formData.realname,  
                 }),
             });
             
@@ -94,10 +91,6 @@ const Register = () => {
                         <div className="mb-3">
                             <label className="block mb-2 text-sm font-medium text-white">Tên tài khoản</label>
                             <input type="text" name="username" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value={formData.username} onChange={handleChange} required />
-                        </div>
-                        <div className="mb-3">
-                            <label className="block mb-2 text-sm font-medium text-white">Họ và tên</label>
-                            <input type="text" name="realname" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value={formData.realname} onChange={handleChange} required />
                         </div>
                         <div className="mb-3">
                             <label className="block mb-2 text-sm font-medium text-white">Số điện thoại</label>
