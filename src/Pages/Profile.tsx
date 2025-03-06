@@ -5,7 +5,7 @@ import ProfilePage from '../Components/Layout/ProfilePage';
 const Profile: React.FC = () => {
   return (
 	<div>
-        <ProfilePage />
+    <ProfilePage />
 	</div>
   );
 };

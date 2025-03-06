@@ -1,31 +1,37 @@
 import 'flowbite';
 import { useNavigate } from 'react-router-dom';
-import background from '../assets/pictures/images.jpg'; // Import the image
+import background from '../assets/pictures/images.jpg';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
 const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [error] = useState('');
+    const [error, setError] = useState('');
     const navigate = useNavigate();
     const url = 'https://api-linkup.id.vn/api/auth/login';
     const [, setToken] = useState<string | null>(localStorage.getItem('token'));
 
     useEffect(() => {
+        // If token exists, redirect to home
+        const token = localStorage.getItem('token');
+        if (token) {
+            navigate('/home');
+        }
+
         const handleStorageChange = () => {
-            setToken(localStorage.getItem('token')); // Cập nhật token khi thay đổi
+            setToken(localStorage.getItem('accessToken'));
         };
 
         window.addEventListener('storage', handleStorageChange);
         return () => window.removeEventListener('storage', handleStorageChange);
-    }, []);
+    }, [navigate]);
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
             const body = { username, password };
-            console.log("📤 Gửi yêu cầu đến:", url);
+            console.log("📤 Sending request to:", url);
 
             const response = await axios.post(url, body, {
                 headers: {
@@ -33,39 +39,39 @@ const Login = () => {
                 }
             });
 
-            console.log("📥 Phản hồi API:", response.data); // Debug API trả về
+            console.log("📥 API Response:", response.data);
 
-            // Kiểm tra API trả về có `data` không
+            // Check if API returns data
             if (!response.data || !response.data.data) {
-                throw new Error("Phản hồi API không hợp lệ!");
+                throw new Error("Invalid API response!");
             }
 
-            // Lấy dữ liệu từ API
-            const { AccessToken, RefreshToken, username: apiUsername, email, phonenumber, realname } = response.data.data;
+            // Get data from API
+            const { AccessToken, RefreshToken, email, phonenumber, realname } = response.data.data;
 
-            // Kiểm tra dữ liệu nhận được
+            // Check received data
             if (AccessToken && RefreshToken && username) {
-                // ✅ Lưu token vào localStorage
+                // Save tokens to localStorage
                 localStorage.setItem('accessToken', AccessToken);
                 localStorage.setItem('refreshToken', RefreshToken);
 
-                // ✅ Lưu thông tin người dùng
+                // Save user info
                 const userData = { username, email, phonenumber, realname };
                 localStorage.setItem('user', JSON.stringify(userData));
 
-                console.log("✅ Đăng nhập thành công, chuyển hướng...");
-                navigate('/home'); // Chuyển hướng sau khi đăng nhập thành công
-                window.location.reload(); // Reload lại trang để App.tsx nhận diện token
+                console.log("✅ Login successful, redirecting...");
+                navigate('/home');
+                // Keep this reload as it was in your original code
+                window.location.reload();
             } else {
-                throw new Error("Dữ liệu trả về không đầy đủ!");
+                throw new Error("Incomplete data returned!");
             }
         } catch (err: any) {
-            console.error("❌ Lỗi đăng nhập:", err.response?.data || err.message);
-            alert("Đăng nhập thất bại! Vui lòng kiểm tra thông tin đăng nhập");
+            console.error("❌ Login error:", err.response?.data || err.message);
+            setError("Login failed. Please check your credentials.");
         }
     };
     
-
     return (
         <div className="flex justify-center items-center min-h-screen bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `url(${background})` }}>
             <div className="flex flex-col md:flex-row w-full bg-opacity-50">
@@ -83,7 +89,6 @@ const Login = () => {
                             <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Mật khẩu</label>
                             <input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder='•••••••••' required />
                         </div>
-                        
                         
                         <div className='w-full flex justify-between'>
                             <div className="flex items-start mb-5">

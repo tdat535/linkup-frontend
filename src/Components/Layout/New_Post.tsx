@@ -19,11 +19,11 @@ const NewPost = () => {
   return (
     <>
       <div className="bg-[#080A0B] text-white shadow-md p-4 mb-4 border-b border-gray-600">
-        <div className="flex items-center"> 
-          <img 
-            src="https://media.tenor.com/9vTAoKqOXPQAAAAM/shrek-shrek-meme.gif" 
-            alt="Avatar" 
-            className="w-10 h-10 rounded-full mr-2 object-cover" 
+        <div className="flex items-center">
+          <img
+            src="https://media.tenor.com/9vTAoKqOXPQAAAAM/shrek-shrek-meme.gif"
+            alt="Avatar"
+            className="w-10 h-10 rounded-full mr-2 object-cover"
           />
           <TextareaAutosize
             minRows={1}
@@ -49,10 +49,8 @@ const NewPost = () => {
               </svg>
               <input id="dropzone-file" type="file" className="hidden" />
             </label>
-
             <button className="text-gray-400 hover:text-white">📍</button>
           </div>
-
           <Post_Button text="Đăng" onClick={() => setIsOpen(true)} variant='secondary' size="sm" />
         </div>
       </div>

@@ -1,36 +1,88 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { PostProps } from "./PostProps";
+import { HandThumbUpIcon, ChatBubbleOvalLeftIcon, ShareIcon } from "@heroicons/react/24/solid";
+import CommentModal from "../../UI/CommentModal";
 
 const PostItem: React.FC<{ post: PostProps }> = ({ post }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [comment, setComment] = useState("");
+  const [comments, setComments] = useState<{ user: string; text: string; time: string; likes: number }[]>([]);
+  const [likes, setLikes] = useState(0);
+  const [isLiked, setIsLiked] = useState(false);
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.classList.add("overflow-hidden");
+    } else {
+      document.body.classList.remove("overflow-hidden");
+    }
+  }, [isOpen]);
+
+
+  const handleLike = () => {
+    setIsLiked(!isLiked);
+    setLikes((prev) => (isLiked ? prev - 1 : prev + 1));
+  };
+
+  const handleCommentSubmit = () => {
+    if (comment.trim()) {
+      setComments([{ user: "You", text: comment, time: "Just now", likes: 0 }, ...comments]);
+      setComment("");
+    }
+  };
+
+  const handleShare = () => {
+    if (navigator.share) {
+      navigator.share({
+        title: post.name,
+        text: post.caption,
+        url: window.location.href,
+      });
+    } else {
+      alert("Trình duyệt không hỗ trợ chia sẻ!");
+    }
+  };
+
   return (
-    <div className="bg-[#080A0B] text-white shadow-md p-4 border-b border-gray-400">
-      <div className="flex items-center mb-4">
-        <img src={post.avatar} alt="Avatar" className="w-10 h-10 rounded-full mr-2 object-cover" />
-        <div>
-          <span className="font-bold">{post.name}</span>
-          <span className="text-gray-500 text-sm ml-2">{post.time}</span>
+    <>
+      {/* Bài đăng */}
+      <div className="bg-[#080A0B] text-white shadow-md p-4 border-b border-gray-400">
+        <div className="flex items-center mb-4">
+          <img src={post.avatar} alt="Avatar" className="w-10 h-10 rounded-full mr-2 object-cover" />
+          <div>
+            <span className="font-bold">{post.name}</span>
+            <span className="text-gray-500 text-sm ml-2">{post.time}</span>
+          </div>
+        </div>
+        <p className="text-gray-300 mb-4">{post.caption}</p>
+        {post.image && <img src={post.image} alt="Post" className="w-full max-h-96 rounded-2xl object-contain mb-4" />}
+
+        <div className="flex gap-5 text-gray-400">
+          <button onClick={handleLike} className="flex items-center gap-1 hover:text-red-500">
+            <HandThumbUpIcon className="w-5 h-5" /> <span>{likes}</span>
+          </button>
+
+          <button onClick={() => setIsOpen(true)} className="hover:text-white flex items-center gap-1">
+            <ChatBubbleOvalLeftIcon className="w-5 h-5" /> <span>{comments.length}</span>
+          </button>
+
+          <button onClick={handleShare} className="hover:text-blue-500 flex items-center gap-1">
+            <ShareIcon className="w-5 h-5" />
+          </button>
         </div>
       </div>
-      <div className="mb-4">
-        <p className="text-gray-300">{post.caption}</p>
-      </div>
-      {post.image && (
-        <div className="mb-4">
-          <img src={post.image} alt="Post" className="w-full max-h-96 rounded-2xl object-contain" />
-        </div>
-      )}
-      <div className="flex gap-5 text-gray-400">
-        <svg className="w-6 h-6 hover:text-white transition-transform transform hover:scale-110 cursor-pointer" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-          <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z" />
-        </svg>
-        <svg className="w-6 h-6 hover:text-white transition-transform transform hover:scale-110 cursor-pointer" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-          <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 9h5m3 0h2M7 12h2m3 0h5M5 5h14a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1h-6.616a1 1 0 0 0-.67.257l-2.88 2.592A.5.5 0 0 1 8 18.477V17a1 1 0 0 0-1-1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Z" />
-        </svg>
-        <svg className="w-6 h-6 hover:text-white transition-transform transform hover:scale-110 cursor-pointer" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-          <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="m15.141 6 5.518 4.95a1.05 1.05 0 0 1 0 1.549l-5.612 5.088m-6.154-3.214v1.615a.95.95 0 0 0 1.525.845l5.108-4.251a1.1 1.1 0 0 0 0-1.646l-5.108-4.251a.95.95 0 0 0-1.525.846v1.7c-3.312 0-6 2.979-6 6.654v1.329a.7.7 0 0 0 1.344.353 5.174 5.174 0 0 1 4.652-3.191l.004-.003Z" />
-        </svg>
-      </div>
-    </div>
+
+      {/* Sử dụng Modal */}
+      <CommentModal
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        post={post}
+        comments={comments}
+        comment={comment}
+        setComment={setComment}
+        handleCommentSubmit={handleCommentSubmit}
+      />
+    </>
   );
 };
 
