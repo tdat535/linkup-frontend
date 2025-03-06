@@ -28,47 +28,41 @@ const ProfilePage = () => {
   };
 
   useEffect(() => {
-    const tabsElement = document.getElementById("default-tab");
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
-
-    if (tabsElement) {
-      const tabElements: TabItem[] = [
-        {
-          id: "post",
-          triggerEl: document.getElementById("Post-tab")!,
-          targetEl: document.getElementById("post")!,
-        },
-        {
-          id: "followed",
-          triggerEl: document.getElementById("Followed-tab")!,
-          targetEl: document.getElementById("followed")!,
-        },
-        {
-          id: "follower",
-          triggerEl: document.getElementById("Follower-tab")!,
-          targetEl: document.getElementById("follower")!,
-        },
-      ];
-
-      const options: TabsOptions = {
+  }, []);
+  
+  useEffect(() => {
+    const tabsElement = document.getElementById("default-tab");
+    if (!tabsElement) return;
+  
+    const tabButtons = document.querySelectorAll("[data-tabs-target]");
+    const tabContents = document.querySelectorAll("[role='tabpanel']");
+  
+    if (tabButtons.length > 0) {
+      const tabElements: TabItem[] = Array.from(tabButtons).map((btn) => ({
+        id: btn.getAttribute("data-tabs-target")!,
+        triggerEl: btn as HTMLElement,
+        targetEl: document.getElementById(btn.getAttribute("data-tabs-target")!)!,
+      }));
+  
+      new Tabs(tabsElement, tabElements, {
         defaultTabId: "post",
         activeClasses: "text-blue-600 border-blue-600",
         inactiveClasses: "text-gray-500 border-transparent",
-      };
-
-      new Tabs(tabsElement, tabElements, options);
+      });
     }
   }, []);
+  
 
   return (
     <div className="flex-1">
       <div className="mt-30">
         {/* Header */}
-        <div className="fixed top-0 left-0 right-0 md:left-64 md:right-64 bg-black p-4 border-b border-gray-700 z-10">
-          <FaArrowLeft className="text-white text-lg cursor-pointer" />
+        <div className="fixed top-0 left-0 right-0 md:left-64 md:right-64 bg-black p-4 border-b border-gray-700 z-10 flex">
+          <FaArrowLeft className="text-white text-lg cursor-pointer mt-2" />
           <div className="ml-4">
             <h2 className="text-lg font-bold">{user?.username}</h2>
             <p className="text-gray-400 text-sm">{posts} Bài viết</p>
@@ -161,6 +155,7 @@ const ProfilePage = () => {
                   role="tab"
                   aria-controls="post"
                   aria-selected="true"
+                  data-tabs-target="post"
                 >
                   Bài đăng
                 </button>
@@ -173,6 +168,7 @@ const ProfilePage = () => {
                   role="tab"
                   aria-controls="followed"
                   aria-selected="false"
+                  data-tabs-target="followed"
                 >
                   Người theo dõi
                 </button>
@@ -185,6 +181,7 @@ const ProfilePage = () => {
                   role="tab"
                   aria-controls="follower"
                   aria-selected="false"
+                  data-tabs-target="follower"
                 >
                   Đang theo dõi
                 </button>

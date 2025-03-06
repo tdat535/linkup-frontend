@@ -8,6 +8,7 @@ import Notifications from './Pages/Notifications';
 import Profile from './Pages/Profile';
 import Login from './Pages/Login';
 import Register from './Pages/Register';
+import FollowTest from './Pages/FollowTest';
 
 const App: React.FC = () => {
   // Changed this to be more explicit about what we're checking for
@@ -33,6 +34,7 @@ const App: React.FC = () => {
               <Route path="messages" element={<Messages />} />
               <Route path="notifications" element={<Notifications />} />
               <Route path="profile" element={<Profile />} />
+              <Route path="follow-test" element={<FollowTest accessToken={token} />} />
           </Route>
         ) : (
           <>
