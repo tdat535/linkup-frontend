@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+// Removed unnecessary import
 import { Link } from "react-router-dom";
 import {  Home, Search, MessageSquare, Bell, User, MoreHorizontal, Plus } from "lucide-react";
 import { motion } from "framer-motion";
@@ -15,7 +16,7 @@ const Sidebar = () => {
       if (window.innerWidth < 768) {
         setIsBottomNavVisible(true);
         clearTimeout(timer);
-        timer = setTimeout(() => setIsBottomNavVisible(false), 1000);
+        timer = setTimeout(() => setIsBottomNavVisible(false), 3000);
       }
     };
     window.addEventListener("mousemove", resetTimer);

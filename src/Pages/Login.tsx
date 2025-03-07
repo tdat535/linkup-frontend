@@ -14,8 +14,8 @@ const Login = () => {
 
     useEffect(() => {
         // If token exists, redirect to home
-        const token = localStorage.getItem('token');
-        if (token) {
+        const accesstoken = localStorage.getItem('accesstoken');
+        if (accesstoken) {
             navigate('/home');
         }
 
