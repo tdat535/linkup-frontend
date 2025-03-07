@@ -66,6 +66,8 @@ const Login = () => {
                     avatar: Avatar
                 };
                 localStorage.setItem('user', JSON.stringify(userData));
+                // lấy userId để lưu vào localStorage
+                localStorage.setItem("currentUserId", UserId);
 
                 console.log("✅ Login successful, redirecting...");
                 navigate('/home');

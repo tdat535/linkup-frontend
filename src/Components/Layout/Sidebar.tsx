@@ -10,6 +10,10 @@ const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isBottomNavVisible, setIsBottomNavVisible] = useState(true);
 
+  const currentUserId = localStorage.getItem("currentUserId") || "default-id";
+  console.log("Retrieved from localStorage:", currentUserId);
+  const userId = currentUserId;
+
   useEffect(() => {
     let timer: string | number | NodeJS.Timeout | undefined;
     const resetTimer = () => {
@@ -33,6 +37,13 @@ const Sidebar = () => {
     };
   }, []);
 
+  // Don't create profile URL if no real user ID exists
+  const profileUrl = currentUserId && currentUserId !== "default-id" 
+  ? `/home/profile?userId=${userId}&currentUserId=${currentUserId}`
+  : "/login";
+
+  
+
   return (
     <>
       <div className="fixed top-0 left-0 h-screen w-64 bg-[#080A0B] border-r border-gray-600 text-white text-xl p-4 z-50 hidden md:block">
@@ -42,7 +53,7 @@ const Sidebar = () => {
           <Link to="/home/search" className="flex items-center gap-4 text-white"><Search /> Khám phá</Link>
           <Link to="/home/messages" className="flex items-center gap-4 text-white"><MessageSquare /> Tin nhắn</Link>
           <Link to="/home/notifications" className="flex items-center gap-4 text-white"><Bell /> Thông báo</Link>
-          <Link to="/home/profile" className="flex items-center gap-4 text-white"><User /> Trang cá nhân</Link>
+          <Link to={profileUrl} className="flex items-center gap-4 text-white"><User /> Trang cá nhân</Link>
           <Link to="/home/more" className="flex items-center gap-4 text-white"><MoreHorizontal /> Thêm</Link>
           <Post_Button text="Đăng" onClick={() => setIsOpen(true)} variant="primary" size="lg" fullWidth />
         </nav>
