@@ -2,6 +2,7 @@ import 'flowbite';
 import { useNavigate } from 'react-router-dom';
 import background from '../assets/pictures/images.jpg';
 import { useState } from 'react';
+import Button from '../Components/Buttons/Button';
 
 const Register = () => {
     const navigate = useNavigate();

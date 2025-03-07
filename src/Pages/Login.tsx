@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import background from '../assets/pictures/images.jpg';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -42,12 +43,12 @@ const Login = () => {
             console.log("📥 API Response:", response.data);
 
             // Check if API returns data
-            if (!response.data || !response.data.data) {
+            if (!response.data || !response.data) {
                 throw new Error("Invalid API response!");
             }
 
             // Get data from API - updated to match actual API response structure
-            const { AccessToken, RefreshToken, Username, Email, Phonenumber, UserType, UserId, Avatar } = response.data.data;
+            const { AccessToken, RefreshToken, Username, Email, Phonenumber, UserType, UserId, Avatar } = response.data;
 
             // Check received data
             if (AccessToken && RefreshToken) {
