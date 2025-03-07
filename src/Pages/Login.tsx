@@ -13,8 +13,8 @@ const Login = () => {
 
     useEffect(() => {
         // If token exists, redirect to home
-        const token = localStorage.getItem('token');
-        if (token) {
+        const accesstoken = localStorage.getItem('accesstoken');
+        if (accesstoken) {
             navigate('/home');
         }
 
@@ -65,6 +65,8 @@ const Login = () => {
                     avatar: Avatar
                 };
                 localStorage.setItem('user', JSON.stringify(userData));
+                // lấy userId để lưu vào localStorage
+                localStorage.setItem("currentUserId", UserId);
 
                 console.log("✅ Login successful, redirecting...");
                 navigate('/home');
