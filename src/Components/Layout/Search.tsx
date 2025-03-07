@@ -77,7 +77,7 @@ const Search = () => {
     
     
     useEffect(() => {
-        const storedUserId = localStorage.getItem("userId");
+        const storedUserId = localStorage.getItem("currentUserId");
         if (!storedUserId) {
             // Redirect to login or show a message
             console.warn("User not logged in, redirecting...");
