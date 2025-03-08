@@ -5,6 +5,7 @@ import Button from '../Buttons/Button';
 const Follow_Sidebar = () => {
     const [user, setUser] = useState<{ username: string, email: string, phonenumber: string } | null>(null); // Thông tin người dùng
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+    const [avatar, setAvatar] = useState("https://via.placeholder.com/80");
     const navigate = useNavigate();
     const [followings] = useState([
         // Dữ liệu mẫu, bạn có thể thay bằng dữ liệu thực tế
@@ -20,6 +21,7 @@ const Follow_Sidebar = () => {
         const storedUser = localStorage.getItem('user');  // Lấy thông tin người dùng từ localStorage
         if (storedUser) {
             setUser(JSON.parse(storedUser));
+            setAvatar(JSON.parse(storedUser).avatar);
         }
 
         mediaQuery.addEventListener('change', handleResize);
@@ -42,7 +44,7 @@ const Follow_Sidebar = () => {
             <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center">
                     <img
-                        src="https://media.tenor.com/9vTAoKqOXPQAAAAM/shrek-shrek-meme.gif"
+                        src={avatar}
                         alt="Avatar"
                         className="w-10 h-10 rounded-full mr-3 object-cover"
                     />

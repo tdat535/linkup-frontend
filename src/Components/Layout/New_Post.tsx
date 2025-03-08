@@ -7,11 +7,13 @@ const NewPost = () => {
   const [value, setValue] = useState('');
   const [isOpen, setIsOpen] = useState(false); // State để điều khiển modal
   const [user, setUser] = useState<{ username: string, email: string, phonenumber: string, realname: string } | null>(null); // Thông tin người dùng
+  const [avatar, setAvatar] = useState("https://via.placeholder.com/80");
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');  // Lấy thông tin người dùng từ localStorage
     if (storedUser) {
       setUser(JSON.parse(storedUser));
+      setAvatar(JSON.parse(storedUser).avatar);
     }
   }, []);
 
@@ -21,7 +23,7 @@ const NewPost = () => {
       <div className="bg-[#080A0B] text-white shadow-md p-4 mb-4 border-b border-gray-600">
         <div className="flex items-center">
           <img
-            src="https://media.tenor.com/9vTAoKqOXPQAAAAM/shrek-shrek-meme.gif"
+            src={avatar}
             alt="Avatar"
             className="w-10 h-10 rounded-full mr-2 object-cover"
           />
