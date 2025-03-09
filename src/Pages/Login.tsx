@@ -4,6 +4,80 @@ import background from '../assets/pictures/images.jpg';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
+// Create an axios instance with interceptors
+const api = axios.create({
+  baseURL: 'https://api-linkup.id.vn/api'
+});
+
+// Add request interceptor to include token in all requests
+api.interceptors.request.use(
+  config => {
+    const token = localStorage.getItem('accessToken');
+    if (token) {
+      config.headers['Authorization'] = `Bearer ${token}`;
+    }
+    return config;
+  },
+  error => Promise.reject(error)
+);
+
+// Add response interceptor to handle token expiration
+api.interceptors.response.use(
+  response => response,
+  async error => {
+    const originalRequest = error.config;
+    
+    // If error is 401 (Unauthorized) and we haven't tried refreshing yet
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+      
+      try {
+        // Get refresh token
+        const refreshToken = localStorage.getItem('refreshToken');
+        
+        if (!refreshToken) {
+          // If no refresh token, redirect to login
+          window.location.href = '/login';
+          return Promise.reject(error);
+        }
+        
+        // Call refresh token endpoint
+        const response = await axios.post('https://api-linkup.id.vn/api/auth/refresh', 
+          { refreshToken },
+          { headers: { 'Content-Type': 'application/json' } }
+        );
+        
+        // If refresh successful, update tokens
+        if (response.data && response.data.AccessToken) {
+          localStorage.setItem('accessToken', response.data.AccessToken);
+          
+          // If refresh token is also returned, update it
+          if (response.data.RefreshToken) {
+            localStorage.setItem('refreshToken', response.data.RefreshToken);
+          }
+          
+          // Update authorization header for original request
+          originalRequest.headers['Authorization'] = `Bearer ${response.data.AccessToken}`;
+          
+          // Retry the original request
+          return api(originalRequest);
+        }
+      } catch (refreshError) {
+        console.error("Token refresh failed:", refreshError);
+        // Redirect to login page
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+        localStorage.removeItem('user');
+        localStorage.removeItem('currentUserId');
+        window.location.href = '/login';
+        return Promise.reject(refreshError);
+      }
+    }
+    
+    return Promise.reject(error);
+  }
+);
+
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -14,7 +88,7 @@ const Login = () => {
 
     useEffect(() => {
         // If token exists, redirect to home
-        const accesstoken = localStorage.getItem('accesstoken');
+        const accesstoken = localStorage.getItem('accessToken');
         if (accesstoken) {
             navigate('/home');
         }
@@ -43,7 +117,7 @@ const Login = () => {
             console.log("📥 API Response:", response.data);
 
             // Check if API returns data
-            if (!response.data || !response.data) {
+            if (!response.data) {
                 throw new Error("Invalid API response!");
             }
 
@@ -82,15 +156,16 @@ const Login = () => {
         }
     };
     
+    // Rest of your component remains the same
     return (
         <div className="flex justify-center items-center min-h-screen bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `url(${background})` }}>
+            {/* The rest of your JSX remains unchanged */}
             <div className=" flex-col md:flex-row w-full bg-opacity-50 p-5">
                 <div className='text-5xl text-center break-words text-white'>𝓛𝓲𝓷𝓴𝓤𝓹</div>
                 <div className=' flex justify-center items-center w-full mt-10'>
                     <form onSubmit={handleLogin} className="max-w-sm p-6 border rounded-2xl border-stone-800 bg-black w-full bg-opacity-75 shadow-[3px_3px_0px_rgba(100,100,100,0.3)]" style={{ maxWidth: "32rem", height: "auto" }}>
                         <p className='text-center font-bold block mb-2 text-3xl text-white'>Đăng nhập</p>
                         <div className="mb-3">
-                            {/* Changed to use email input and label */}
                             <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 text-white">Email</label>
                             <input 
                                 type="email" 
@@ -100,7 +175,6 @@ const Login = () => {
                                 className="bg-black border border-white text-white placeholder-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 focus:focus:bg-[rgb(232,240,254)] focus:border-black focus:text-black" 
                                 placeholder="email@example.com" 
                                 required 
-                                /*fix auto change css interface by browser */
                             />
                         </div>
                         <div className="mb-3">
@@ -152,4 +226,4 @@ const Login = () => {
     );
 }
 
-export default Login;   
+export default Login;
