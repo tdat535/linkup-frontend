@@ -24,7 +24,7 @@ const ChatPage = () => {
     <div className="flex h-screen">
       {/* Sidebar trái */}
       <aside className={`fixed inset-0 md:left-64 md:w-64 bg-[#080A0B] shadow-lg border-r border-gray-400 z-50 ${isChatOpen ? "hidden md:block" : ""}`}>
-        <ul>          
+        <ul>
           <li className="p-2 hover:bg-gray-500 border-b border-gray-400 flex items-center gap-2 cursor-pointer" onClick={() => setIsChatOpen(true)}>
             <li onClick={() => navigate('/home')}>
               <svg className="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -38,9 +38,9 @@ const ChatPage = () => {
       </aside>
 
       {/* Khu vực chat */}
-      <div className={`flex-1 flex flex-col ml-0 md:ml-64 z-50 h-screen h-full ${!isChatOpen ? "hidden md:flex" : ""}`}>
+      <div className={`flex-1 flex flex-col ml-0 md:ml-64 z-50 h-full ${!isChatOpen ? "hidden md:flex" : ""}`}>
         {/* Nút quay lại trên mobile */}
-        <div className="p-4 bg-black border-b border-gray-400 fixed left-0 right-0 md:left-128 md:right-0 flex items-center">
+        <div className="p-4 bg-black border-b border-gray-400 sticky left-0 right-0 md:left-128 md:right-0 flex items-center">
           <button className="md:hidden p-2 bg-black rounded" onClick={() => setIsChatOpen(false)}>
             <ArrowLeft size={24} />
           </button>
@@ -49,14 +49,14 @@ const ChatPage = () => {
         </div>
 
         {/* Phần hiển thị tin nhắn */}
-        <div className="flex-1 overflow-y-auto pt-25 pb-20 pr-5 space-y-2 px-4 max-h-[calc(100vh-100px)]">
+        <div className="flex-1 overflow-y-auto p-10 space-y-2  max-h-[calc(100vh-100px)]">
           {messages.map((msg, index) => (
             <div key={index} className={`flex ${msg.sender === "Tôi" ? "justify-end" : "justify-start items-center gap-2"}`}>
               {msg.sender !== "Tôi" && (
                 <img className="w-8 h-8 rounded-full" src="/docs/images/people/profile-picture-6.jpg" alt="Avatar" />
               )}
               <div
-                className={`max-w-2xl break-all whitespace-pre-wrap p-3 rounded-lg ${msg.sender === "Tôi" ? "bg-blue-500 text-white ml-auto" : "bg-gray-700 text-white"
+                className={`break-all whitespace-pre-wrap  max-w-[80%] md:max-w-[60%] p-3 rounded-lg ${msg.sender === "Tôi" ? "bg-blue-500 text-white ml-auto" : "bg-gray-700 text-white"
                   }`}
               >
                 <span className="block font-bold">{msg.sender}</span>
@@ -67,7 +67,7 @@ const ChatPage = () => {
         </div>
 
         {/* Ô nhập tin nhắn */}
-        <div className="p-4 bg-black shadow-lg fixed bottom-0  h- left-0 right-0 md:left-128 md:right-0">
+        <div className="p-4 bg-black shadow-lg sticky bottom-0  h- left-0 right-0 md:left-128 md:right-0">
 
           <div className="flex justify-start gap-4 pb-3 pl-2">
             <label htmlFor="dropzone-file" className=" cursor-pointer">
@@ -89,10 +89,13 @@ const ChatPage = () => {
             <TextareaAutosize
               className="w-full p-2 border rounded-lg resize-none focus:outline-none bg-gray-800 text-white"
               minRows={1}
+              maxRows={5}
               placeholder="Nhập tin nhắn..."
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && sendMessage()}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+              }}
             />
             <button className="ml-2 p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600" onClick={sendMessage}>
               <Send size={24} />

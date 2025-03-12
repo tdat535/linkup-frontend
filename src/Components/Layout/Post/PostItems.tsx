@@ -46,7 +46,7 @@ const PostItem: React.FC<{ post: PostProps }> = ({ post }) => {
   return (
     <>
       {/* Bài đăng */}
-      <div className="bg-[#080A0B] text-white shadow-md p-4 border-b border-gray-400">
+      <div className="bg-[#080A0B] text-white md:mt-5 max-w-5xl mx-auto  shadow-md p-4 md:border md:border-gray-400 md:rounded-xl border-b">
         <div className="flex items-center mb-4">
           <img src={post.avatar} alt="Avatar" className="w-10 h-10 rounded-full mr-2 object-cover" />
           <div>

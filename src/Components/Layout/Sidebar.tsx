@@ -14,28 +14,28 @@ const Sidebar = () => {
   console.log("Retrieved from localStorage:", currentUserId);
   const userId = currentUserId;
 
-  useEffect(() => {
-    let timer: string | number | NodeJS.Timeout | undefined;
-    const resetTimer = () => {
-      if (window.innerWidth < 768) {
-        setIsBottomNavVisible(true);
-        clearTimeout(timer);
-        timer = setTimeout(() => setIsBottomNavVisible(false), 3000);
-      }
-    };
-    window.addEventListener("mousemove", resetTimer);
-    window.addEventListener("touchstart", resetTimer);
-    window.addEventListener("scroll", resetTimer);
-    window.addEventListener("resize", resetTimer);
-    resetTimer();
-    return () => {
-      clearTimeout(timer);
-      window.removeEventListener("mousemove", resetTimer);
-      window.removeEventListener("touchstart", resetTimer);
-      window.removeEventListener("scroll", resetTimer);
-      window.removeEventListener("resize", resetTimer);
-    };
-  }, []);
+  // useEffect(() => {
+  //   let timer: string | number | NodeJS.Timeout | undefined;
+  //   const resetTimer = () => {
+  //     if (window.innerWidth < 768) {
+  //       setIsBottomNavVisible(true);
+  //       clearTimeout(timer);
+  //       timer = setTimeout(() => setIsBottomNavVisible(false), 3000);
+  //     }
+  //   };
+  //   window.addEventListener("mousemove", resetTimer);
+  //   window.addEventListener("touchstart", resetTimer);
+  //   window.addEventListener("scroll", resetTimer);
+  //   window.addEventListener("resize", resetTimer);
+  //   resetTimer();
+  //   return () => {
+  //     clearTimeout(timer);
+  //     window.removeEventListener("mousemove", resetTimer);
+  //     window.removeEventListener("touchstart", resetTimer);
+  //     window.removeEventListener("scroll", resetTimer);
+  //     window.removeEventListener("resize", resetTimer);
+  //   };
+  // }, []);
 
   // Don't create profile URL if no real user ID exists
   const profileUrl = currentUserId && currentUserId !== "default-id" 

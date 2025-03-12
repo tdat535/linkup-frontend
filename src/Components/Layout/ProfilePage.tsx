@@ -126,7 +126,7 @@ const ProfilePage = () => {
   );
 
   return (
-    <div className="flex-1">
+    <div className="flex-1 ">
       <div className="">
         {/* Header */}
         <div className="fixed top-0 left-0 right-0 md:left-64 md:right-64 bg-black p-4 border-b border-gray-700 z-10 flex">
