@@ -9,6 +9,7 @@ import Profile from './Pages/Profile';
 import Login from './Pages/Login';
 import Register from './Pages/Register';
 import FollowTest from './Pages/FollowTest';
+import TokenRefresher from './Components/TokenRefresher';
 
 const App: React.FC = () => {
   // Changed this to be more explicit about what we're checking for
@@ -25,6 +26,7 @@ const App: React.FC = () => {
 
   return (
     <Router>
+      <TokenRefresher refreshInterval={3 * 60 * 1000} />
       <Routes>
         <Route path="/" element={<Navigate to="/home" />}/>
         {token ? (

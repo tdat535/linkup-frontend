@@ -9,6 +9,7 @@ import Post_Modal from "../UI/Post_Modal";
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isBottomNavVisible, setIsBottomNavVisible] = useState(true);
+  
 
   const currentUserId = localStorage.getItem("currentUserId") || "default-id";
   console.log("Retrieved from localStorage:", currentUserId);

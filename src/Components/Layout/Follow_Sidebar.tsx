@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '../Buttons/Button';
+import {logout} from '../../services/auth';
 
 const Follow_Sidebar = () => {
     const [user, setUser] = useState<{ username: string, email: string, phonenumber: string } | null>(null); // Thông tin người dùng
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+    const [avatar, setAvatar] = useState("https://via.placeholder.com/80");
     const navigate = useNavigate();
     const [followings] = useState([
         // Dữ liệu mẫu, bạn có thể thay bằng dữ liệu thực tế
@@ -20,6 +22,7 @@ const Follow_Sidebar = () => {
         const storedUser = localStorage.getItem('user');  // Lấy thông tin người dùng từ localStorage
         if (storedUser) {
             setUser(JSON.parse(storedUser));
+            setAvatar(JSON.parse(storedUser).avatar);
         }
 
         mediaQuery.addEventListener('change', handleResize);
@@ -30,19 +33,15 @@ const Follow_Sidebar = () => {
     if (isMobile) return null;
 
     const handleLogout = () => {
-        localStorage.removeItem('accessToken');  // Xóa Access Token
-        localStorage.removeItem('refreshToken'); // Xóa Refresh Token
-        navigate('/login');  // Chuyển về trang đăng nhập
-        window.location.reload(); // Làm mới trang để cập nhật state
+        logout();
     };
-    
 
     return (
         <aside className="fixed top-0 right-0 h-full w-64 bg-[#080A0B] p-4 text-white border-l border-gray-600 transition-transform duration-300 ease-in-out transform">
             <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center">
                     <img
-                        src="https://media.tenor.com/9vTAoKqOXPQAAAAM/shrek-shrek-meme.gif"
+                        src={avatar}
                         alt="Avatar"
                         className="w-10 h-10 rounded-full mr-3 object-cover"
                     />

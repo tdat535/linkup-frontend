@@ -5,6 +5,80 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Sun,Moon } from "lucide-react";
 
+// Create an axios instance with interceptors
+const api = axios.create({
+  baseURL: 'https://api-linkup.id.vn/api'
+});
+
+// Add request interceptor to include token in all requests
+api.interceptors.request.use(
+  config => {
+    const token = localStorage.getItem('accessToken');
+    if (token) {
+      config.headers['Authorization'] = `Bearer ${token}`;
+    }
+    return config;
+  },
+  error => Promise.reject(error)
+);
+
+// Add response interceptor to handle token expiration
+api.interceptors.response.use(
+  response => response,
+  async error => {
+    const originalRequest = error.config;
+    
+    // If error is 401 (Unauthorized) and we haven't tried refreshing yet
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+      
+      try {
+        // Get refresh token
+        const refreshToken = localStorage.getItem('refreshToken');
+        
+        if (!refreshToken) {
+          // If no refresh token, redirect to login
+          window.location.href = '/login';
+          return Promise.reject(error);
+        }
+        
+        // Call refresh token endpoint
+        const response = await axios.post('https://api-linkup.id.vn/api/auth/refresh', 
+          { refreshToken },
+          { headers: { 'Content-Type': 'application/json' } }
+        );
+        
+        // If refresh successful, update tokens
+        if (response.data && response.data.AccessToken) {
+          localStorage.setItem('accessToken', response.data.AccessToken);
+          
+          // If refresh token is also returned, update it
+          if (response.data.RefreshToken) {
+            localStorage.setItem('refreshToken', response.data.RefreshToken);
+          }
+          
+          // Update authorization header for original request
+          originalRequest.headers['Authorization'] = `Bearer ${response.data.AccessToken}`;
+          
+          // Retry the original request
+          return api(originalRequest);
+        }
+      } catch (refreshError) {
+        console.error("Token refresh failed:", refreshError);
+        // Redirect to login page
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+        localStorage.removeItem('user');
+        localStorage.removeItem('currentUserId');
+        window.location.href = '/login';
+        return Promise.reject(refreshError);
+      }
+    }
+    
+    return Promise.reject(error);
+  }
+);
+
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -16,7 +90,7 @@ const Login = () => {
 
     useEffect(() => {
         // If token exists, redirect to home
-        const accesstoken = localStorage.getItem('accesstoken');
+        const accesstoken = localStorage.getItem('accessToken');
         if (accesstoken) {
             navigate('/home');
         }
@@ -45,7 +119,7 @@ const Login = () => {
             console.log("📥 API Response:", response.data);
 
             // Check if API returns data
-            if (!response.data || !response.data) {
+            if (!response.data) {
                 throw new Error("Invalid API response!");
             }
 
@@ -84,8 +158,10 @@ const Login = () => {
         }
     };
     
+    // Rest of your component remains the same
     return (
         <div className="flex justify-center items-center min-h-screen bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `url(${background})` }}>
+            {/* The rest of your JSX remains unchanged */}
             <div className=" flex-col md:flex-row w-full bg-opacity-50 p-5">
                 <div className='text-7xl text-center break-words text-white'><span className='text-transparent bg-clip-text bg-gradient-to-r to-emerald-300 from-sky-400 '>𝓛𝓲𝓷𝓴𝓤𝓹</span></div>
                 <div className=' flex justify-center items-center w-full mt-10'>
@@ -99,8 +175,12 @@ const Login = () => {
                             </button>
                         </div>
                         <div className="mb-3">
+<<<<<<< HEAD
                             {/* Changed to use email input and label */}
                             <label htmlFor="email" className={`block mb-2 text-sm font-medium text-gray-900 ${isSun ? 'text-white' : 'text-black'}`}>Email</label>
+=======
+                            <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 text-white">Email</label>
+>>>>>>> d6827a66f96e8de1f36f29ad48f59de19e957886
                             <input 
                                 type="email" 
                                 id="email" 
@@ -111,7 +191,6 @@ const Login = () => {
                                 : 'text-black placeholder-gray-800 border border-black focus:focus:bg-[rgb(232,240,254)] focus:border-black focus:placeholder-gray-800 focus:text-black'}`} 
                                 placeholder="email@example.com" 
                                 required 
-                                /*fix auto change css interface by browser */
                             />
                         </div>
                         <div className="mb-3">
@@ -165,4 +244,4 @@ const Login = () => {
     );
 }
 
-export default Login;   
+export default Login;
