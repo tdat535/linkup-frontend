@@ -175,12 +175,8 @@ const Login = () => {
                             </button>
                         </div>
                         <div className="mb-3">
-<<<<<<< HEAD
                             {/* Changed to use email input and label */}
                             <label htmlFor="email" className={`block mb-2 text-sm font-medium text-gray-900 ${isSun ? 'text-white' : 'text-black'}`}>Email</label>
-=======
-                            <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 text-white">Email</label>
->>>>>>> d6827a66f96e8de1f36f29ad48f59de19e957886
                             <input 
                                 type="email" 
                                 id="email" 
