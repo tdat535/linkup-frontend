@@ -166,25 +166,25 @@ const Login = () => {
                     <form onSubmit={handleLogin} className="max-w-sm p-6 border rounded-2xl border-stone-800 bg-black w-full bg-opacity-75 shadow-[3px_3px_0px_rgba(100,100,100,0.3)]" style={{ maxWidth: "32rem", height: "auto" }}>
                         <p className='text-center font-bold block mb-2 text-3xl text-white'>Đăng nhập</p>
                         <div className="mb-3">
-                            <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 text-white">Email</label>
+                            <label htmlFor="email" className="block mb-2 text-sm font-medium text-white">Email</label>
                             <input 
                                 type="email" 
                                 id="email" 
                                 value={email} 
                                 onChange={(e) => setEmail(e.target.value)} 
-                                className="bg-black border border-white text-white placeholder-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 focus:focus:bg-[rgb(232,240,254)] focus:border-black focus:text-black" 
+                                className="bg-black border border-white text-white placeholder-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 focus:focus:bg-[rgb(232,240,254)] focus:text-black" 
                                 placeholder="email@example.com" 
                                 required 
                             />
                         </div>
                         <div className="mb-3">
-                            <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 text-white">Mật khẩu</label>
+                            <label htmlFor="password" className="block mb-2 text-sm font-medium text-white">Mật khẩu</label>
                             <input 
                                 type="password" 
                                 id="password" 
                                 value={password} 
                                 onChange={(e) => setPassword(e.target.value)} 
-                                className="bg-black border border-white text-white placeholder-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 focus:focus:bg-[rgb(232,240,254)] focus:border-black focus:text-black" 
+                                className="bg-black border border-white text-white placeholder-gray-700 text-sm rounded-lg focus:ring-blue-500 block w-full p-2.5 focus:focus:bg-[rgb(232,240,254)] focus:border-black focus:text-black" 
                                 placeholder='•••••••••' 
                                 required 
                             />
@@ -195,7 +195,7 @@ const Login = () => {
                                 <div className="flex items-center h-5">
                                 <input id="remember" type="checkbox" value="" className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800" />
                                 </div>
-                                <label htmlFor="remember" className="ms-2 text-sm font-medium text-gray-900 text-white">Nhớ tài khoản</label>
+                                <label htmlFor="remember" className="ms-2 text-sm font-medium text-white">Nhớ tài khoản</label>
                             </div>
                             <a href="/register" className="text-blue-700 hover:underline text-sm">Quên mật khẩu?</a>
                         </div>
@@ -205,7 +205,7 @@ const Login = () => {
                         
                         <div className="flex items-center justify-center">
                             <span className="h-px w-16 bg-gray-400 dark:bg-gray-600"></span>
-                            <span className="text-gray-400 text-white mx-2.5">Hoặc</span>
+                            <span className="text-white mx-2.5">Hoặc</span>
                             <span className="h-px w-16 bg-gray-400 dark:bg-gray-600"></span>
                         </div>
 
@@ -214,7 +214,7 @@ const Login = () => {
                                 className="relative inline-flex items-center justify-center p-0.5 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800"
                                 onClick={() => navigate('/register')}
                             >
-                                <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white bg-gray-900 text-black rounded-md group-hover:bg-opacity-0 hover:text-white hover:bg-black">
+                                <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white text-black rounded-md group-hover:bg-opacity-0 hover:text-white hover:bg-black">
                                     Đăng ký tài khoản
                                 </span>
                             </button>

@@ -46,8 +46,8 @@ const PostItem: React.FC<{ post: PostProps }> = ({ post }) => {
   return (
     <>
       {/* Bài đăng */}
-      <div className="bg-[#080A0B] text-white shadow-md p-4 border-b border-gray-400">
-        <div className="flex items-center mb-4">
+      <div className="bg-[#252728] text-white mt-5 max-w-4xl mx-auto rounded-xl p-4 ">
+        <div className="  flex items-center mb-4">
           <img src={post.avatar} alt="Avatar" className="w-10 h-10 rounded-full mr-2 object-cover" />
           <div>
             <span className="font-bold">{post.name}</span>
@@ -55,7 +55,7 @@ const PostItem: React.FC<{ post: PostProps }> = ({ post }) => {
           </div>
         </div>
         <p className="text-gray-300 mb-4">{post.caption}</p>
-        {post.image && <img src={post.image} alt="Post" className="w-full max-h-96 rounded-2xl object-contain mb-4" />}
+        {post.image && <img src={post.image} alt="Post" className="w-full h-auto rounded-xl object-contain mb-4" />}
 
         <div className="flex gap-5 text-gray-400">
           <button onClick={handleLike} className="flex items-center gap-1 hover:text-red-500">

@@ -41,7 +41,7 @@ const CommentModal: React.FC<CommentModalProps> = ({
         className={`flex w-full lg:w-7xl h-full lg:h-[70%] bg-[#080A0B] rounded-lg shadow-xl overflow-hidden ${post.image ? "flex-col lg:flex-row" : "flex-col w-full lg:w-[40%]"}`}>
         {/* Ảnh bài đăng - Chỉ hiển thị nếu có ảnh */}
         {post.image && (
-          <div className="w-full lg:w-1/2 flex items-center justify-center p-1 border-b lg:border-b-0 lg:border-r border-gray-700">
+          <div className="w-full  flex items-center justify-center p-1 border-b lg:border-b-0 lg:border-r border-gray-700">
             <img src={post.image} alt="Post" className="max-w-full max-h-full rounded-lg" />
           </div>
         )}
@@ -58,7 +58,7 @@ const CommentModal: React.FC<CommentModalProps> = ({
           </div>
 
           {/* Danh sách bình luận */}
-          <div className="flex-1 overflow-y-auto pt-4 pb-10 px-4 space-y-4">
+          <div className="flex-1 overflow-y-auto p-4 space-y-5">
             {comments.length > 0 ? (
               comments.map((cmt, index) => (
                 <div key={index} className="flex gap-3">
@@ -85,6 +85,9 @@ const CommentModal: React.FC<CommentModalProps> = ({
               placeholder="Để lại bình luận..."
               value={comment}
               onChange={(e) => setComment(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && !e.shiftKey) { e.preventDefault();handleCommentSubmit(); }
+              }}
             />
             <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg" onClick={handleCommentSubmit}>
               Đăng

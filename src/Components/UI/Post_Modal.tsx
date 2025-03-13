@@ -66,7 +66,6 @@ const Post_Modal: React.FC<PostModalProps> = ({ isOpen, onClose }) => {
               onChange={(e) => setValue(e.target.value)}
             />
           </div>
-
           <div className="mt-3 flex items-center">
             <label className="block text-gray-400 mb-2">Đính kèm ảnh?</label>
             <input
