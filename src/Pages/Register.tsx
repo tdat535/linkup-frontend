@@ -85,23 +85,23 @@ const Register = () => {
                         {<p className='text-red-500 text-sm mb-3'>{error || "ㅤ"}</p>}
                         <div className="mb-3">
                             <label className="block mb-2 text-sm font-medium text-white">Tên tài khoản</label>
-                            <input type="text" name="username" className="bg-black border border-white text-white placeholder-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 focus:focus:bg-[rgb(232,240,254)] focus:border-black focus:text-black" value={formData.username} onChange={handleChange} required />
+                            <input type="text" name="username" className="bg-black border border-white text-white placeholder-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 focus:focus:bg-[rgb(232,240,254)] focus:text-black" value={formData.username} onChange={handleChange} required />
                         </div>
                         <div className="mb-3">
                             <label className="block mb-2 text-sm font-medium text-white">Số điện thoại</label>
-                            <input type="text" name="phonenumber" className="bg-black border border-white text-white placeholder-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 focus:focus:bg-[rgb(232,240,254)] focus:border-black focus:text-black" value={formData.phonenumber} onChange={handleChange} required />
+                            <input type="text" name="phonenumber" className="bg-black border border-white text-white placeholder-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 focus:focus:bg-[rgb(232,240,254)] focus:text-black" value={formData.phonenumber} onChange={handleChange} required />
                         </div>
                         <div className="mb-3">
                             <label className="block mb-2 text-sm font-medium text-white">Email</label>
-                            <input type="email" name="email" className="bg-black border border-white text-white placeholder-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 focus:focus:bg-[rgb(232,240,254)] focus:border-black focus:text-black" value={formData.email} onChange={handleChange} required />
+                            <input type="email" name="email" className="bg-black border border-white text-white placeholder-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 focus:focus:bg-[rgb(232,240,254)] focus:text-black" value={formData.email} onChange={handleChange} required />
                         </div>
                         <div className="mb-3">
                             <label className="block mb-2 text-sm font-medium text-white">Mật khẩu</label>
-                            <input type="password" name="password" className="bg-black border border-white text-white placeholder-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 focus:bg-[rgb(232,240,254)] focus:border-black focus:text-black" value={formData.password} onChange={handleChange} required />
+                            <input type="password" name="password" className="bg-black border border-white text-white placeholder-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 focus:bg-[rgb(232,240,254)] focus:text-black" value={formData.password} onChange={handleChange} required />
                         </div>
                         <div className="mb-3">
                             <label className="block mb-2 text-sm font-medium text-white">Nhập lại mật khẩu</label>
-                            <input type="password" name="confirmPassword" className="bg-black border border-white text-white placeholder-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 focus:focus:bg-[rgb(232,240,254)] focus:border-black focus:text-black" value={formData.confirmPassword} onChange={handleChange} required />
+                            <input type="password" name="confirmPassword" className="bg-black border border-white text-white placeholder-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 focus:focus:bg-[rgb(232,240,254)] focus:text-black" value={formData.confirmPassword} onChange={handleChange} required />
                         </div>
                         
                         <button type="submit" className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2" disabled={loading} onKeyDown={(e) => e.key === "Enter" && Register}>

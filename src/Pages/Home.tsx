@@ -23,7 +23,7 @@ const Home: React.FC = () => {
   if (isMobile === null) return null; // Tránh render trước khi biết kích thước màn hình
 
   return (
-    <div className={isMobile ? 'mt-20 pb-10' : 'pb-5'}>
+    <div className={isMobile ? 'mt-20 pl-4 pr-4 pb-15 '  : ' bg-[#1C1C1D]'}>
       <NewPost />
       <PostList />
       <PostList />

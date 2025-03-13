@@ -1,12 +1,16 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Button from '../Buttons/Button';
+import { logout } from '../../services/auth';
 import { FiChevronDown, FiLogOut } from 'react-icons/fi';
 
 const Follow_Sidebar = () => {
     const [user, setUser] = useState<{ username: string, email: string, phonenumber: string } | null>(null);
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [avatar, setAvatar] = useState("https://via.placeholder.com/80");
     const navigate = useNavigate();
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    
     const [followings] = useState([
         { id: 1, name: 'Stark', avatar: 'https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500' },
         { id: 2, name: 'Tony', avatar: 'https://thumbs.dreamstime.com/b/happy-smiling-young-handsome-asian-man-face-white-background-195696321.jpg' },
@@ -20,6 +24,7 @@ const Follow_Sidebar = () => {
         const storedUser = localStorage.getItem('user');
         if (storedUser) {
             setUser(JSON.parse(storedUser));
+            setAvatar(JSON.parse(storedUser).avatar);
         }
 
         mediaQuery.addEventListener('change', handleResize);
@@ -27,15 +32,12 @@ const Follow_Sidebar = () => {
     }, []);
 
     const handleLogout = () => {
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('refreshToken');
-        navigate('/login');
-        window.location.reload();
+        logout();
     };
 
     if (isMobile) {
         return (
-            <header className="fixed top-0 left-0 w-full bg-[#080A0B]/90 text-white flex items-center p-4 shadow-md z-50 backdrop-blur-lg border-b border-gray-700/50">
+            <header className="fixed top-0 left-0 w-full bg-[#080A0B]/90 text-white flex items-center p-4 border-b border-gray-700/50">
                 <h1 className="text-lg font-semibold flex-1">𝓛𝓲𝓷𝓴𝓤𝓹</h1>
                 <div className="relative">
                     <button
@@ -65,11 +67,17 @@ const Follow_Sidebar = () => {
         );
     }
     return (
-        <aside className="fixed top-0 right-0 h-full w-64 bg-[#080A0B] p-4 text-white border-l border-gray-600">
+        <aside className="fixed top-0 right-0 h-full w-64 bg-[#1C1C1D] p-4 text-white border-l border-gray-600">
             <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center">
-                    <img src="https://media.tenor.com/9vTAoKqOXPQAAAAM/shrek-shrek-meme.gif" alt="Avatar" className="w-10 h-10 rounded-full mr-3 object-cover" />
-                    <span className="font-semibold">{user?.username || 'Khách'}</span>
+                    <img
+                        src={avatar}
+                        alt="Avatar"
+                        className="w-10 h-10 rounded-full mr-3 object-cover"
+                    />
+                    <span className="font-semibold">
+                        {user?.username || 'Khách'}
+                    </span>
                 </div>
                 <button onClick={handleLogout} className="text-blue-500 text-sm hover:text-blue-700">Đăng xuất</button>
             </div>

@@ -7,27 +7,29 @@ const NewPost = () => {
   const [value, setValue] = useState('');
   const [isOpen, setIsOpen] = useState(false); // State để điều khiển modal
   const [user, setUser] = useState<{ username: string, email: string, phonenumber: string, realname: string } | null>(null); // Thông tin người dùng
+  const [avatar, setAvatar] = useState("https://via.placeholder.com/80");
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');  // Lấy thông tin người dùng từ localStorage
     if (storedUser) {
       setUser(JSON.parse(storedUser));
+      setAvatar(JSON.parse(storedUser).avatar);
     }
   }, []);
 
 
   return (
     <>
-      <div className="bg-[#080A0B] text-white p-5 shadow-md border-b border-gray-600 ">
+      <div className="bg-[#252728] text-white max-w-4xl  mx-auto rounded-xl p-5 relative top-2.5 ">
         <div className="flex items-center">
           <img
-            src="https://media.tenor.com/9vTAoKqOXPQAAAAM/shrek-shrek-meme.gif"
+            src={avatar}
             alt="Avatar"
             className="w-10 h-10 rounded-full mr-2 object-cover"
           />
           <TextareaAutosize
             minRows={1}
-            className="bg-[#181A1B] text-white rounded-lg p-2 w-full outline-none cursor-pointer  "
+            className="bg-[#1C1C1D] text-white rounded-lg p-2 w-full outline-none cursor-pointer  "
             placeholder={user ? `${user.username} ơi, bạn đang nghĩ gì thế?` : "Bạn đang nghĩ gì?"}
             value={value}
             onChange={(e) => setValue(e.target.value)}
