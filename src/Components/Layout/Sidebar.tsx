@@ -54,7 +54,7 @@ const Sidebar = () => {
           <Link to="/home/messages" className="flex items-center gap-4 text-white"><MessageSquare /> Tin nhắn</Link>
           <Link to="/home/notifications" className="flex items-center gap-4 text-white"><Bell /> Thông báo</Link>
           <Link to={profileUrl} className="flex items-center gap-4 text-white"><User /> Trang cá nhân</Link>
-          <Link to="/home/more" className="flex items-center gap-4 text-white"><MoreHorizontal /> Thêm</Link>
+          <Link to="#" className="flex items-center gap-4 text-white"><MoreHorizontal /> Thêm</Link>
           <Post_Button text="Đăng" onClick={() => setIsOpen(true)} variant="primary" size="lg" fullWidth />
         </nav>
       </div>
