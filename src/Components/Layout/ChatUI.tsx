@@ -43,7 +43,7 @@ const ChatPage = () => {
       <div className={`flex-1 flex flex-col ml-0 md:ml-64 z-50 h-full ${!isChatOpen ? "hidden md:flex" : ""}`}>
         {/* Nút quay lại trên mobile */}
         <div className={`p-4 border-b border-gray-400 sticky left-0 right-0 md:left-128 md:right-0 flex items-center ${theme === "dark" ? "bg-[#1C1C1D] text-white" : "bg-white text-black"}`}>
-          <button className="md:hidden p-2 bg-black rounded" onClick={() => setIsChatOpen(false)}>
+          <button className={`md:hidden p-2 rounded ${theme === "dark" ? "bg-[#1C1C1D]" : "bg-white"}`} onClick={() => setIsChatOpen(false)}>
             <ArrowLeft size={24} />
           </button>
           <img className="w-10 h-10 rounded-full" src="/docs/images/people/profile-picture-5.jpg" alt="Avatar" />

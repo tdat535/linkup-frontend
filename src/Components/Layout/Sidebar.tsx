@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Home, Search, MessageSquare, Bell, User, MoreHorizontal, Sun, Moon } from "lucide-react";
+import { Home, Search, MessageSquare, Bell, User, MoreHorizontal, Sun, Moon, Plus } from "lucide-react";
 import { motion } from "framer-motion";
 import Post_Button from "../Buttons/Post_Button";
 import Post_Modal from "../UI/Post_Modal";
@@ -10,7 +10,7 @@ const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const { theme, toggleTheme } = useTheme(); // Lấy theme và toggleTheme từ context
-
+  const [isBottomNavVisible] = useState(true);
   const currentUserId = localStorage.getItem("currentUserId") || "default-id";
   const profileUrl = currentUserId !== "default-id" ? `/home/profile?userId=${currentUserId}` : "/login";
   return (
@@ -47,7 +47,21 @@ const Sidebar = () => {
           </div>
         </nav>
       </div>
-
+      <motion.div
+        initial={{ y: 0 }}
+        animate={{ y: isBottomNavVisible ? 0 : 100 }}
+        transition={{ duration: 0.3 }}
+        className={`fixed bottom-0 left-0 w-full border-t border-gray-600 md:hidden flex items-center justify-around z-50 ${theme === "dark" ? "bg-[#1C1C1D] text-white" : "bg-white text-black"}`}
+      >
+        <Link to="/home" className="p-3"><Home /></Link>
+        <Link to="/home/search" className="p-3"><Search /></Link>
+        <Link to="/home/messages" className="p-3"><MessageSquare /></Link>
+        <Link to="/home/notifications" className="p-3"><Bell /></Link>
+        <Link to="/home/profile" className="p-3"><User /></Link>
+        <button onClick={() => setIsOpen(true)} className="bg-blue-500 p-2 text-white rounded-full shadow-lg">
+          <Plus size={24} />
+        </button>
+      </motion.div>
       {isOpen && <Post_Modal isOpen={isOpen} onClose={() => setIsOpen(false)} />}
     </>
   );

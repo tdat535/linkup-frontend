@@ -31,11 +31,10 @@ const PostList: React.FC = () => {
             id: post.id || Math.random().toString(), // Nếu id không tồn tại, tạo ID tạm thời
             avatar: post.User.avatar || "https://media.tenor.com/9vTAoKqOXPQAAAAM/shrek-shrek-meme.gif",
             name: post.User.username || "Người dùng",
-            time: post.createdAt ? new Date(post.createdAt).toLocaleString() : "Vừa xong",
+            time: post.createdAt ? new String(post.createdAt).split(".")[0].split("T")[1] + " " + new String(post.createdAt).split(".")[0].split("T")[0].split("-").reverse().join("-") : "Vừa xong",
             caption: post.content || "Không có nội dung",
             image: post.image || null,
           }));
-
           setPosts(formattedPosts);
           console.log("State posts sau khi cập nhật:", formattedPosts);
         } else {

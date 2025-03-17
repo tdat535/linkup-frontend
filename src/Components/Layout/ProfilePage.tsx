@@ -7,6 +7,7 @@ import TextareaAutosize from "react-textarea-autosize";
 import { useSearchParams } from "react-router-dom";
 import axios from "axios";
 import { useTheme } from "../../context/ThemeContext";
+
 const ProfilePage = () => {
   // Khai báo các state
   const [user, setUser] = useState<any>(null);
@@ -252,7 +253,7 @@ const ProfilePage = () => {
                       <img src={avatar} alt="Avatar" className="w-10 h-10 rounded-full" />
                       <div>
                         <h3 className="font-semibold">{name || "User"}</h3>
-                        <p className="text-gray-400 text-sm">  {post.createdAt ? post.createdAt ? post.createdAt.split(".")[0].split("T")[1] + " " + post.createdAt.split(".")[0].split("T")[0].split("-").reverse().join("/"): "Vừa xong" : "Vừa xong"}</p>
+                        <p className="text-gray-400 text-sm">  {post.createdAt ? post.createdAt.split(".")[0].split("T")[1] + " " + post.createdAt.split(".")[0].split("T")[0].split("-").reverse().join("-"): "Vừa xong"}</p>
                       </div>
                     </div>
                     <p className="mt-2 p-2">{post.content}</p>
@@ -293,6 +294,7 @@ const ProfilePage = () => {
         </div>
       </div>
     </div>
+    
   );
 };
 
