@@ -3,6 +3,7 @@ import Modal from "./Modal";
 import TextareaAutosize from "react-textarea-autosize";
 import Post_Button from "../Buttons/Post_Button";
 import axios from "axios";
+import { useTheme } from '../../context/ThemeContext';
 
 interface PostModalProps {
   isOpen: boolean;
@@ -19,6 +20,7 @@ const Post_Modal: React.FC<PostModalProps> = ({ isOpen, onClose }) => {
       }
   }, []);
   const [content, setContent] =useState('');
+  const { theme } = useTheme();
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [image, setImage] = useState<File | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -67,7 +69,6 @@ const Post_Modal: React.FC<PostModalProps> = ({ isOpen, onClose }) => {
     setIsLoading(true);
     try {
       const formData = new FormData();
-      formData.append("userId", userId);
       formData.append("content", content);
   
       // Kiểm tra xem có file ảnh và thêm vào FormData
@@ -118,20 +119,20 @@ const Post_Modal: React.FC<PostModalProps> = ({ isOpen, onClose }) => {
               alt="Avatar"
               className="w-10 h-10 rounded-full mr-3 object-cover"
             />
-              <span className="font-semibold">{user?.username}</span>
+              <span className={`font-semibold ${theme==="dark" ? 'text-white': 'text-black'}`}>{user?.username}</span>
           </div>
           <div className="mt-2">
             <TextareaAutosize
               minRows={1}
-              className="bg-[#181A1B] text-white rounded-lg p-2 w-full outline-none"
+              className={`rounded-lg p-2 w-full outline-none ${theme === 'dark' ? 'bg-[#333334] text-white placeholder-gray-400' : 'bg-[#f0f2f5] text-black placeholder-gray-500'}`}
               placeholder="Bạn đang nghĩ gì?"
               value={content}
               onChange={handleChange}
+              style={{ resize: "none" }} // Chặn người dùng kéo giãn textarea
             />
           </div>
-
           <div className="mt-3 flex items-center">
-            <label className="block text-gray-400 mb-2">Đính kèm ảnh?</label>
+            <label className={`block mb-2 ${theme==="dark" ? 'text-gray-400': 'text-gray-600'}`}>Đính kèm ảnh?</label>
             <input
               type="file"
               accept="image/*"

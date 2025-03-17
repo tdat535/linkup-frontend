@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Tabs } from "flowbite";
 import type { TabsOptions, TabItem } from "flowbite";
+import { useTheme } from "../../context/ThemeContext";
 
 export default function Notification() {
     useEffect(() => {
@@ -53,6 +54,7 @@ export default function Notification() {
     ];
 
     const [followedUsers, setFollowedUsers] = useState<number[]>([]);
+    const { theme } = useTheme();
 
     const handleFollow = (userId: number) => {
         setFollowedUsers((prev) =>
@@ -61,7 +63,7 @@ export default function Notification() {
     };
 
     return (
-        <div className="bg-[#080A0B] text-white flex flex-col min-h-screen p-4">
+        <div className=" flex flex-col min-h-screen p-4">
             <h1 className="ps-4 text-lg font-semibold">Thông báo</h1>
 
             {/* Tabs */}
@@ -103,10 +105,10 @@ export default function Notification() {
                 {/* Tab "Hôm nay" */}
                 <div className="p-4 space-y-3 rounded-lg" id="today" role="tabpanel">
                     {notifications.map((noti) => (
-                        <div key={noti.id} className="flex items-center p-3 bg-gray-800 rounded-lg shadow-md">
+                        <div key={noti.id} className= {`flex items-center p-3  rounded-lg shadow-md ${theme === "dark" ? "bg-black " : "bg-white "}`}>
                             <img src={noti.avatar} alt="Avatar" className="w-10 h-10 rounded-full me-3" />
-                            <span className="text-sm text-gray-300">
-                                <strong className="text-white">{noti.name}</strong> {noti.message}
+                            <span className="text-sm text-gray-500 ">
+                                <strong className="text-gray-500">{noti.name}</strong> {noti.message}
                             </span>
                             <button
                             className={`px-3 py-1 rounded-lg flex items-center gap-2 ms-auto ${followedUsers.includes(noti.id) ? "bg-green-500" : "bg-blue-500 hover:bg-blue-600"
@@ -127,10 +129,10 @@ export default function Notification() {
                 {/* Tab "Tất cả" */}
                 <div className="hidden p-4 space-y-3 rounded-lg" id="all" role="tabpanel">
                     {notifications.map((noti) => (
-                        <div key={noti.id} className="flex items-center p-3 bg-gray-800 rounded-lg shadow-md">
+                        <div key={noti.id} className= {`flex items-center p-3  rounded-lg shadow-md ${theme === "dark" ? "bg-black " : "bg-white "}`}>
                             <img src={noti.avatar} alt="Avatar" className="w-10 h-10 rounded-full me-3" />
-                            <span className="text-sm text-gray-300">
-                                <strong className="text-white">{noti.name}</strong> {noti.message}
+                            <span className="text-sm text-gray-500">
+                                <strong className="text-gray-500">{noti.name}</strong> {noti.message}
                             </span>
                         </div>
                     ))}

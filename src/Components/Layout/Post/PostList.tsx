@@ -1,33 +1,66 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { PostProps } from "./PostProps";
 import PostItem from "./PostItems";
 
-const initialPosts: PostProps[] = [
-  {
-    id: 1,
-    avatar: "https://media.tenor.com/9vTAoKqOXPQAAAAM/shrek-shrek-meme.gif",
-    name: "Shrek Harvey",
-    time: "2 giờ trước",
-    caption: "Caption của bài post sẽ hiển thị ở đây...",
-    image: "https://cdn.pixabay.com/photo/2018/05/13/20/21/lake-3397784_1280.jpg",
-  },
-  {
-    id: 2,
-    avatar: "https://media.tenor.com/9vTAoKqOXPQAAAAM/shrek-shrek-meme.gif",
-    name: "Fiona Smith",
-    time: "5 giờ trước",
-    caption: "Một ngày tuyệt vời!",
-  },
-];
-
 const PostList: React.FC = () => {
-  const [posts] = useState<PostProps[]>(initialPosts);
+  const [posts, setPosts] = useState<PostProps[]>([]);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const token = localStorage.getItem("accessToken");
+        const userId = localStorage.getItem("currentUserId");
+
+        if (!token || !userId) {
+          console.error("Token hoặc UserID không tồn tại trong localStorage");
+          return;
+        }
+
+        const response = await axios.get("https://api-linkup.id.vn/api/media/getPost", {
+          headers: { Authorization: `Bearer ${token}` },
+          params: { userId },
+        });
+
+        console.log("Dữ liệu bài viết từ API:", response.data);
+
+        // Kiểm tra nếu API trả về object thay vì array
+        const postData = Array.isArray(response.data) ? response.data : response.data.data;
+        if (Array.isArray(postData)) {
+          const formattedPosts: PostProps[] = postData.map((post: any) => ({
+            id: post.id || Math.random().toString(), // Nếu id không tồn tại, tạo ID tạm thời
+            avatar: post.User.avatar || "https://media.tenor.com/9vTAoKqOXPQAAAAM/shrek-shrek-meme.gif",
+            name: post.User.username || "Người dùng",
+            time: post.createdAt ? new Date(post.createdAt).toLocaleString() : "Vừa xong",
+            caption: post.content || "Không có nội dung",
+            image: post.image || null,
+          }));
+
+          setPosts(formattedPosts);
+          console.log("State posts sau khi cập nhật:", formattedPosts);
+        } else {
+          console.error("Dữ liệu API không phải là mảng hợp lệ:", response.data);
+        }
+      } catch (error) {
+        console.error("Lỗi khi lấy bài viết:", error);
+      }
+    };
+
+    fetchPosts();
+  }, []);
+
+  // Debug: Kiểm tra state posts sau khi cập nhật
+  useEffect(() => {
+    console.log("State posts thay đổi:", posts);
+  }, [posts]);
 
   return (
     <div>
-      {posts.map((post) => (
-        <PostItem key={post.id} post={post} />
-      ))}
+      {posts.length === 0 ? (
+        <p className="text-center text-gray-500">Không có bài viết nào.</p>
+      ) : (
+        posts.map((post) => <PostItem key={post.id} post={post} />)
+      )}
     </div>
   );
 };

@@ -2,13 +2,15 @@ import React from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import Follow_Sidebar from "./Follow_Sidebar";
+import { useTheme } from "../../context/ThemeContext";
 
 const Layout: React.FC = () => {
   const location = useLocation();
+  const { theme } = useTheme();
   const hideFollowSidebar = location.pathname === "/home/messages";
 
   return (
-    <div className="min-h-screen bg-[#080A0B] text-white flex">
+    <div className={`min-h-screen  flex ${theme === "dark" ? "bg-[#1C1C1D] text-white" : "bg-[#f0f2f586] text-black"}`}>
       {/* Sidebar bên trái */}
       <Sidebar />
 

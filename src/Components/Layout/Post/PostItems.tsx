@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import { PostProps } from "./PostProps";
 import { HandThumbUpIcon, ChatBubbleOvalLeftIcon, ShareIcon } from "@heroicons/react/24/solid";
 import CommentModal from "../../UI/CommentModal";
-
+import { useTheme } from '../../../context/ThemeContext';
 const PostItem: React.FC<{ post: PostProps }> = ({ post }) => {
+  const { theme } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState<{ user: string; text: string; time: string; likes: number }[]>([]);
@@ -46,23 +47,23 @@ const PostItem: React.FC<{ post: PostProps }> = ({ post }) => {
   return (
     <>
       {/* Bài đăng */}
-      <div className="bg-[#080A0B] text-white shadow-md p-4 border-b border-gray-400">
-        <div className="flex items-center mb-4">
+      <div className={`text-white mt-5 max-w-4xl mx-auto rounded-xl p-4 ${theme === 'dark' ? 'bg-[#252728]' : 'bg-white'}`}>
+        <div className="  flex items-center mb-4">
           <img src={post.avatar} alt="Avatar" className="w-10 h-10 rounded-full mr-2 object-cover" />
           <div>
-            <span className="font-bold">{post.name}</span>
+            <span className={`font-bold ${theme === 'dark' ? 'text-white' : 'text-black'}`}>{post.name}</span>
             <span className="text-gray-500 text-sm ml-2">{post.time}</span>
           </div>
         </div>
-        <p className="text-gray-300 mb-4">{post.caption}</p>
-        {post.image && <img src={post.image} alt="Post" className="w-full max-h-96 rounded-2xl object-contain mb-4" />}
+        <p className={`mb-4 ${theme === 'dark' ? 'text-gray-100' : 'text-gray-900'}`}>{post.caption}</p>
+        {post.image && <img src={post.image} alt="Post" className="w-full h-auto rounded-xl object-contain mb-4" />}
 
         <div className="flex gap-5 text-gray-400">
           <button onClick={handleLike} className="flex items-center gap-1 hover:text-red-500">
             <HandThumbUpIcon className="w-5 h-5" /> <span>{likes}</span>
           </button>
 
-          <button onClick={() => setIsOpen(true)} className="hover:text-white flex items-center gap-1">
+          <button onClick={() => setIsOpen(true)} className="hover:text-gray-300 flex items-center gap-1">
             <ChatBubbleOvalLeftIcon className="w-5 h-5" /> <span>{comments.length}</span>
           </button>
 

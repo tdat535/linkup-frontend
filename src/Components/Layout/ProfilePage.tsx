@@ -2,11 +2,11 @@
 // hiển thị thông tin cá nhân và các bài đăng của người dùng.
 
 import React, { useEffect, useState, useRef } from "react";
-import { FaHeart, FaComment, FaShare, FaArrowLeft } from "react-icons/fa";
+import { FaHeart, FaComment, FaShare } from "react-icons/fa";
 import TextareaAutosize from "react-textarea-autosize";
 import { useSearchParams } from "react-router-dom";
 import axios from "axios";
-
+import { useTheme } from "../../context/ThemeContext";
 const ProfilePage = () => {
   // Khai báo các state
   const [user, setUser] = useState<any>(null);
@@ -21,12 +21,11 @@ const ProfilePage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [activeTab, setActiveTab] = useState("post");
-  
+  const { theme } = useTheme();
   // Ref để theo dõi xem component đã được mount hay chưa
   const isMounted = useRef(false);
 
   const accessToken = localStorage.getItem("accessToken");
-
   // Effect khi component được mount
   useEffect(() => {
     isMounted.current = true;
@@ -55,19 +54,18 @@ const ProfilePage = () => {
         console.log("Fetching profile for userId:", userId, "currentUserId:", currentUserId);
         
         const response = await axios.get(
-          `https://api-linkup.id.vn/api/auth/profile?userId=${userId}&currentUserId=${currentUserId}`,
+          `https://api-linkup.id.vn/api/auth/profile?userId=${userId}`,
           {
             headers: { Authorization: `Bearer ${accessToken}` },
           }
         );
   
-        console.log("API Response:", response.data);
+        console.log("API Response:", response);
         
         if (response.data && response.data.isSuccess) {
           // Dữ liệu phản hồi là dạng phẳng, với dữ liệu người dùng trực tiếp trong đối tượng chính
           const userData = response.data;
           console.log("User data found:", userData);
-          
           // Thiết lập dữ liệu profile sử dụng cấu trúc phẳng
           setProfileData(userData);
           setUser(userData);
@@ -86,7 +84,7 @@ const ProfilePage = () => {
         setLoading(false);
       }
     };
-  
+
     fetchProfile();
   }, [userId, currentUserId, accessToken]);
 
@@ -94,6 +92,7 @@ const ProfilePage = () => {
   const handleTabClick = (tabId: string) => {
     setActiveTab(tabId);
   };
+  console.log("profileData", profileData);
 
   // Render trạng thái loading hoặc lỗi
   if (loading) return (
@@ -136,8 +135,7 @@ const ProfilePage = () => {
     <div className="flex-1">
       <div className="">
         {/* Header */}
-        <div className="fixed top-0 left-0 right-0 md:left-64 md:right-64 bg-black p-4 border-b border-gray-700 z-10 flex">
-          <FaArrowLeft className="text-white text-lg cursor-pointer mt-2" />
+        <div className={`fixed top-0 left-0 right-0 md:left-64 md:right-64 p-4 border-b border-gray-300 z-10 flex ${theme === "dark" ? "bg-black text-white" :  "bg-white text-black"}`}>
           <div className="ml-4">
             <h2 className="text-lg font-bold">{name || "Profile"}</h2>
           </div>
@@ -150,9 +148,9 @@ const ProfilePage = () => {
             <h2 className="text-xl font-bold">{name || "User"}</h2>
             <p className="text-gray-400 text-sm">{user?.email || ""}</p>
             <div className="flex gap-6 mt-4 text-center">
-              <div>1 Bài viết</div>
-              <div>12 Theo dõi</div>
-              <div>20 Đang theo dõi</div>
+              <div>{profileData.posts.length} Bài viết</div>
+              <div>{profileData.followers.length} Người bạn đang theo dõi</div>
+              <div>{profileData.following.length} Người theo dõi bạn</div>
             </div>
           </div>
           <button className="bg-gray-700 text-white px-4 py-2 rounded-md" onClick={() => setOpenModal(true)}>
@@ -163,7 +161,7 @@ const ProfilePage = () => {
         {/* Edit Profile Modal */}
         {openModal && (
           <div className="fixed inset-0 flex justify-center items-center z-50 backdrop-blur-sm">
-            <div className="bg-black mt-25 p-6 rounded-md w-full max-w-md sm:max-w-lg md:max-w-xl h-full sm:h-auto overflow-y-auto text-white">
+            <div className= {` mt-10 p-6 rounded-md w-full max-w-md sm:max-w-lg md:max-w-xl h-full sm:h-auto overflow-y-auto  ${theme === "dark" ? "bg-black text-white" : "bg-white text-black"}`}>
               <h2 className="text-lg font-bold mb-4">Sửa Hồ Sơ</h2>
               <input
                 type="text"
@@ -246,21 +244,29 @@ const ProfilePage = () => {
               aria-labelledby="post-tab"
               className={activeTab === "post" ? "" : "hidden"}
             >
-              {/* Post Item */}
-              <div className="p-4 border border-gray-700 rounded-lg">
-                <div className="flex items-center gap-3">
-                  <img src={avatar} alt="Avatar" className="w-10 h-10 rounded-full" />
-                  <div>
-                    <h3 className="font-semibold">{name || "User"}</h3>
-                    <p className="text-gray-400 text-sm">4 giờ trước</p>
+              {/* Kiểm tra nếu có bài viết */}
+              {profileData.posts && profileData.posts.length > 0 ? (
+                profileData.posts.map((post: any) => (
+                  <div key={post.id} className="p-4 border border-gray-700 rounded-lg mb-4">
+                    <div className="flex items-center gap-3">
+                      <img src={avatar} alt="Avatar" className="w-10 h-10 rounded-full" />
+                      <div>
+                        <h3 className="font-semibold">{name || "User"}</h3>
+                        <p className="text-gray-400 text-sm">  {post.createdAt ? post.createdAt ? post.createdAt.split(".")[0].split("T")[1] + " " + post.createdAt.split(".")[0].split("T")[0].split("-").reverse().join("/"): "Vừa xong" : "Vừa xong"}</p>
+                      </div>
+                    </div>
+                    <p className="mt-2 p-2">{post.content}</p>
+                    {post.image && <img src={post.image} className="w-full h-auto rounded-xl object-contain mb-4" />}
+                    <div className="flex gap-4 mt-3 text-gray-400">
+                      <FaHeart /> <FaComment /> <FaShare />
+                    </div>
                   </div>
-                </div>
-                <p className="mt-2">Buổi sáng thức dậy bỗng thấy mình quá đẹp trai</p>
-                <div className="flex gap-4 mt-3 text-gray-400">
-                  <FaHeart /> <FaComment /> <FaShare />
-                </div>
-              </div>
+                ))
+              ) : (
+                <p className="text-center text-gray-400">Chưa có bài viết nào.</p>
+              )}
             </div>
+
             
             {/* Nội dung tab Người theo dõi */}
             <div 

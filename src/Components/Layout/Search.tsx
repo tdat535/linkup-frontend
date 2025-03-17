@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
+import { useTheme } from "../../context/ThemeContext";
 const Search = () => {
     const [query, setQuery] = useState("");
     const [results, setResults] = useState<any[]>([]);
     const navigate = useNavigate();
     const accessToken = localStorage.getItem("accessToken");
-
+    const { theme } = useTheme();
     const userDataStr = localStorage.getItem("user");
     const userData = userDataStr ? JSON.parse(userDataStr) : null;
     const currentUserId = userData ? userData.userId : null;
@@ -35,7 +35,6 @@ const Search = () => {
                     );
 
                     console.log("✅ Kết quả API:", response.data);
-
                     if (response.data && response.data.isSuccess && Array.isArray(response.data.data)) {
                         setResults(response.data.data);
                     } else {
@@ -69,7 +68,7 @@ const Search = () => {
         console.log("📌 Selected userId:", selectedUserId);
         
         if (selectedUserId && loggedInUserId) {
-            navigate(`/home/profile?userId=${selectedUserId}&currentUserId=${loggedInUserId}`);
+            navigate(`/home/profile?userId=${selectedUserId}`);
         } else {
             console.warn("❌ Không thể điều hướng, thiếu userId hoặc currentUserId!");
         }
@@ -87,18 +86,18 @@ const Search = () => {
     
     
     return (
-        <div className="min-h-screen bg-[#080A0B] text-white p-4 flex flex-col items-center">
+        <div className={`min-h-screen text-white p-4 flex flex-col items-center ${theme === 'dark' ? 'bg-[#1C1C1D]' : 'bg-[#f0f2f5]'}`}>
             <div className="w-full max-w-lg relative">
                 {/* Ô input tìm kiếm */}
                 <div className="relative">
-                    <svg className="w-6 h-6 text-gray-400 absolute left-3 top-2.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <svg className={`w-6 h-6 absolute left-3 top-2.5 ${theme === 'dark' ? 'text-white' : 'text-black'}`} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                         <path stroke="currentColor" strokeLinecap="round" strokeWidth="2" d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z" />
                     </svg>
 
                     <input
                         type="text"
                         placeholder="Tìm kiếm người dùng..."
-                        className="pl-10 py-2 w-full bg-gray-800 text-white border-none focus:ring-2 focus:ring-blue-500 rounded-lg"
+                        className={`pl-10 py-2 w-full border-none focus:ring-2 focus:ring-blue-500 rounded-lg ${theme === 'dark' ? 'bg-[#252728] text-white placeholder-gray-400' : 'bg-white text-black placeholder-gray-600'}`}
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
                     />

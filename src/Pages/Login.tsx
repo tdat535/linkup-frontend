@@ -116,7 +116,7 @@ const Login = () => {
                 }
             });
 
-            console.log("📥 API Response:", response.data);
+            console.log("📥 API Response:", response);
 
             // Check if API returns data
             if (!response.data) {
@@ -182,9 +182,7 @@ const Login = () => {
                                 id="email" 
                                 value={email} 
                                 onChange={(e) => setEmail(e.target.value)} 
-                                className={`text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 focus:focus:bg-[rgb(232,240,254)] focus:border-black focus:text-black ${isSun 
-                                ? 'bg-black text-white placeholder-gray-200 border border-white focus:focus:bg-white focus:border-black focus:placeholder-gray-800 focus:text-black' 
-                                : 'text-black placeholder-gray-800 border border-black focus:focus:bg-[rgb(232,240,254)] focus:border-black focus:placeholder-gray-800 focus:text-black'}`} 
+                                className={`text-sm rounded-lg block w-full p-2.5 border focus:ring-blue-500 focus:border-blue-500 focus:bg-[#e8f0fe] ${isSun ? 'bg-black border-white text-white placeholder-gray-200 focus:placeholder-gray-800 focus:text-black' : 'bg-white border-black text-black placeholder-gray-800 focus:placeholder-gray-800 focus:text-black'}`}
                                 placeholder="email@example.com" 
                                 required 
                             />
@@ -196,9 +194,7 @@ const Login = () => {
                                 id="password" 
                                 value={password} 
                                 onChange={(e) => setPassword(e.target.value)} 
-                                className={`text-sm rounded-lg block w-full p-2.5 ${isSun 
-                                    ? 'bg-black text-white placeholder-gray-200 border border-white focus:focus:bg-white focus:border-black focus:placeholder-gray-800 focus:text-black' 
-                                    : 'text-black placeholder-gray-800 border border-black focus:focus:bg-[rgb(232,240,254)] focus:border-black focus:placeholder-gray-800 focus:text-black'}`} 
+                                className={`text-sm rounded-lg block w-full p-2.5 border focus:ring-blue-500 focus:border-blue-500 focus:bg-[#e8f0fe] ${isSun ? 'bg-black border-white text-white placeholder-gray-200 focus:placeholder-gray-800 focus:text-black' : 'bg-white border-black text-black placeholder-gray-800 focus:placeholder-gray-800 focus:text-black'}`}
                                 placeholder='•••••••••' 
                                 required 
                             />
@@ -228,7 +224,7 @@ const Login = () => {
                                 className="relative inline-flex items-center justify-center p-0.5 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800"
                                 onClick={() => navigate('/register')}
                             >
-                                <span className={`relative px-5 py-2.5 transition-all ease-in duration-75 rounded-md group-hover:bg-opacity-0 ${isSun ? 'bg-black text-white hover:text-black hover:bg-white' : 'bg-white text-black hover:text-white hover:bg-black'}`}>
+                                <span className={`relative px-5 py-2.5 transition-all ease-in duration-75 rounded-md group-hover:bg-opacity-0 ${isSun ? 'bg-black text-white hover:text-black hover:bg-white' : 'bg-black text-white hover:text-black hover:bg-white'}`}>
                                     Đăng ký tài khoản
                                 </span>
                             </button>

@@ -10,6 +10,7 @@ import Login from './Pages/Login';
 import Register from './Pages/Register';
 import FollowTest from './Pages/FollowTest';
 import TokenRefresher from './Components/TokenRefresher';
+import { ThemeProvider } from "./context/ThemeContext";
 
 const App: React.FC = () => {
   // Changed this to be more explicit about what we're checking for
@@ -25,28 +26,30 @@ const App: React.FC = () => {
   }, []);
 
   return (
-    <Router>
-      <TokenRefresher refreshInterval={3 * 60 * 1000} />
-      <Routes>
-        <Route path="/" element={<Navigate to="/home" />}/>
-        {token ? (
-          <Route path="/home" element={<Layout />}>
+    <ThemeProvider>
+      <Router>
+        <TokenRefresher refreshInterval={3 * 60 * 1000} />
+        <Routes>
+          <Route path="/" element={<Navigate to="/home" />} />
+          {token ? (
+            <Route path="/home" element={<Layout />}>
               <Route index element={<Home />} />
               <Route path="search" element={<Explore />} />
               <Route path="messages" element={<Messages />} />
               <Route path="notifications" element={<Notifications />} />
               <Route path="profile" element={<Profile />} />
               <Route path="follow-test" element={<FollowTest accessToken={token} />} />
-          </Route>
-        ) : (
-          <>
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="*" element={<Navigate to="/login" replace />} />
-          </>
-        )}
-      </Routes>
-    </Router>
+            </Route>
+          ) : (
+            <>
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="*" element={<Navigate to="/login" replace />} />
+            </>
+          )}
+        </Routes>
+      </Router>
+    </ThemeProvider>
   );
 };
 
