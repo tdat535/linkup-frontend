@@ -10,14 +10,16 @@ import { useTheme } from "../../context/ThemeContext";
 
 const ProfilePage = () => {
   // Khai báo các state
+  const [isFollowing, setIsFollowing] = useState<boolean>(false);
+
   const [user, setUser] = useState<any>(null);
   const [openModal, setOpenModal] = useState(false);
   const [name, setName] = useState("");
   const [bio, setBio] = useState("");
   const [avatar, setAvatar] = useState("https://via.placeholder.com/80");
   const [searchParams] = useSearchParams();
-  const userId = searchParams.get("userId") || "7";
-  const currentUserId = searchParams.get("currentUserId") || "7";
+  const userId = String(searchParams.get("userId"));
+  const currentUserId = String(localStorage.getItem("currentUserId"));
   const [profileData, setProfileData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -36,43 +38,41 @@ const ProfilePage = () => {
     };
   }, []);
 
-  // Effect đầu tiên - Lấy dữ liệu
-  useEffect(() => {
-    if (!userId || !currentUserId) {
+  
+   // 🟢 Effect lấy dữ liệu profile
+   useEffect(() => {
+    if (!userId || !currentUserId || !accessToken) {
       setError("Thiếu thông tin userId hoặc currentUserId.");
       setLoading(false);
       return;
     }
-  
-    if (!accessToken) {
-      setError("Không tìm thấy token đăng nhập.");
-      setLoading(false);
-      return;
-    }
-  
+
     const fetchProfile = async () => {
       try {
         console.log("Fetching profile for userId:", userId, "currentUserId:", currentUserId);
-        
+
         const response = await axios.get(
-          `https://api-linkup.id.vn/api/auth/profile?userId=${userId}`,
-          {
-            headers: { Authorization: `Bearer ${accessToken}` },
-          }
+          `https://api-linkup.id.vn/api/auth/profile?userId=${userId}&currentUserId=${currentUserId}`,
+          { headers: { Authorization: `Bearer ${accessToken}` } }
         );
-  
-        console.log("API Response:", response);
-        
+
+        console.log("API Response:", response.data);
+
         if (response.data && response.data.isSuccess) {
-          // Dữ liệu phản hồi là dạng phẳng, với dữ liệu người dùng trực tiếp trong đối tượng chính
           const userData = response.data;
-          console.log("User data found:", userData);
-          // Thiết lập dữ liệu profile sử dụng cấu trúc phẳng
           setProfileData(userData);
           setUser(userData);
           setName(userData.username || "");
           setBio(userData.bio || "");
           setAvatar(userData.avatar || "/assets/default-avatar.png");
+
+          // 🟢 Kiểm tra xem `currentUserId` có trong danh sách `followers` không
+          if (Array.isArray(userData.followers)) {
+            setIsFollowing(userData.followers.some((follower: { UserId: number; }) => follower.UserId === Number(currentUserId)));
+          } else {
+            setIsFollowing(false);
+          }
+
           setLoading(false);
         } else {
           console.error("Invalid response:", response.data);
@@ -89,6 +89,36 @@ const ProfilePage = () => {
     fetchProfile();
   }, [userId, currentUserId, accessToken]);
 
+  // 🟢 Hàm xử lý Follow khi bấm nút
+  const handleFollow = async () => {
+    if (!accessToken) return;
+
+    try {
+      if (isFollowing) {
+        // 🟢 Nếu đang follow -> Unfollow
+        await axios.post(
+          "https://api-linkup.id.vn/api/follow/unfollow",
+          { userId, followerId: currentUserId },
+          { headers: { Authorization: `Bearer ${accessToken}` } }
+        );
+        setIsFollowing(false);
+      } else {
+        // 🟢 Nếu chưa follow -> Follow
+        const response = await axios.post(
+          "https://api-linkup.id.vn/api/follow/createFollow",
+          { userId, followerId: currentUserId },
+          { headers: { Authorization: `Bearer ${accessToken}` } }
+        );
+
+        if (response.data?.followingId !== 0) {
+          setIsFollowing(true);
+        }
+      }
+    } catch (error) {
+      console.error("Lỗi khi Follow/Unfollow:", error);
+    }
+  };
+  
   // Xử lý khi nhấn vào tab
   const handleTabClick = (tabId: string) => {
     setActiveTab(tabId);
@@ -149,14 +179,23 @@ const ProfilePage = () => {
             <h2 className="text-xl font-bold">{name || "User"}</h2>
             <p className="text-gray-400 text-sm">{user?.email || ""}</p>
             <div className="flex gap-6 mt-4 text-center">
-              <div>{profileData.posts.length} Bài viết</div>
-              <div>{profileData.followers.length} Người bạn đang theo dõi</div>
-              <div>{profileData.following.length} Người theo dõi bạn</div>
+              <div>{profileData.posts?.length || 0} Bài viết</div>
+              <div>{profileData.followers?.length || 0} Người theo dõi bạn</div>
+              <div>{profileData.following?.length || 0} Người bạn đang theo dõi</div>
             </div>
           </div>
-          <button className="bg-gray-700 text-white px-4 py-2 rounded-md" onClick={() => setOpenModal(true)}>
-            Sửa hồ sơ
-          </button>
+          <div className="profile-header">
+            {currentUserId === userId ? (
+              <button onClick={() => setOpenModal(true)} className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Chỉnh sửa hồ sơ</button>
+            ) : (
+              <button
+                className={`focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 ${isFollowing ? "following" : ""}`}
+                onClick={handleFollow}
+              >
+                {isFollowing ? "Đã theo dõi" : "Follow"}
+              </button>
+            )}
+          </div>
         </div>
 
         {/* Edit Profile Modal */}
@@ -267,7 +306,6 @@ const ProfilePage = () => {
                 <p className="text-center text-gray-400">Chưa có bài viết nào.</p>
               )}
             </div>
-
             
             {/* Nội dung tab Người theo dõi */}
             <div 
@@ -275,9 +313,32 @@ const ProfilePage = () => {
               aria-labelledby="followed-tab"
               className={activeTab === "followed" ? "" : "hidden"}
             >
-              <div className="p-4 border border-gray-700 rounded-lg">
-                <p>Danh sách người theo dõi bạn sẽ hiển thị ở đây.</p>
-              </div>
+              {profileData.followers && profileData.followers.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {profileData.followers.map((follower: any) => (
+                    <div key={follower.id} className="p-4 border border-gray-700 rounded-lg hover:border-blue-500 transition-colors">
+                      <div className="flex items-center gap-3">
+                        <img 
+                          src={follower.avatar || "/assets/default-avatar.png"} 
+                          alt={`${follower.username}'s avatar`} 
+                          className="w-12 h-12 rounded-full object-cover"
+                        />
+                        <div className="flex-1">
+                          <h3 className="font-semibold truncate">{follower.username || "Người dùng"}</h3>
+                          <p className="text-gray-400 text-sm truncate">{follower.email || ""}</p>
+                        </div>
+                        <button className="px-3 py-1 bg-blue-600 text-white text-sm rounded-full hover:bg-blue-700 transition-colors">
+                          Xem
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center p-6 border border-gray-700 rounded-lg">
+                  <p className="text-gray-400">Chưa có người theo dõi nào.</p>
+                </div>
+              )}
             </div>
             
             {/* Nội dung tab Đang theo dõi */}
@@ -286,15 +347,37 @@ const ProfilePage = () => {
               aria-labelledby="follower-tab"
               className={activeTab === "follower" ? "" : "hidden"}
             >
-              <div className="p-4 border border-gray-700 rounded-lg">
-                <p>Danh sách người bạn đang theo dõi sẽ hiển thị ở đây.</p>
-              </div>
+              {profileData.following && profileData.following.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {profileData.following.map((following: any) => (
+                    <div key={following.id} className="p-4 border border-gray-700 rounded-lg hover:border-blue-500 transition-colors">
+                      <div className="flex items-center gap-3">
+                        <img 
+                          src={following.avatar || "/assets/default-avatar.png"} 
+                          alt={`${following.username}'s avatar`} 
+                          className="w-12 h-12 rounded-full object-cover"
+                        />
+                        <div className="flex-1">
+                          <h3 className="font-semibold truncate">{following.username || "Người dùng"}</h3>
+                          <p className="text-gray-400 text-sm truncate">{following.email || ""}</p>
+                        </div>
+                        <button className="px-3 py-1 bg-blue-600 text-white text-sm rounded-full hover:bg-blue-700 transition-colors">
+                          Xem
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center p-6 border border-gray-700 rounded-lg">
+                  <p className="text-gray-400">Bạn chưa theo dõi ai.</p>
+                </div>
+              )}
             </div>
           </div>
         </div>
       </div>
     </div>
-    
   );
 };
 
