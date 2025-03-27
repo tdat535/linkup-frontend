@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Modal from "./Modal";
 import TextareaAutosize from "react-textarea-autosize";
-import Post_Button from "../Buttons/Post_Button";
+
 import axios from "axios";
-import { useTheme } from '../../context/ThemeContext';
+import { useTheme } from '../../../context/ThemeContext';
+import Post_Button from "../../Buttons/Post_Button";
 
 interface PostModalProps {
   isOpen: boolean;

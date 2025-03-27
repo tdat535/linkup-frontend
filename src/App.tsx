@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-import Layout from './Components/Layout/Layout';
-import Home from './Pages/Home';
-import Explore from './Pages/Explore';
-import Messages from './Pages/Messages';
-import Notifications from './Pages/Notifications';
-import Profile from './Pages/Profile';
-import Login from './Pages/Login';
-import Register from './Pages/Register';
-import FollowTest from './Pages/FollowTest';
+
+import Layout from './Components/Layout';
+import Home from './Pages/User_Page/Home';
+import Explore from './Pages/User_Page/Explore';
+import Messages from './Pages/User_Page/Messages';
+import Notifications from './Pages/User_Page/Notifications';
+import Profile from './Pages/User_Page/Profile';
+import Login from './Pages/User_Page/Login';
+import Register from './Pages/User_Page/Register';
+import FollowTest from './Pages/User_Page/FollowTest';
 import TokenRefresher from './Components/TokenRefresher';
 import { ThemeProvider } from "./context/ThemeContext";
 

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { ArrowLeft, Send } from "lucide-react";
 import TextareaAutosize from "react-textarea-autosize";
 import { useNavigate } from "react-router-dom";
-import { useTheme } from "../../context/ThemeContext";
+import { useTheme } from "../../../context/ThemeContext";
 const ChatPage = () => {
   const navigate = useNavigate();
   const [messages, setMessages] = useState<{ text: string; sender: string }[]>([]);

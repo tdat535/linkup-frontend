@@ -2,9 +2,9 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Home, Search, MessageSquare, Bell, User, MoreHorizontal, Sun, Moon, Plus } from "lucide-react";
 import { motion } from "framer-motion";
-import Post_Button from "../Buttons/Post_Button";
-import Post_Modal from "../UI/Post_Modal";
-import { useTheme } from "../../context/ThemeContext"; // Import useTheme
+import Post_Button from "../../Buttons/Post_Button";
+import Post_Modal from "../Modal/Post_Modal";
+import { useTheme } from "../../../context/ThemeContext"; // Import useTheme
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);

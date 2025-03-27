@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import NewPost from '../Components/Layout/Post/New_Post';
-import PostList from '../Components/Layout/Post/PostList';
-import { useTheme } from '../context/ThemeContext';
+import NewPost from '../../Components/Layout/Post/New_Post';
+import PostList from '../../Components/Layout/Post/PostList';
+import { useTheme } from '../../context/ThemeContext';
 
 const Home: React.FC = () => {
   const { theme } = useTheme();

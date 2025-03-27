@@ -1,8 +1,6 @@
 import 'flowbite';
 import { useNavigate } from 'react-router-dom';
-import background from '../assets/pictures/images.jpg';
 import { useState } from 'react';
-import Button from '../Components/Buttons/Button';
 import { Sun,Moon } from "lucide-react";
 
 const Register = () => {
@@ -77,7 +75,7 @@ const Register = () => {
     };
     
     return (
-        <div className="flex justify-center items-center min-h-screen bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `url(${background})` }}>
+        <div className="flex justify-center items-center min-h-screen bg-cover bg-center bg-no-repeat" style={{ backgroundColor: '#1C1C1D'}}>
             <div className="flex-col md:flex-row w-full bg-opacity-50 p-5">
             <div className='text-7xl text-center break-words text-white'><span className='text-transparent bg-clip-text bg-gradient-to-r to-emerald-300 from-sky-400 '>𝓛𝓲𝓷𝓴𝓤𝓹</span></div>
                 <div className="flex justify-center items-center w-full mt-10">

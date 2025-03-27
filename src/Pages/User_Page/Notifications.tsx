@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Noti from '../Components/Layout/Noti';
+import Noti from '../../Components/Layout/Noti/Noti';
 const Notifications: React.FC = () => {
   
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);

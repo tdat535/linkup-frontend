@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Tabs } from "flowbite";
 import type { TabsOptions, TabItem } from "flowbite";
-import { useTheme } from "../../context/ThemeContext";
+import { useTheme } from "../../../context/ThemeContext";
 
 export default function Notification() {
     useEffect(() => {

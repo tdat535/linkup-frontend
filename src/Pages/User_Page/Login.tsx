@@ -1,6 +1,5 @@
 import 'flowbite';
 import { useNavigate } from 'react-router-dom';
-import background from '../assets/pictures/images.jpg';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Sun,Moon } from "lucide-react";
@@ -160,7 +159,7 @@ const Login = () => {
     
     // Rest of your component remains the same
     return (
-        <div className="flex justify-center items-center min-h-screen bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `url(${background})` }}>
+        <div className="flex justify-center items-center min-h-screen bg-cover bg-center bg-no-repeat" style={{backgroundColor: '#1C1C1D'}} >
             {/* The rest of your JSX remains unchanged */}
             <div className=" flex-col md:flex-row w-full bg-opacity-50 p-5">
                 <div className='text-7xl text-center break-words text-white'><span className='text-transparent bg-clip-text bg-gradient-to-r to-emerald-300 from-sky-400 '>𝓛𝓲𝓷𝓴𝓤𝓹</span></div>

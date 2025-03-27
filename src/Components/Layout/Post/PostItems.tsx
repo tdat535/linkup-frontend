@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { PostProps } from "./PostProps";
 import { HandThumbUpIcon, ChatBubbleOvalLeftIcon, ShareIcon } from "@heroicons/react/24/solid";
-import CommentModal from "../../UI/CommentModal";
 import { useTheme } from '../../../context/ThemeContext';
+import CommentModal from "../Modal/CommentModal";
 const PostItem: React.FC<{ post: PostProps }> = ({ post }) => {
   const { theme } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
