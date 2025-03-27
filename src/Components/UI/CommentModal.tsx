@@ -1,7 +1,6 @@
 
-import React from "react";
 import TextareaAutosize from "react-textarea-autosize";
-import { useTheme } from "../../context/ThemeContext"
+import { useTheme } from "../../context/ThemeContext";
 
 interface Comment {
   user: string;
@@ -34,7 +33,9 @@ const CommentModal: React.FC<CommentModalProps> = ({
   setComment,
   handleCommentSubmit,
 }) => {
+
   if (!isOpen) return null;
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const { theme } = useTheme();
 
   return (

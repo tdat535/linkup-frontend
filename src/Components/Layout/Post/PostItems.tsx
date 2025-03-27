@@ -3,6 +3,7 @@ import { PostProps } from "./PostProps";
 import { HandThumbUpIcon, ChatBubbleOvalLeftIcon, ShareIcon } from "@heroicons/react/24/solid";
 import CommentModal from "../../UI/CommentModal";
 import { useTheme } from '../../../context/ThemeContext';
+import axios from "axios";
 const PostItem: React.FC<{ post: PostProps }> = ({ post }) => {
   const { theme } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
@@ -10,7 +11,8 @@ const PostItem: React.FC<{ post: PostProps }> = ({ post }) => {
   const [comments, setComments] = useState<{ user: string; text: string; time: string; likes: number }[]>([]);
   const [likes, setLikes] = useState(0);
   const [isLiked, setIsLiked] = useState(false);
-
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
   useEffect(() => {
     if (isOpen) {
       document.body.classList.add("overflow-hidden");
@@ -18,12 +20,22 @@ const PostItem: React.FC<{ post: PostProps }> = ({ post }) => {
       document.body.classList.remove("overflow-hidden");
     }
   }, [isOpen]);
+  const handleLike = async (postId) => {
+    console.log("postid",post.id);
+  
+    const token = localStorage.getItem("accessToken");
+    // const userId_data = localStorage.getItem("currentUserId");
+    const response = await fetch('https://api-linkup.id.vn/api/like/createLike', {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}` 
+      },
+      body: JSON.stringify({postId})
+  });
+    console.log("response",response);
+  }
 
-
-  const handleLike = () => {
-    setIsLiked(!isLiked);
-    setLikes((prev) => (isLiked ? prev - 1 : prev + 1));
-  };
 
   const handleCommentSubmit = () => {
     if (comment.trim()) {
@@ -59,7 +71,7 @@ const PostItem: React.FC<{ post: PostProps }> = ({ post }) => {
         {post.image && <img src={post.image} alt="Post" className="w-full h-auto rounded-xl object-contain mb-4" />}
 
         <div className="flex gap-5 text-gray-400">
-          <button onClick={handleLike} className="flex items-center gap-1 hover:text-red-500">
+          <button onClick={() => handleLike(post.id)} className="flex items-center gap-1 hover:text-red-500">
             <HandThumbUpIcon className="w-5 h-5" /> <span>{likes}</span>
           </button>
 

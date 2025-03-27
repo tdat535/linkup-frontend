@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { PostProps } from "./PostProps";
 import PostItem from "./PostItems";
-
 const PostList: React.FC = () => {
   const [posts, setPosts] = useState<PostProps[]>([]);
 
