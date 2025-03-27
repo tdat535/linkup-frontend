@@ -106,7 +106,6 @@ const Post_Modal: React.FC<PostModalProps> = ({ isOpen, onClose }) => {
     }
     setIsLoading(false);
   };
-  
   return (
     <Modal
       isOpen={isOpen}
