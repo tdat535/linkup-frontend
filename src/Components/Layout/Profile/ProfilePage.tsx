@@ -7,6 +7,7 @@ import TextareaAutosize from "react-textarea-autosize";
 import { useSearchParams } from "react-router-dom";
 import axios from "axios";
 import { useTheme } from "../../../context/ThemeContext";
+import ErrorPage from "../../../pages/ErrorPage";
 
 const ProfilePage = () => {
   // Khai báo các state
@@ -139,18 +140,7 @@ const ProfilePage = () => {
   );
 
   if (error) return (
-    <div className="flex justify-center items-center h-screen">
-      <div className="text-center">
-        <p className="text-xl text-red-500">❌ {error}</p>
-        <p className="mt-2">Debug Info: userId={userId}, currentUserId={currentUserId}</p>
-        <button 
-          className="mt-4 bg-blue-500 text-white px-4 py-2 rounded"
-          onClick={() => window.location.reload()}
-        >
-          Thử lại
-        </button>
-      </div>
-    </div>
+      <ErrorPage message={error} />
   );
 
   if (!user || !profileData) return (

@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { PostProps } from "./PostProps";
 import { HandThumbUpIcon, ChatBubbleOvalLeftIcon, ShareIcon } from "@heroicons/react/24/solid";
 import { useTheme } from '../../../context/ThemeContext';
+import axios from "axios";
+import CommentModal from "../Modal/CommentModal";
 const PostItem: React.FC<{ post: PostProps }> = ({ post }) => {
   const { theme } = useTheme();
   const [isOpen, setIsOpen] = useState(false);

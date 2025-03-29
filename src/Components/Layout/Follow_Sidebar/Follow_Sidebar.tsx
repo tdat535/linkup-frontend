@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../../../services/auth";
-import { FiChevronDown, FiLogOut, FiSun, FiMoon } from "react-icons/fi";
+import { FiChevronDown, FiLogOut, FiSun, FiMoon, FiSettings } from "react-icons/fi";
 import { useTheme } from "../../../context/ThemeContext"; // Import ThemeContext
 
 const Follow_Sidebar = () => {
@@ -36,6 +36,10 @@ const Follow_Sidebar = () => {
         logout();
     };
 
+    const handleToAdmin = () => {
+        navigate("/admin");
+    }
+
     if (isMobile) {
         return (
             <header className={`fixed top-0 left-0 w-full z-50  ${theme === "dark" ? "bg-[#1C1C1D] text-white" : "bg-white text-black"} flex items-center p-4 border-b border-gray-300`}>
@@ -52,6 +56,7 @@ const Follow_Sidebar = () => {
                                 {theme === "light" ? <FiMoon className="mr-2" /> : <FiSun className="mr-2" />}
                                 {theme === "light" ? "Chế độ tối" : "Chế độ sáng"}
                             </button>
+                            <button onClick={handleToAdmin} className="flex items-center w-full px-4 py-2"><FiSettings className="mr-2"/>Đến admin</button>
                             <button onClick={handleLogout} className="flex items-center w-full text-left px-4 py-2 text-red-400 hover:bg-gray-700 rounded">
                                 <FiLogOut className="mr-2" /> Đăng xuất
                             </button>

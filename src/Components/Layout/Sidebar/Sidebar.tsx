@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Home, Search, MessageSquare, Bell, User, MoreHorizontal, Sun, Moon, Plus } from "lucide-react";
+import { Home, Search, MessageSquare, Bell, User, MoreHorizontal, Sun, Moon, Plus, Settings } from "lucide-react";
 import { motion } from "framer-motion";
 import Post_Button from "../../Buttons/Post_Button";
 import Post_Modal from "../Modal/Post_Modal";
@@ -24,7 +24,6 @@ const Sidebar = () => {
           <Link to="/home/messages" className="flex items-center gap-4"><MessageSquare /> Tin nhắn</Link>
           <Link to="/home/notifications" className="flex items-center gap-4"><Bell /> Thông báo</Link>
           <Link to={profileUrl} className="flex items-center gap-4"><User /> Trang cá nhân</Link>
-
           <div className="relative">
             <button onClick={() => setIsDropdownOpen(!isDropdownOpen)} className="flex items-center gap-4">
               <MoreHorizontal /> Thêm
@@ -42,6 +41,7 @@ const Sidebar = () => {
               </div>
             )}
           </div>
+          <Link to="/admin" className="flex items-center gap-4"><Settings />Đến trang admin</Link>
           <div className={`transition-all duration-300 ${isDropdownOpen ? "mt-16" : "mt-4"}`}>
             <Post_Button text="Đăng" onClick={() => setIsOpen(true)} variant="primary" size="lg" fullWidth />
           </div>
