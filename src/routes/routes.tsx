@@ -5,6 +5,8 @@ import UsersPage from '../pages/dashboard/UserPage';
 import Dashboard from '../components/Layout/Management/Dashboard/Dashboard';
 import Admin_Layout from '../components/AdminLayout';
 import PostsPage from '../pages/dashboard/PostsPage';
+import ErrorPage from '../pages/ErrorPage';
+import FeatureDevelopingPage from '../pages/FeatureDevelopingPage';
 
 const Home = lazy(() => import('../pages/user/Home'));
 const Explore = lazy(() => import('../pages/user/Explore'));
@@ -54,6 +56,9 @@ const AppRoutes = ({token}: { token: string | null }) => {
                         <Route path="users-list" element={<UsersPage />} />
                         <Route path="posts-list" element={<PostsPage />} />
                     </Route>
+
+                    <Route path='*' element={<ErrorPage />} />
+                    <Route path="/developing" element={<FeatureDevelopingPage />} />
                 </>
             ) : (
               <>

@@ -12,7 +12,7 @@ import {
   useMediaQuery,
   useTheme as useMuiTheme
 } from "@mui/material";
-import { LogOut, Settings, User, Bell, Menu as MenuIcon } from "lucide-react";
+import { LogOut, Settings, User, Bell, Menu as MenuIcon, Home } from "lucide-react";
 import { useTheme } from "../../../context/ThemeContext";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../../../services/auth";
@@ -57,6 +57,10 @@ const AdminHeader: React.FC<AdminHeaderProps> = ({ toggleMobileSidebar }) => {
     navigate("/admin/settings");
   };
 
+  const handleToUser = () => {
+    navigate("/home");
+  };
+
   return (
     <header 
       className={`flex justify-between items-center px-3 py-2 md:px-4 md:py-3 border-b shadow-sm sticky top-0 z-10 ${
@@ -70,7 +74,7 @@ const AdminHeader: React.FC<AdminHeaderProps> = ({ toggleMobileSidebar }) => {
         {isMobile && toggleMobileSidebar && (
           <IconButton 
             edge="start" 
-            className={theme === "dark" ? "text-white mr-2" : "text-gray-700 mr-2"} 
+            sx={{ color: theme === "dark" ? "white" : "gray" }} 
             onClick={toggleMobileSidebar}
             size="small"
           >
@@ -78,15 +82,16 @@ const AdminHeader: React.FC<AdminHeaderProps> = ({ toggleMobileSidebar }) => {
           </IconButton>
         )}
         
-        <Typography variant={isMobile ? "subtitle1" : "h6"} component="h1" noWrap>
+        {/* <Typography variant={isMobile ? "subtitle1" : "h6"} component="h1" noWrap>
           Admin Dashboard
-        </Typography>
+        </Typography> */}
       </div>
       
       <div className="flex items-center space-x-2 md:space-x-4">
         
         {/* Avatar with Menu */}
-        <Box>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+          
           <IconButton
             onClick={handleClick}
             size="small"
@@ -151,6 +156,13 @@ const AdminHeader: React.FC<AdminHeaderProps> = ({ toggleMobileSidebar }) => {
                 <Settings size={18} color={theme === "dark" ? "white" : "black"} />
               </ListItemIcon>
               Cài đặt
+            </MenuItem>
+
+            <MenuItem onClick={handleToUser}>
+              <ListItemIcon>
+                <Home size={18} color={theme === "dark" ? "white" : "black"} />
+              </ListItemIcon>
+              Tới trang user
             </MenuItem>
             
             <Divider sx={{ my: 1, borderColor: theme === "dark" ? "rgba(255,255,255,0.1)" : "inherit" }} />
