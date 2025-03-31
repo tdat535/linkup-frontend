@@ -140,7 +140,7 @@ const Sidebar = () => {
               </ListItemButton>
             </Link>
 
-            <Link to="/developing">
+            <Link to="/admin/comments-list">
               <ListItemButton>
                 <ListItemText 
                   inset 
