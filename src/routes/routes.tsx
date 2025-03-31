@@ -7,6 +7,7 @@ import Admin_Layout from '../components/AdminLayout';
 import PostsPage from '../pages/dashboard/PostsPage';
 import ErrorPage from '../pages/ErrorPage';
 import FeatureDevelopingPage from '../pages/FeatureDevelopingPage';
+import CommentPage from '../pages/dashboard/CommentPage';
 
 const Home = lazy(() => import('../pages/user/Home'));
 const Explore = lazy(() => import('../pages/user/Explore'));
@@ -55,6 +56,7 @@ const AppRoutes = ({token}: { token: string | null }) => {
                         <Route index element={<Dashboard />} />
                         <Route path="users-list" element={<UsersPage />} />
                         <Route path="posts-list" element={<PostsPage />} />
+                        <Route path="comments-list" element={<CommentPage/>} />
                     </Route>
 
                     <Route path='*' element={<ErrorPage />} />

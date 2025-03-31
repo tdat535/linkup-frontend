@@ -205,8 +205,8 @@ const UserList: React.FC = () => {
         mb: 2,
         gap: { xs: 2, sm: 0 }
       }}>
-        <Typography variant="h5" component="h2">
-          User Management
+        <Typography variant="h5" component="h2" sx={{ fontWeight: 'bold' }}>
+          Quản lý người dùng
         </Typography>
         <Button 
           variant="contained" 
