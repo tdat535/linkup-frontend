@@ -4,6 +4,7 @@ import { HandThumbUpIcon, ChatBubbleOvalLeftIcon, ShareIcon } from "@heroicons/r
 import { useTheme } from '../../../context/ThemeContext';
 import axios from "axios";
 import CommentModal from "../Modal/CommentModal";
+
 const PostItem: React.FC<{ post: PostProps }> = ({ post }) => {
   const { theme } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
@@ -13,6 +14,7 @@ const PostItem: React.FC<{ post: PostProps }> = ({ post }) => {
   const [isLiked, setIsLiked] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+
   useEffect(() => {
     if (isOpen) {
       document.body.classList.add("overflow-hidden");
@@ -20,22 +22,22 @@ const PostItem: React.FC<{ post: PostProps }> = ({ post }) => {
       document.body.classList.remove("overflow-hidden");
     }
   }, [isOpen]);
+
   const handleLike = async (postId) => {
-    console.log("postid",post.id);
-  
+    console.log("postid", post.id);
+
     const token = localStorage.getItem("accessToken");
-    // const userId_data = localStorage.getItem("currentUserId");
+
     const response = await fetch('https://api-linkup.id.vn/api/like/createLike', {
       method: 'POST',
       headers: { 
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}` 
       },
-      body: JSON.stringify({postId})
-  });
-    console.log("response",response);
+      body: JSON.stringify({ postId })
+    });
+    console.log("response", response);
   }
-
 
   const handleCommentSubmit = () => {
     if (comment.trim()) {
@@ -56,11 +58,33 @@ const PostItem: React.FC<{ post: PostProps }> = ({ post }) => {
     }
   };
 
+  const renderMedia = (mediaUrl: string | null) => {
+    if (!mediaUrl) return null;
+
+    // Kiểm tra nếu URL là hình ảnh (dựa trên phần mở rộng)
+    const isImage = /\.(jpeg|jpg|gif|png|bmp|webp)$/i.test(mediaUrl);
+
+    // Kiểm tra nếu URL là video (dựa trên phần mở rộng)
+    const isVideo = /\.(mp4|webm|ogg)$/i.test(mediaUrl);
+
+    if (isImage) {
+      return <img src={mediaUrl} alt="Post" className="w-full h-auto rounded-xl object-contain mb-4" />;
+    } else if (isVideo) {
+      return (
+        <video controls className="w-full h-auto rounded-xl mb-4">
+          <source src={mediaUrl} type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      );
+    }
+    return null;
+  };
+
   return (
     <>
       {/* Bài đăng */}
       <div className={`text-white mt-5 max-w-4xl mx-auto rounded-xl p-4 ${theme === 'dark' ? 'bg-[#252728]' : 'bg-white'}`}>
-        <div className="  flex items-center mb-4">
+        <div className="flex items-center mb-4">
           <img src={post.avatar} alt="Avatar" className="w-10 h-10 rounded-full mr-2 object-cover" />
           <div>
             <span className={`font-bold ${theme === 'dark' ? 'text-white' : 'text-black'}`}>{post.name}</span>
@@ -68,7 +92,9 @@ const PostItem: React.FC<{ post: PostProps }> = ({ post }) => {
           </div>
         </div>
         <p className={`mb-4 ${theme === 'dark' ? 'text-gray-100' : 'text-gray-900'}`}>{post.caption}</p>
-        {post.image && <img src={post.image} alt="Post" className="w-full h-auto rounded-xl object-contain mb-4" />}
+
+        {/* Render Media (Image or Video) */}
+        {renderMedia(post.image || null)}
 
         <div className="flex gap-5 text-gray-400">
           <button onClick={() => handleLike(post.id)} className="flex items-center gap-1 hover:text-red-500">
@@ -100,3 +126,4 @@ const PostItem: React.FC<{ post: PostProps }> = ({ post }) => {
 };
 
 export default PostItem;
+

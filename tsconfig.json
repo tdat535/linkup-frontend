@@ -3,5 +3,12 @@
   "references": [
     { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" }
-  ]
+  ],
+  "compilerOptions": {
+    "baseUrl": "./src",  // Đảm bảo baseUrl trỏ tới thư mục 'src'
+    "paths": {
+      "@Components/*": ["src/Components/*"]
+    }
+  },
+  "include": ["./src/**/*"]
 }

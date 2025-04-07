@@ -32,7 +32,7 @@ const PostList: React.FC = () => {
             name: post.User.username || "Người dùng",
             time: post.createdAt ? new String(post.createdAt).split(".")[0].split("T")[1] + " " + new String(post.createdAt).split(".")[0].split("T")[0].split("-").reverse().join("-") : "Vừa xong",
             caption: post.content || "Không có nội dung",
-            image: post.image || null,
+            image: post.mediaUrl || null,
           }));
           setPosts(formattedPosts);
           console.log("State posts sau khi cập nhật:", formattedPosts);

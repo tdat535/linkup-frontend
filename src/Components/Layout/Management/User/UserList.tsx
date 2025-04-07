@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { 
-  Box, 
-  Typography, 
+import React, { useState, useEffect } from "react";
+import {
+  Box,
+  Typography,
   Button,
   TextField,
   Dialog,
@@ -13,85 +13,131 @@ import {
   Paper,
   IconButton,
   useMediaQuery,
-  useTheme as useMuiTheme
-} from '@mui/material';
-import { 
-  DataGrid, 
-  GridColDef, 
-  GridRenderCellParams,
-} from '@mui/x-data-grid';
-import { Edit as EditIcon, Delete as DeleteIcon, Add as AddIcon } from '@mui/icons-material';
+  useTheme as useMuiTheme,
+} from "@mui/material";
+import { DataGrid, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
+import {
+  Visibility as VisibilityIcon,
+  LockOpen as LockOpenIcon,
+  LockOutline as LockOutlineIcon,
+} from "@mui/icons-material";
+import axios from "axios";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
 // Define the User interface
 interface User {
   id: string;
   username: string;
+  avatar: string;
   email: string;
-  role: string;
+  phonenumber: string;
+  type: string;
   createdAt: string;
   updatedAt?: string;
-  status: 'active' | 'inactive';
+  status: "active" | "inactive";
+  postCount: number;
+  followingCount: number;
+  followersCount: number;
 }
 
 const UserList: React.FC = () => {
   const muiTheme = useMuiTheme();
-  const isMobile = useMediaQuery(muiTheme.breakpoints.down('sm'));
-  const isTablet = useMediaQuery(muiTheme.breakpoints.down('md'));
-  
+  const isMobile = useMediaQuery(muiTheme.breakpoints.down("sm"));
+  const isTablet = useMediaQuery(muiTheme.breakpoints.down("md"));
+
   // Sample static data
-  const [users, setUsers] = useState<User[]>([
-    { id: '1', username: 'admin', email: 'admin@example.com', role: 'Admin', createdAt: '2023-01-01', updatedAt:'2099-05-05', status: 'active' },
-    { id: '2', username: 'user1', email: 'user1@example.com', role: 'User', createdAt: '2023-02-15',updatedAt:'2099-05-05', status: 'active' },
-    { id: '3', username: 'editor', email: 'editor@example.com', role: 'Editor', createdAt: '2023-03-22',updatedAt:'2099-05-05', status: 'inactive' },
-  ]);
-  
+  const [users, setUsers] = useState<User[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
   const [openDialog, setOpenDialog] = useState<boolean>(false);
   const [currentUser, setCurrentUser] = useState<Partial<User> | null>(null);
-  const [snackbar, setSnackbar] = useState<{open: boolean, message: string, severity: 'success' | 'error'}>({
+  const [snackbar, setSnackbar] = useState<{
+    open: boolean;
+    message: string;
+    severity: "success" | "error";
+  }>({
     open: false,
-    message: '',
-    severity: 'success'
+    message: "",
+    severity: "success",
   });
-  
+
+  const getToken = () => {
+    // Lấy token từ localStorage
+    return localStorage.getItem("accessToken");
+  };
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const token = getToken();
+        console.log("Token:", token);
+
+        const response = await axios.get(
+          "https://api-linkup.id.vn/api/admin/getAllUser",
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+
+        console.log("Dữ liệu bài viết từ API:", response.data);
+        if (Array.isArray(response.data.data)) {
+          setUsers(response.data.data);
+        } else {
+          throw new Error("Dữ liệu API không hợp lệ");
+        }
+      } catch (error) {
+        console.error("Lỗi khi tải bài đăng:", error);
+        setUsers([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPosts();
+  }, []);
+
+  if (error) return <Typography color="error">{error}</Typography>;
+
   // Responsive column definitions
   const [columns, setColumns] = useState<GridColDef[]>([]);
-  
+
   useEffect(() => {
     // Define columns based on screen size
     const responsiveColumns: GridColDef[] = [
-      { 
-        field: 'username', 
-        headerName: 'Tên tài khoản', 
+      {
+        field: "username",
+        headerName: "Tên tài khoản",
         flex: 1,
-        minWidth: 120 
+        minWidth: 120,
       },
-      { 
-        field: 'email', 
-        headerName: 'Email', 
+      {
+        field: "email",
+        headerName: "Email",
         flex: 1,
         minWidth: 180,
       },
-      { 
-        field: 'role', 
-        headerName: 'Vai trò', 
+      {
+        field: "type",
+        headerName: "Vai trò",
         flex: 0.7,
         minWidth: 100,
       },
-      { 
-        field: 'createdAt', 
-        headerName: 'Tạo vào lúc', 
+      {
+        field: "createdAt",
+        headerName: "Tạo vào lúc",
         flex: 0.7,
         minWidth: 120,
       },
-      { 
-        field: 'updatedAt', 
-        headerName: 'Cập nhật lúc', 
+      {
+        field: "updatedAt",
+        headerName: "Cập nhật lúc",
         flex: 0.7,
         minWidth: 120,
       },
-      { 
-        field: 'status', 
-        headerName: 'Tình trạng', 
+      {
+        field: "status",
+        headerName: "Tình trạng",
         flex: 0.7,
         minWidth: 100,
         renderCell: (params: GridRenderCellParams<User>) => (
@@ -101,38 +147,55 @@ const UserList: React.FC = () => {
               px: 1,
               py: 0.5,
               borderRadius: 1,
-              backgroundColor: params.value === 'active' ? 'success.light' : 'error.light',
-              color: 'white',
-              fontSize: '0.875rem',
+              backgroundColor:
+                params.value === "active" ? "success.light" : "error.light",
+              color: "white",
+              fontSize: "0.875rem",
             }}
           >
-            {params.value === 'active' ? 'Active' : 'Inactive'}
+            {params.value === "active" ? "Hoạt động" : "Đã khóa"}
           </Box>
-        )
+        ),
       },
-      { 
-        field: 'actions', 
-        headerName: 'Trạng thái khác', 
-        sortable: false, 
+      {
+        field: "actions",
+        headerName: "Trạng thái khác",
+        sortable: false,
         width: 120,
         renderCell: (params: GridRenderCellParams<User>) => (
           <Box>
-            <IconButton size={isMobile ? "small" : "medium"} color="primary" onClick={() => handleOpenDialog(params.row)}>
-              <EditIcon fontSize={isMobile ? "small" : "medium"} />
+            <IconButton
+              size={isMobile ? "small" : "medium"}
+              color="primary"
+              onClick={() => handleOpenDialog(params.row)}
+            >
+              <VisibilityIcon fontSize={isMobile ? "small" : "medium"} />
             </IconButton>
-            <IconButton size={isMobile ? "small" : "medium"} color="error" onClick={() => handleDeleteUser(params.row.id)}>
-              <DeleteIcon fontSize={isMobile ? "small" : "medium"} />
+            <IconButton
+              size={isMobile ? "small" : "medium"}
+              color="error"
+              onClick={() =>
+                handlePostStatusChange(params.row.id, params.row.status)
+              } // Truyền vào postId và status hiện tại
+            >
+              {params.row.status === "active" ? (
+                <LockOutlineIcon fontSize={isMobile ? "small" : "medium"} />
+              ) : (
+                <LockOpenIcon fontSize={isMobile ? "small" : "medium"} />
+              )}
             </IconButton>
           </Box>
-        )
+        ),
       },
     ];
-    
+
     setColumns(responsiveColumns);
   }, [isMobile, isTablet]);
 
   const handleOpenDialog = (user: Partial<User> | null = null) => {
-    setCurrentUser(user || { username: '', email: '', role: 'User', status: 'active' });
+    setCurrentUser(
+      user || { username: "", email: "", type: "User", status: "active" }
+    );
     setOpenDialog(true);
   };
 
@@ -141,53 +204,89 @@ const UserList: React.FC = () => {
     setCurrentUser(null);
   };
 
-  const handleSaveUser = () => {
-    if (!currentUser || !currentUser.username || !currentUser.email) {
-      setSnackbar({
-        open: true,
-        message: 'Please fill in all required fields',
-        severity: 'error'
-      });
-      return;
-    }
+  const hideUser = async (userId: any) => {
+    if (
+      window.confirm(
+        "Bạn có chắc chắn muốn khóa tài khoản của người dùng này không?"
+      )
+    ) {
+      setLoading(true); // Bắt đầu loading
+      try {
+        const token = getToken();
+        if (!token) throw new Error("Token không hợp lệ");
 
-    if (currentUser.id) {
-      // Update existing user in our local state
-      setUsers(users.map(user => 
-        user.id === currentUser.id ? { ...user, ...currentUser } as User : user
-      ));
-      setSnackbar({
-        open: true,
-        message: 'User updated successfully',
-        severity: 'success'
-      });
-    } else {
-      // Create new user in our local state
-      const newUser = {
-        ...currentUser,
-        id: Date.now().toString(),
-        createdAt: new Date().toISOString().split('T')[0]
-      } as User;
-      
-      setUsers([...users, newUser]);
-      setSnackbar({
-        open: true,
-        message: 'User created successfully',
-        severity: 'success'
-      });
+        const response = await axios.put(
+          `https://api-linkup.id.vn/api/auth/hideUser/${userId}`,
+          {},
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+
+        if (response.status === 200) {
+          console.log("Tài khoản đã được khóa");
+
+          // Cập nhật lại trạng thái bài viết trong state
+          setUsers((prevUsers) =>
+            prevUsers.map((user) =>
+              user.id === userId ? { ...user, status: "inactive" } : user
+            )
+          );
+        } else {
+          console.error("Không thể khóa tài khoản");
+        }
+      } catch (error) {
+        console.error("Lỗi khi gọi API hide post:", error);
+      } finally {
+        setLoading(false); // Tắt loading
+      }
     }
-    
-    handleCloseDialog();
   };
 
-  const handleDeleteUser = (id: string) => {
-    if (window.confirm('Are you sure you want to delete this user?')) {
-      setUsers(users.filter(user => user.id !== id));
-      setSnackbar({
-        open: true,
-        message: 'User deleted successfully',
-        severity: 'success'
-      });
+  const unhideUser = async (userId: any) => {
+    if (
+      window.confirm(
+        "Bạn có chắc chắn muốn mở khóa tài khoản của người dùng này không?"
+      )
+    ) {
+      setLoading(true); // Bắt đầu loading
+      try {
+        const token = getToken();
+        if (!token) throw new Error("Token không hợp lệ");
+
+        const response = await axios.put(
+          `https://api-linkup.id.vn/api/auth/unHideUser/${userId}`,
+          {},
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+
+        if (response.status === 200) {
+          console.log("Tài khoản đã được mở khóa");
+
+          // Cập nhật lại trạng thái bài viết trong state
+          setUsers((prevUsers) =>
+            prevUsers.map((user) =>
+              user.id === userId ? { ...user, status: "active" } : user
+            )
+          );
+        } else {
+          console.error("Không thể mở khóa tài khoản");
+        }
+      } catch (error) {
+        console.error("Lỗi khi gọi API unhide post:", error);
+      } finally {
+        setLoading(false); // Tắt loading
+      }
+    }
+  };
+
+  const handlePostStatusChange = async (userId: any, currentStatus: string) => {
+    if (currentStatus === "active") {
+      await hideUser(userId); // Nếu bài viết đang active thì gọi API hide
+    } else {
+      await unhideUser(userId); // Nếu bài viết đang ẩn thì gọi API unhide
     }
   };
 
@@ -196,146 +295,263 @@ const UserList: React.FC = () => {
   };
 
   return (
-    <Box sx={{ width: '100%', p: { xs: 1, sm: 2 } }}>
-      <Box sx={{ 
-        display: 'flex', 
-        flexDirection: { xs: 'column', sm: 'row' },
-        justifyContent: 'space-between', 
-        alignItems: { xs: 'flex-start', sm: 'center' }, 
-        mb: 2,
-        gap: { xs: 2, sm: 0 }
-      }}>
-        <Typography variant="h5" component="h2" sx={{ fontWeight: 'bold' }}>
+    <Box sx={{ width: "100%", p: { xs: 1, sm: 2 } }}>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: { xs: "column", sm: "row" },
+          justifyContent: "space-between",
+          alignItems: { xs: "flex-start", sm: "center" },
+          mb: 2,
+          gap: { xs: 2, sm: 0 },
+        }}
+      >
+        <Typography variant="h5" component="h2" sx={{ fontWeight: "bold" }}>
           Quản lý người dùng
         </Typography>
-        <Button 
-          variant="contained" 
-          color="primary" 
-          startIcon={<AddIcon />}
-          onClick={() => handleOpenDialog()}
-          size={isMobile ? "small" : "medium"}
-          fullWidth={isMobile}
-        >
-          Add User
-        </Button>
       </Box>
 
-      <Paper sx={{ height: { xs: 350, sm: 400 }, width: '100%' }}>
-        <DataGrid
-          rows={users}
-          columns={columns}
-          initialState={{
-            pagination: {
-              paginationModel: { page: 0, pageSize: isMobile ? 5 : 10 },
-            },
+      {loading ? (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: 350,
           }}
-          pageSizeOptions={isMobile ? [5] : [5, 10, 25]}
-          checkboxSelection
-          disableRowSelectionOnClick
-          sx={{ 
-            border: 0,
-            '.MuiDataGrid-columnHeaders': {
-              backgroundColor: (theme) => theme.palette.mode === 'dark' ? '#333' : '#f5f5f5',
-            },
-            '.MuiDataGrid-cell': {
-              fontSize: { xs: '0.8rem', sm: '0.875rem' }
-            },
-            '.MuiDataGrid-columnHeaderTitle': {
-              fontSize: { xs: '0.8rem', sm: '0.875rem' }
-            },
-            '.MuiDataGrid-footerContainer': {
-              flexDirection: isMobile ? 'column' : 'row',
-              alignItems: 'center',
-              gap: 1
-            }
-          }}
-        />
-      </Paper>
+        >
+          <DotLottieReact
+            src="https://lottie.host/4317e538-059d-4430-8356-7cefeb8c7d2a/xXEWSPAvFR.lottie"
+            loop
+            autoplay
+          />
+        </Box>
+      ) : (
+        <Paper sx={{ height: { xs: 350, sm: 400 }, width: "100%" }}>
+          <DataGrid
+            rows={users}
+            columns={columns}
+            initialState={{
+              pagination: {
+                paginationModel: { page: 0, pageSize: isMobile ? 5 : 10 },
+              },
+            }}
+            pageSizeOptions={isMobile ? [5] : [5, 10, 25]}
+            checkboxSelection
+            disableRowSelectionOnClick
+            sx={{
+              border: 0,
+              ".MuiDataGrid-columnHeaders": {
+                backgroundColor: (theme) =>
+                  theme.palette.mode === "dark" ? "#333" : "#f5f5f5",
+              },
+              ".MuiDataGrid-cell": {
+                fontSize: { xs: "0.8rem", sm: "0.875rem" },
+              },
+              ".MuiDataGrid-columnHeaderTitle": {
+                fontSize: { xs: "0.8rem", sm: "0.875rem" },
+              },
+              ".MuiDataGrid-footerContainer": {
+                flexDirection: isMobile ? "column" : "row",
+                alignItems: "center",
+                gap: 1,
+              },
+            }}
+          />
+        </Paper>
+      )}
 
       {/* User Form Dialog */}
-      <Dialog 
-        open={openDialog} 
-        onClose={handleCloseDialog} 
-        maxWidth="sm" 
+      <Dialog
+        open={openDialog}
+        onClose={handleCloseDialog}
+        maxWidth="sm"
         fullWidth
         fullScreen={isMobile}
       >
-        <DialogTitle>
-          {currentUser?.id ? 'Chỉnh sửa người dùng' : 'Thêm người dùng mới'}
-        </DialogTitle>
-        <DialogContent>
-          <Box component="form" sx={{ mt: 1 }}>
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              label="Tên người dùng"
-              value={currentUser?.username || ''}
-              onChange={(e) => setCurrentUser({ ...currentUser, username: e.target.value })}
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              label="Email Address"
-              type="email"
-              value={currentUser?.email || ''}
-              onChange={(e) => setCurrentUser({ ...currentUser, email: e.target.value })}
-            />
-            <TextField
-              margin="normal"
-              fullWidth
-              select
-              label="Vai trò"
-              value={currentUser?.role || 'User'}
-              onChange={(e) => setCurrentUser({ ...currentUser, role: e.target.value })}
-              SelectProps={{
-                native: true,
-              }}
-            >
-              <option value="Admin">Admin</option>
-              <option value="User">User</option>
-              <option value="Editor">Editor</option>
-            </TextField>
-            <TextField
-              margin="normal"
-              fullWidth
-              select
-              label="Trạng thái"
-              value={currentUser?.status || 'active'}
-              onChange={(e) => setCurrentUser({ 
-                ...currentUser, 
-                status: e.target.value as 'active' | 'inactive' 
-              })}
-              SelectProps={{
-                native: true,
-              }}
-            >
-              <option value="active">Hoạt động</option>
-              <option value="inactive">Không hoạt động</option>
-            </TextField>
+        <DialogTitle>Chi tiết</DialogTitle>
+        <DialogContent
+          sx={{
+            padding: 3,
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+          }}
+        >
+          {/* Hình ảnh người dùng */}
+          <Box
+            sx={{
+              width: "40%",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              boxShadow: 3,
+              borderRadius: 2,
+              padding: 2,
+            }}
+          >
+            {currentUser?.avatar ? (
+              <img
+                src={currentUser?.avatar}
+                alt="User avatar"
+                style={{
+                  width: "100%",
+                  maxWidth: "350px",
+                  height: "auto",
+                  borderRadius: 8,
+                }}
+              />
+            ) : (
+              <Typography
+                variant="body2"
+                color="textSecondary"
+                textAlign="center"
+                sx={{ fontStyle: "italic" }}
+              >
+                Không có hình ảnh
+              </Typography>
+            )}
+          </Box>
+
+          {/* Thông tin người dùng */}
+          <Box sx={{ width: "55%", paddingLeft: 3 }}>
+            {/* Tên tài khoản */}
+            <Box mb={2}>
+              <Typography variant="h6" fontWeight="bold" color="primary">
+                Tên tài khoản
+              </Typography>
+              <Box
+                sx={{
+                  padding: 2,
+                  borderRadius: 1,
+                  backgroundColor: "#f5f5f5",
+                  boxShadow: 2,
+                }}
+              >
+                <Typography variant="h5" fontWeight="bold">
+                  {currentUser?.username}
+                </Typography>
+              </Box>
+            </Box>
+
+            {/* Email người dùng */}
+            <Box mb={2}>
+              <Typography variant="h6" fontWeight="bold" color="primary">
+                Email người dùng
+              </Typography>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  padding: 2,
+                  borderRadius: 1,
+                  backgroundColor: "#f5f5f5",
+                  boxShadow: 2,
+                }}
+              >
+                <Typography variant="body1" fontWeight="bold">
+                  {currentUser?.email}
+                </Typography>
+              </Box>
+            </Box>
+
+            {/* Số điện thoại người dùng */}
+            <Box mb={2}>
+              <Typography variant="h6" fontWeight="bold" color="primary">
+                Số điện thoại
+              </Typography>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  padding: 2,
+                  borderRadius: 1,
+                  backgroundColor: "#f5f5f5",
+                  boxShadow: 2,
+                }}
+              >
+                <Typography variant="body1" fontWeight="bold">
+                  {currentUser?.phonenumber}
+                </Typography>
+              </Box>
+            </Box>
+
+            {/* Thống kê tài khoản */}
+            <Box mb={2}>
+              <Typography variant="h6" fontWeight="bold" color="primary">
+                Hoạt động tài khoản
+              </Typography>
+              <Box
+                sx={{
+                  padding: 2,
+                  borderRadius: 1,
+                  backgroundColor: "#f5f5f5",
+                  boxShadow: 2,
+                }}
+              >
+                <Typography variant="body2" fontWeight="bold">
+                  Bài viết: {currentUser?.postCount} 
+                </Typography>
+                <Typography variant="body2" fontWeight="bold">
+                  Đang theo dõi:{" "} {currentUser?.followingCount} | Người theo dõi:{" "}
+                  {currentUser?.followersCount}
+                </Typography>
+              </Box>
+            </Box>
+
+            {/* Trạng thái người dùng */}
+            <Box>
+              <Typography variant="h6" fontWeight="bold" color="primary">
+                Trạng thái tài khoản
+              </Typography>
+              <Box
+                sx={{
+                  padding: 2,
+                  borderRadius: 1,
+                  backgroundColor: "#f5f5f5",
+                  boxShadow: 2,
+                }}
+              >
+                <Typography
+                  variant="body2"
+                  color={currentUser?.status === "active" ? "green" : "red"}
+                  fontWeight="bold"
+                >
+                  {currentUser?.status === "active"
+                    ? "Đang hoạt động"
+                    : "Đã bị khóa"}
+                </Typography>
+              </Box>
+            </Box>
           </Box>
         </DialogContent>
         <DialogActions sx={{ px: 3, pb: 3 }}>
-          <Button onClick={handleCloseDialog} variant={isMobile ? "outlined" : "text"} fullWidth={isMobile}>Hủy</Button>
-          <Button onClick={handleSaveUser} variant="contained" color="primary" fullWidth={isMobile}>
-            Lưu
+          <Button
+            onClick={handleCloseDialog}
+            variant={isMobile ? "outlined" : "text"}
+            fullWidth={isMobile}
+          >
+            Đóng
           </Button>
         </DialogActions>
       </Dialog>
 
       {/* Snackbar for notifications */}
-      <Snackbar 
-        open={snackbar.open} 
-        autoHideDuration={6000} 
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={6000}
         onClose={handleCloseSnackbar}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-        sx={{ 
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        sx={{
           bottom: { xs: 70, sm: 24 }, // Move snackbar up on mobile to avoid bottom nav
-          width: { xs: '100%', sm: 'auto' }
+          width: { xs: "100%", sm: "auto" },
         }}
       >
-        <Alert onClose={handleCloseSnackbar} severity={snackbar.severity} sx={{ width: '100%' }}>
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity={snackbar.severity}
+          sx={{ width: "100%" }}
+        >
           {snackbar.message}
         </Alert>
       </Snackbar>

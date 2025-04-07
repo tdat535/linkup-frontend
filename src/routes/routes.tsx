@@ -1,13 +1,16 @@
 import React, { useEffect, useState, lazy, Suspense } from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-import Layout from '../components/Layout';
+import { BrowserRouter as Router, Route, Routes, Navigate, useLocation, useNavigate } from 'react-router-dom';
+import Layout from '../Components/Layout';
 import UsersPage from '../pages/dashboard/UserPage';
-import Dashboard from '../components/Layout/Management/Dashboard/Dashboard';
-import Admin_Layout from '../components/AdminLayout';
+import Dashboard from '../Components/Layout/Management/Dashboard/Dashboard';
+import Admin_Layout from '../Components/AdminLayout';
 import PostsPage from '../pages/dashboard/PostsPage';
 import ErrorPage from '../pages/ErrorPage';
 import FeatureDevelopingPage from '../pages/FeatureDevelopingPage';
 import CommentPage from '../pages/dashboard/CommentPage';
+
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Home = lazy(() => import('../pages/user/Home'));
 const Explore = lazy(() => import('../pages/user/Explore'));
@@ -17,7 +20,7 @@ const Profile = lazy(() => import('../pages/user/Profile'));
 const Login = lazy(() => import('../pages/auth/Login'));
 const Register = lazy(() => import('../pages/auth/Register'));
 const FollowTest = lazy(() => import('../pages/user/FollowTest'));
-const TokenRefresher = lazy(() => import('../components/TokenRefresher'));
+const TokenRefresher = lazy(() => import('../Components/TokenRefresher'));
 
 
 // import Home from '../pages/user/Home';
@@ -34,6 +37,19 @@ const TokenRefresher = lazy(() => import('../components/TokenRefresher'));
 
 const AppRoutes = ({token}: { token: string | null }) => {
  
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const role = JSON.parse(localStorage.getItem("user") || "{}")?.userType;
+  
+    if (role !== "admin" && location.pathname.includes("/admin")) {
+      navigate("/home", { replace: true }); // Chuyển trang ngay lập tức, không lưu lịch sử
+      alert("Bạn không có quyền truy cập trang admin!");
+    }
+    
+  }, [location.pathname, navigate]);
+  
   return (
       <>
         <TokenRefresher refreshInterval={3 * 60 * 1000} />
