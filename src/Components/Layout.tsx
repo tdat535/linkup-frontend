@@ -2,7 +2,7 @@ import React from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import { useTheme } from "../context/ThemeContext";
 import Sidebar from "./layout/sidebar/Sidebar";
-import Follow_Sidebar from "./layout/followSidebar/FollowSidebar";
+import FollowSidebar from "./layout/followSidebar/FollowSidebar";
 
 const Layout: React.FC = () => {
   const location = useLocation();
@@ -20,7 +20,7 @@ const Layout: React.FC = () => {
       </main>
 
       {/* Sidebar bên phải (ẩn khi ở trang /messages) */}
-      {!hideFollowSidebar && <Follow_Sidebar />}
+      {!hideFollowSidebar && <FollowSidebar />}
     </div>
   );
 };

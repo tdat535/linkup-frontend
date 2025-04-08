@@ -18,7 +18,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import SunnyIcon from '@mui/icons-material/Sunny';
 import BedtimeIcon from '@mui/icons-material/Bedtime';
 
-const Sidebar = () => {
+const AdminSidebar = () => {
   const { theme, toggleTheme } = useTheme(); 
   const currentUserId = localStorage.getItem("currentUserId") || "default-id";
   
@@ -246,4 +246,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar;
+export default AdminSidebar;

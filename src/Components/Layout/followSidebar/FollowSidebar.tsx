@@ -4,7 +4,7 @@ import { logout } from "../../../services/auth";
 import { FiChevronDown, FiLogOut, FiSun, FiMoon, FiSettings } from "react-icons/fi";
 import { useTheme } from "../../../context/ThemeContext"; // Import ThemeContext
 
-const Follow_Sidebar = () => {
+const FollowSidebar = () => {
     const [user, setUser] = useState<{ username: string, email: string, phonenumber: string } | null>(null);
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
     const [avatar, setAvatar] = useState("https://via.placeholder.com/80");
@@ -89,4 +89,4 @@ const Follow_Sidebar = () => {
     );
 };
 
-export default Follow_Sidebar;
+export default FollowSidebar;

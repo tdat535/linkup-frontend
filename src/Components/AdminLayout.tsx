@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Outlet } from "react-router-dom";
 import { useTheme } from "../context/ThemeContext";
-import Admin_Sidebar from "./layout/sidebar/AdminSidebar";
+import AdminSidebar from "./layout/sidebar/AdminSidebar";
 import AdminHeader from "./layout/header/AdminHeader";
 import { Drawer, useMediaQuery, useTheme as useMuiTheme } from "@mui/material";
 
@@ -35,7 +35,7 @@ const Admin_Layout: React.FC = () => {
             },
           }}
         >
-          <Admin_Sidebar />
+          <AdminSidebar />
         </Drawer>
       )}
 
@@ -43,7 +43,7 @@ const Admin_Layout: React.FC = () => {
       {!isMobile && (
         <div className="hidden md:block w-64 flex-shrink-0">
           <div className="fixed h-screen w-64">
-            <Admin_Sidebar />
+            <AdminSidebar />
           </div>
         </div>
       )}

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-export default ({ url }: { url: string }) => {
+const VideoThumbnail = ({ url }: { url: string }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [thumbnail, setThumbnail] = useState<string | null>(null);
 
@@ -51,3 +51,4 @@ export default ({ url }: { url: string }) => {
     </>
   );
 }
+export default VideoThumbnail;

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Modal from "./Modal";
 import TextareaAutosize from "react-textarea-autosize";
 import { useTheme } from "../../../context/ThemeContext";
-import Post_Button from "../../buttons/PostButton";
+import PostButton from "../../buttons/PostButton";
 import axiosInstance from "../../TokenRefresher";
 
 interface PostModalProps {
@@ -10,7 +10,7 @@ interface PostModalProps {
   onClose: () => void;
 }
 
-const Post_Modal: React.FC<PostModalProps> = ({ isOpen, onClose }) => {
+const PostModal: React.FC<PostModalProps> = ({ isOpen, onClose }) => {
   const [user, setUser] = useState<{
     username: string;
     email: string;
@@ -234,7 +234,7 @@ const Post_Modal: React.FC<PostModalProps> = ({ isOpen, onClose }) => {
       }
       footer={
         <div className="flex justify-end space-x-2">
-          <Post_Button
+          <PostButton
             text="Đăng bài"
             onClick={handleConfirm}
             variant="primary"
@@ -246,4 +246,4 @@ const Post_Modal: React.FC<PostModalProps> = ({ isOpen, onClose }) => {
   );
 };
 
-export default Post_Modal;
+export default PostModal;

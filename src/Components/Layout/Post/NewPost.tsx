@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
  // Import modal
 import { useTheme } from '../../../context/ThemeContext';
-import Post_Modal from '../modal/PostModal';
+import PostModal from '../modal/PostModal';
 
 const NewPost = () => {
   const [value, setValue] = useState('');
@@ -45,7 +45,7 @@ const NewPost = () => {
       </div>
 
       {/* Hiển thị Modal khi isOpen = true */}
-      {isOpen && <Post_Modal isOpen={isOpen} onClose={() => setIsOpen(false)} />}
+      {isOpen && <PostModal isOpen={isOpen} onClose={() => setIsOpen(false)} />}
     </>
   );
 };
