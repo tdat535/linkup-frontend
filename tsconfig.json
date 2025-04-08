@@ -1,14 +1,17 @@
-// tsconfig.json
 {
   "compilerOptions": {
-    "baseUrl": "./src",
-    "jsx": "react", // or "react-jsx" for React 17+
-    "esModuleInterop": true,
+    "target": "ES2020",
+    "module": "ESNext",
     "moduleResolution": "node",
+    "jsx": "react-jsx",
+    "esModuleInterop": true,
+    "baseUrl": "./src",
     "paths": {
       "@Components/*": ["Components/*"],
       "@Pages/*": ["Pages/*"]
     },
+    "strict": true,
+    "skipLibCheck": true
   },
   "include": ["src"]
 }
