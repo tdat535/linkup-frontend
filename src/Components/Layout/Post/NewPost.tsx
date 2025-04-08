@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
  // Import modal
 import { useTheme } from '../../../context/ThemeContext';
 import PostModal from '../modal/PostModal';

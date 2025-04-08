@@ -5,7 +5,7 @@ import AdminSidebar from "./layout/sidebar/AdminSidebar";
 import AdminHeader from "./layout/header/AdminHeader";
 import { Drawer, useMediaQuery, useTheme as useMuiTheme } from "@mui/material";
 
-const Admin_Layout: React.FC = () => {
+const AdminLayout: React.FC = () => {
   const { theme } = useTheme();
   const muiTheme = useMuiTheme();
   const isMobile = useMediaQuery(muiTheme.breakpoints.down('md'));
@@ -62,4 +62,4 @@ const Admin_Layout: React.FC = () => {
   );
 };
 
-export default Admin_Layout;
+export default AdminLayout;

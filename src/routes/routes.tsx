@@ -1,9 +1,9 @@
-import React, { useEffect, lazy, Suspense } from 'react';
+import { useEffect, lazy, Suspense } from 'react';
 import { Route, Routes, Navigate, useLocation, useNavigate } from 'react-router-dom';
-import Layout from '../components/Layout';
+import Layout from '../Components/Layout';
 import UsersPage from '../pages/dashboard/UserPage';
 import DashboardPage from '../pages/dashboard/DashboardPage';
-import Admin_Layout from '../components/AdminLayout';
+import AdminLayout from '../Components/AdminLayout';
 import PostsPage from '../pages/dashboard/PostsPage';
 import ErrorPage from '../pages/ErrorPage';
 import FeatureDevelopingPage from '../pages/FeatureDevelopingPage';
@@ -65,7 +65,7 @@ const AppRoutes = ({token}: { token: string | null }) => {
                         <Route path="users" element={<UsersPage />} />
                     </Route>
 
-                    <Route path="/admin" element={<Admin_Layout />}>
+                    <Route path="/admin" element={<AdminLayout />}>
                         <Route index element={<DashboardPage />} />
                         <Route path="users-list" element={<UsersPage />} />
                         <Route path="posts-list" element={<PostsPage />} />

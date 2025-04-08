@@ -9,10 +9,6 @@ const PostItem: React.FC<{ post: PostProps }> = ({ post }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState<{ user: string; text: string; time: string; likes: number }[]>([]);
-  const [likes, setLikes] = useState(0);
-  const [isLiked, setIsLiked] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
 
   useEffect(() => {
     if (isOpen) {
@@ -97,7 +93,7 @@ const PostItem: React.FC<{ post: PostProps }> = ({ post }) => {
 
         <div className="flex gap-5 text-gray-400">
           <button onClick={() => handleLike(post.id)} className="flex items-center gap-1 hover:text-red-500">
-            <HandThumbUpIcon className="w-5 h-5" /> <span>{likes}</span>
+            <HandThumbUpIcon className="w-5 h-5" /> <span>1</span>
           </button>
 
           <button onClick={() => setIsOpen(true)} className="hover:text-gray-300 flex items-center gap-1">

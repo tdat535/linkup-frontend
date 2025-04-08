@@ -1,4 +1,4 @@
-import CommentList from "../../components/layout/management/comment/CommentList";
+import CommentList from "../../Components/layout/management/comment/CommentList";
 
 
 const CommentPage = () => {

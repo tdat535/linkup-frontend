@@ -1,7 +1,7 @@
 // src/components/FollowTest.tsx
 
 import React, { useState } from 'react';
-import axiosInstance from '../../components/TokenRefresher';
+import axiosInstance from '../../Components/TokenRefresher';
 
 interface FollowTestProps {
   accessToken: string;

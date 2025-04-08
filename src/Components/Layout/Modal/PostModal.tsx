@@ -33,7 +33,6 @@ const PostModal: React.FC<PostModalProps> = ({ isOpen, onClose }) => {
   const [video, setVideo] = useState<File | null>(null); // Video file
   const [isLoading, setIsLoading] = useState(false);
   const url = "https://api-linkup.id.vn/api/media/createMedia";
-  const [error, setError] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newValue = e.target.value;
@@ -43,13 +42,13 @@ const PostModal: React.FC<PostModalProps> = ({ isOpen, onClose }) => {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-  
+
     const fileType = file.type.split("/")[0]; // Lấy loại file (image hoặc video)
-  
+
     if (fileType === "image") {
       setImage(file);
       setVideo(null); // Xóa video nếu đã chọn ảnh
-  
+
       const reader = new FileReader();
       reader.onloadend = () => {
         setImagePreview(reader.result as string);
@@ -59,7 +58,7 @@ const PostModal: React.FC<PostModalProps> = ({ isOpen, onClose }) => {
     } else if (fileType === "video") {
       setVideo(file);
       setImage(null); // Xóa ảnh nếu đã chọn video
-  
+
       const reader = new FileReader();
       reader.onloadend = () => {
         setVideoPreview(reader.result as string);
@@ -68,7 +67,6 @@ const PostModal: React.FC<PostModalProps> = ({ isOpen, onClose }) => {
       reader.readAsDataURL(file);
     }
   };
-  
 
   const handleRemoveImage = () => {
     setImagePreview(null);
@@ -85,12 +83,12 @@ const PostModal: React.FC<PostModalProps> = ({ isOpen, onClose }) => {
     const token = localStorage.getItem("accessToken");
 
     if (!userId) {
-      setError("Không tìm thấy ID người dùng.");
+      console.log("Không tìm thấy ID người dùng.");
       setIsLoading(false);
       return;
     }
     if (!content.trim()) {
-      setError("Không tìm thấy nội dung bài viết");
+      console.log("Không tìm thấy nội dung bài viết");
       return;
     }
 
@@ -106,8 +104,7 @@ const PostModal: React.FC<PostModalProps> = ({ isOpen, onClose }) => {
       if (video) {
         formData.append("file", video);
         formData.append("type", "video");
-      }
-      else {
+      } else {
         formData.append("type", "post");
       }
 
@@ -129,12 +126,11 @@ const PostModal: React.FC<PostModalProps> = ({ isOpen, onClose }) => {
         setVideo(null);
         setImagePreview(null);
         setVideoPreview(null);
-        setError("");
         onClose();
       }
     } catch (error) {
       console.error("Lỗi khi đăng bài:", error);
-      setError("Có lỗi xảy ra, vui lòng thử lại.");
+      console.log("Có lỗi xảy ra, vui lòng thử lại.");
     }
     setIsLoading(false);
   };
@@ -235,10 +231,11 @@ const PostModal: React.FC<PostModalProps> = ({ isOpen, onClose }) => {
       footer={
         <div className="flex justify-end space-x-2">
           <PostButton
-            text="Đăng bài"
+            text={isLoading ? "Đang đăng..." : "Đăng bài"}
             onClick={handleConfirm}
             variant="primary"
             fullWidth
+            disabled={isLoading}
           />
         </div>
       }

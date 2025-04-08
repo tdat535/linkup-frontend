@@ -44,7 +44,6 @@ const ChatPage = ({ theme }: { theme: string }) => {
     username: "",
     avatar: "",
   });
-  const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
   const currentUserId = localStorage.getItem("currentUserId");
 
   // Lấy danh sách hội thoại
@@ -104,7 +103,6 @@ const ChatPage = ({ theme }: { theme: string }) => {
               "https://i.pinimg.com/236x/5e/e0/82/5ee082781b8c41406a2a50a0f32d6aa6.jpg",
           });
         }
-        setSelectedUserId(userId);
         setIsChatOpen(true);
       }
     } catch (err) {

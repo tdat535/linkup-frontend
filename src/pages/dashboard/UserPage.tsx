@@ -1,4 +1,4 @@
-import UserList from "../../components/layout/management/user/UserList";
+import UserList from "../../Components/layout/management/user/UserList";
 
 const UsersPage = () => {
 
