@@ -9,6 +9,8 @@
     "paths": {
       "@Components/*": ["src/Components/*"]
     },
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "noUnusedLocals": false,
     "noUnusedParameters": false
   },
