@@ -2,8 +2,8 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Home, Search, MessageSquare, Bell, User, MoreHorizontal, Sun, Moon, Plus, Settings } from "lucide-react";
 import { motion } from "framer-motion";
-import Post_Button from "../../buttons/PostButton";
-import Post_Modal from "../modal/PostModal";
+import PostButton from "../../buttons/PostButton";
+import PostModal from "../modal/PostModal";
 import { useTheme } from "../../../context/ThemeContext"; // Import useTheme
 
 const Sidebar = () => {
@@ -43,7 +43,7 @@ const Sidebar = () => {
           </div>
           <Link to="/admin" className="flex items-center gap-4"><Settings />Đến trang admin</Link>
           <div className={`transition-all duration-300 ${isDropdownOpen ? "mt-16" : "mt-4"}`}>
-            <Post_Button text="Đăng" onClick={() => setIsOpen(true)} variant="primary" size="lg" fullWidth />
+            <PostButton text="Đăng" onClick={() => setIsOpen(true)} variant="primary" size="lg" fullWidth />
           </div>
         </nav>
       </div>
@@ -62,7 +62,7 @@ const Sidebar = () => {
           <Plus size={24} />
         </button>
       </motion.div>
-      {isOpen && <Post_Modal isOpen={isOpen} onClose={() => setIsOpen(false)} />}
+      {isOpen && <PostModal isOpen={isOpen} onClose={() => setIsOpen(false)} />}
     </>
   );
 };

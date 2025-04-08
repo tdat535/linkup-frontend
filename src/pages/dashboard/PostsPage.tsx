@@ -1,4 +1,4 @@
-import PostTable from "@components/layout/management/post/PostTable";
+import PostTable from "../../components/layout/management/post/PostTable";
 
 const PostsPage = () => {
   return (

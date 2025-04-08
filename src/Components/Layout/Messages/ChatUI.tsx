@@ -51,11 +51,13 @@ const ChatPage = ({ theme }: { theme: string }) => {
   useEffect(() => {
     const fetchConversations = async () => {
       try {
-        const token = localStorage.getItem("accessToken");
         const res = await axiosInstance.get(
           "https://api-linkup.id.vn/api/texting/getMessenger",
           {
-            headers: { Authorization: `Bearer ${token}` },
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+              withCredentials: true,
+            },
           }
         );
         if (res.data.isSuccess) {

@@ -19,5 +19,5 @@
     "noUncheckedSideEffectImports": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["./src/**/*", "src/components/dashboardCard/.tsx"]
+  "include": ["./src/**/*", "src/components/dashboardcard/DashboardCard.tsx"]
 }

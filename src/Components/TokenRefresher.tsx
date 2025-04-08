@@ -16,7 +16,7 @@ const processQueue = (error: any, token: string | null = null) => {
 };
 
 const axiosInstance = axios.create({
-  baseURL: "https://api-linkup.id.vn/api",
+  baseURL: "https://api-linkup.id.vn",
   withCredentials: true,
 });
 
