@@ -27,7 +27,7 @@ import {
 } from "@mui/icons-material";
 
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
-import VideoThumbnail from "../../videoThumbnail/VideoThumbnail";
+import VideoThumbnail from "../../VideoThumbnail/VideoThumbnail";
 import axiosInstance from "../../../TokenRefresher";
 
 interface Post {

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Modal from "./Modal";
 import TextareaAutosize from "react-textarea-autosize";
 import { useTheme } from "../../../context/ThemeContext";
-import PostButton from "../../buttons/PostButton";
+import PostButton from "../../Buttons/PostButton";
 import axiosInstance from "../../TokenRefresher";
 
 interface PostModalProps {

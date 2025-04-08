@@ -1,5 +1,5 @@
 import React from 'react';
-import Search from '../../Components/layout/search/Search';
+import Search from '../../Components/Layout/Search/Search';
 
 
 const Explore: React.FC = () => {

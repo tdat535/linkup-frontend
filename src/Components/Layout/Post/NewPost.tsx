@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
  // Import modal
 import { useTheme } from '../../../context/ThemeContext';
-import PostModal from '../modal/PostModal';
+import PostModal from '../Modal/PostModal';
 
 const NewPost = () => {
   const [value, setValue] = useState('');

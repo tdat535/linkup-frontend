@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import NewPost from '../../Components/layout/post/NewPost';
-import PostList from '../../Components/layout/post/PostList';
+import NewPost from '../../Components/Layout/Post/NewPost';
+import PostList from '../../Components/Layout/Post/PostList';
 
 const Home: React.FC = () => {
   const [isMobile, setIsMobile] = useState<boolean | null>(null);
