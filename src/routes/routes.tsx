@@ -12,14 +12,14 @@ import CommentPage from '@Pages/Dashboard/CommentPage';
 import "react-toastify/dist/ReactToastify.css";
 import React from 'react';
 
-const Home = lazy(() => import('../Pages/User/Home'));
-const Explore = lazy(() => import('../Pages/User/Explore'));
-const Messages = lazy(() => import('../Pages/User/Messages'));
-const Notifications = lazy(() => import('../Pages/User/Notifications'));
-const Profile = lazy(() => import('../Pages/User/Profile'));
-const Login = lazy(() => import('../Pages/Auth/Login'));
-const Register = lazy(() => import('../Pages/Auth/Register'));
-const FollowTest = lazy(() => import('../Pages/User/FollowTest'));
+const Home = lazy(() => import('@Pages/User/Home'));
+const Explore = lazy(() => import('@Pages/User/Explore'));
+const Messages = lazy(() => import('@Pages/User/Messages'));
+const Notifications = lazy(() => import('@Pages/User/Notifications'));
+const Profile = lazy(() => import('@Pages/User/Profile'));
+const Login = lazy(() => import('@Pages/Auth/Login'));
+const Register = lazy(() => import('@Pages/Auth/Register'));
+const FollowTest = lazy(() => import('@Pages/User/FollowTest'));
 
 
 // import Home from '../pages/user/Home';

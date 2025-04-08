@@ -4,6 +4,7 @@
     "baseUrl": "./src",
     "jsx": "react", // or "react-jsx" for React 17+
     "esModuleInterop": true,
+    "moduleResolution": "node",
     "paths": {
       "@Components/*": ["Components/*"],
       "@Pages/*": ["Pages/*"]
