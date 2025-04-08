@@ -1,6 +1,7 @@
 
 import TextareaAutosize from "react-textarea-autosize";
 import { useTheme } from "../../../context/ThemeContext"
+import React from "react";
 
 interface Comment {
   user: string;

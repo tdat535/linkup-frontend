@@ -1,9 +1,11 @@
-import React from "react";
-import { Outlet, useLocation } from "react-router-dom";
-import { useTheme } from "../context/ThemeContext";
-import Sidebar from "./Layout/Sidebar/Sidebar";
-import FollowSidebar from "./Layout/FollowSidebar/FollowSidebar";
-const Layout: React.FC = () => {
+import React from 'react';
+import { Outlet, useLocation } from 'react-router-dom';
+
+import { useTheme } from '../context/ThemeContext';
+import FollowSidebar from './Layout/FollowSidebar/FollowSidebar';
+import Sidebar from "@Components/Layout/Sidebar/Sidebar";
+
+const UserLayout: React.FC = () => {
   const location = useLocation();
   const { theme } = useTheme();
   const hideFollowSidebar = location.pathname === "/home/messages";
@@ -24,4 +26,4 @@ const Layout: React.FC = () => {
   );
 };
 
-export default Layout;
+export default UserLayout;

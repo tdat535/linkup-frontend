@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import PostButton from "../../Buttons/PostButton";
 import PostModal from "../Modal/PostModal";
 import { useTheme } from "../../../context/ThemeContext"; // Import useTheme
+import React from "react";
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);

@@ -1,14 +1,13 @@
+// tsconfig.json
 {
   "compilerOptions": {
     "baseUrl": "./src",
+    "jsx": "react", // or "react-jsx" for React 17+
+    "esModuleInterop": true,
     "paths": {
       "@Components/*": ["Components/*"],
-      "@Pages/*": ["Pages/*"],
-    }
+      "@Pages/*": ["Pages/*"]
+    },
   },
-  "files": [],
-  "references": [
-    { "path": "./tsconfig.app.json" },
-    { "path": "./tsconfig.node.json" }
-  ]
+  "include": ["src"]
 }

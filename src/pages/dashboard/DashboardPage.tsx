@@ -1,5 +1,5 @@
-import Dashboard from "../../Components/Layout/Management/Dashboard/Dashboard";
-
+import Dashboard from "@Components/Layout/Management/Dashboard/Dashboard";
+import React from "react";
 
 const DashboardPage = () => {
   return (

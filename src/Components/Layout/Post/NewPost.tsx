@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
  // Import modal
 import { useTheme } from '../../../context/ThemeContext';
 import PostModal from '../Modal/PostModal';
+import React from "react";
 
 const NewPost = () => {
   const [value, setValue] = useState('');

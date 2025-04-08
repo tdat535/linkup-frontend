@@ -108,7 +108,7 @@ const PostModal: React.FC<PostModalProps> = ({ isOpen, onClose }) => {
         formData.append("type", "post");
       }
 
-      for (let [key, value] of formData.entries()) {
+      for (let [key, value] of (formData as any).entries()) {
         console.log(`${key}:`, value);
       }
 

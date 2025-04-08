@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../../../context/ThemeContext";
 import axiosInstance from "../../TokenRefresher";
+import React from "react";
+
 const Search = () => {
     const [query, setQuery] = useState("");
     const [results, setResults] = useState<any[]>([]);

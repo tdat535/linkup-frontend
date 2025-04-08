@@ -1,15 +1,16 @@
 import { useEffect, lazy, Suspense } from 'react';
 import { Route, Routes, Navigate, useLocation, useNavigate } from 'react-router-dom';
-import Layout from '../Components/Layout';
-import UsersPage from '../Pages/Dashboard/UserPage';
-import DashboardPage from '../Pages/Dashboard/DashboardPage';
-import AdminLayout from '../Components/AdminLayout';
-import PostsPage from '../Pages/Dashboard/PostsPage';
-import ErrorPage from '../Pages/ErrorPage';
-import FeatureDevelopingPage from '../Pages/FeatureDevelopingPage';
-import CommentPage from '../Pages/Dashboard/CommentPage';
+import UserLayout from '@Components/UserLayout';
+import UsersPage from '@Pages/Dashboard/UserPage';
+import DashboardPage from '@Pages/Dashboard/DashboardPage';
+import AdminLayout from '@Components/AdminLayout';
+import PostsPage from '@Pages/Dashboard/PostsPage';
+import ErrorPage from '@Pages/ErrorPage';
+import FeatureDevelopingPage from '@Pages/FeatureDevelopingPage';
+import CommentPage from '@Pages/Dashboard/CommentPage';
 
 import "react-toastify/dist/ReactToastify.css";
+import React from 'react';
 
 const Home = lazy(() => import('../Pages/User/Home'));
 const Explore = lazy(() => import('../Pages/User/Explore'));
@@ -55,7 +56,7 @@ const AppRoutes = ({token}: { token: string | null }) => {
             <Route path="/" element={<Navigate to="/home" />} />
             {token ? (
                 <>
-                    <Route path="/home" element={<Layout />}>
+                    <Route path="/home" element={<UserLayout />}>
                         <Route index element={<Home />} />
                         <Route path="search" element={<Explore />} />
                         <Route path="messages" element={<Messages />} />

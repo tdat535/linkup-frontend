@@ -8,6 +8,7 @@ import { useSearchParams } from "react-router-dom";
 import { useTheme } from "../../../context/ThemeContext";
 import ErrorPage from "../../../Pages/ErrorPage";
 import axiosInstance from "../../TokenRefresher";
+import React from "react";
 
 const ProfilePage = () => {
   // Khai báo các state

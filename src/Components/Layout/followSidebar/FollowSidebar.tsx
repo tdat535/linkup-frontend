@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { logout } from "../../../services/auth";
 import { FiChevronDown, FiLogOut, FiSun, FiMoon, FiSettings } from "react-icons/fi";
 import { useTheme } from "../../../context/ThemeContext"; // Import ThemeContext
+import React from "react";
 
 const FollowSidebar = () => {
     const [user, setUser] = useState<{ username: string, email: string, phonenumber: string } | null>(null);
