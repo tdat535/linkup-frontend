@@ -20,6 +20,7 @@
     "@mui/x-data-grid-pro": "^7.28.2",
     "@mui/x-date-pickers": "^7.28.2",
     "@tailwindcss/vite": "^4.0.0",
+    "@types/react-leaflet": "^2.8.3",
     "axios": "^1.8.4",
     "dayjs": "^1.11.13",
     "exceljs": "^4.4.0",
