@@ -23,7 +23,7 @@ interface ErrorPageProps {
 const Error: React.FC<ErrorPageProps> = ({ 
   message = "Có vẻ như đã có lỗi xảy ra. Vui lòng thử lại sau hoặc quay về trang chủ.",
   errorCode = "404"
-}) => {
+}): React.ReactNode => {
   const navigate = useNavigate();
   const theme = useTheme();
   
