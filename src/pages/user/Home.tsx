@@ -1,10 +1,8 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import NewPost from '../../components/Layout/Post/New_Post';
-import PostList from '../../components/Layout/Post/PostList';
-import { useTheme } from '../../context/ThemeContext';
+import NewPost from '../../components/layout/post/NewPost';
+import PostList from '../../components/layout/post/PostList';
 
 const Home: React.FC = () => {
-  const { theme } = useTheme();
   const [isMobile, setIsMobile] = useState<boolean | null>(null);
   const prevIsMobile = useRef<boolean | null>(null);
 

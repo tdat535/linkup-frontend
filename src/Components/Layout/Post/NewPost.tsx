@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import TextareaAutosize from "react-textarea-autosize";
-import Post_Button from '../../Buttons/Post_Button';
+import { useEffect, useState } from 'react';
  // Import modal
 import { useTheme } from '../../../context/ThemeContext';
-import Post_Modal from '../Modal/Post_Modal';
+import Post_Modal from '../modal/PostModal';
 
 const NewPost = () => {
   const [value, setValue] = useState('');

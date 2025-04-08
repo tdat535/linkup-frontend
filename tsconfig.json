@@ -8,7 +8,9 @@
     "baseUrl": "./src",  // Đảm bảo baseUrl trỏ tới thư mục 'src'
     "paths": {
       "@Components/*": ["src/Components/*"]
-    }
+    },
+    "noUnusedLocals": false,
+    "noUnusedParameters": false
   },
   "include": ["./src/**/*"]
 }

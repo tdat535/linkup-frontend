@@ -8,11 +8,10 @@ import {
   ListItemIcon, 
   Typography, 
   Box,
-  Badge,
   useMediaQuery,
   useTheme as useMuiTheme
 } from "@mui/material";
-import { LogOut, Settings, User, Bell, Menu as MenuIcon, Home } from "lucide-react";
+import { LogOut, Settings, User, Menu as MenuIcon, Home } from "lucide-react";
 import { useTheme } from "../../../context/ThemeContext";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../../../services/auth";
@@ -28,7 +27,6 @@ const AdminHeader: React.FC<AdminHeaderProps> = ({ toggleMobileSidebar }) => {
   const isMobile = useMediaQuery(muiTheme.breakpoints.down('md'));
   
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [notifications, setNotifications] = useState<number>(3); // Example notification count
   const open = Boolean(anchorEl);
   
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {

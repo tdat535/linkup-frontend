@@ -1,5 +1,4 @@
-import UserList from '../../components/Layout/Management/User/UserList.tsx';
-
+import UserList from "../../components/layout/management/user/UserList";
 
 const UsersPage = () => {
 

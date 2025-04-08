@@ -1,15 +1,14 @@
-import React, { useEffect, useState, lazy, Suspense } from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate, useLocation, useNavigate } from 'react-router-dom';
-import Layout from '../Components/Layout';
+import { useEffect, lazy, Suspense } from 'react';
+import { Route, Routes, Navigate, useLocation, useNavigate } from 'react-router-dom';
+import Layout from '../components/Layout';
 import UsersPage from '../pages/dashboard/UserPage';
-import Dashboard from '../Components/Layout/Management/Dashboard/Dashboard';
-import Admin_Layout from '../Components/AdminLayout';
+import DashboardPage from '../pages/dashboard/DashboardPage';
+import Admin_Layout from '../components/AdminLayout';
 import PostsPage from '../pages/dashboard/PostsPage';
 import ErrorPage from '../pages/ErrorPage';
 import FeatureDevelopingPage from '../pages/FeatureDevelopingPage';
 import CommentPage from '../pages/dashboard/CommentPage';
 
-import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Home = lazy(() => import('../pages/user/Home'));
@@ -20,7 +19,6 @@ const Profile = lazy(() => import('../pages/user/Profile'));
 const Login = lazy(() => import('../pages/auth/Login'));
 const Register = lazy(() => import('../pages/auth/Register'));
 const FollowTest = lazy(() => import('../pages/user/FollowTest'));
-const TokenRefresher = lazy(() => import('../Components/TokenRefresher'));
 
 
 // import Home from '../pages/user/Home';
@@ -52,7 +50,6 @@ const AppRoutes = ({token}: { token: string | null }) => {
   
   return (
       <>
-        <TokenRefresher refreshInterval={3 * 60 * 1000} />
         <Suspense fallback={<div>Loading...</div>}>
           <Routes>
             <Route path="/" element={<Navigate to="/home" />} />
@@ -69,7 +66,7 @@ const AppRoutes = ({token}: { token: string | null }) => {
                     </Route>
 
                     <Route path="/admin" element={<Admin_Layout />}>
-                        <Route index element={<Dashboard />} />
+                        <Route index element={<DashboardPage />} />
                         <Route path="users-list" element={<UsersPage />} />
                         <Route path="posts-list" element={<PostsPage />} />
                         <Route path="comments-list" element={<CommentPage/>} />

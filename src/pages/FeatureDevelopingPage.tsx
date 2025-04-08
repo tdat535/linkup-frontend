@@ -1,4 +1,4 @@
-import FeatureDeveloping from "../components/ErrorPage/FeatureDeveloping";
+import FeatureDeveloping from "../components/errorpage/FeatureDeveloping";
 
 const FeatureDevelopingPage : React.FC = () => {
     return (

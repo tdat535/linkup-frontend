@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { UAParser } from "ua-parser-js";
 import { Sun, Moon } from "lucide-react";
+import axiosInstance from "../../components/TokenRefresher";
 
 const Login = () => {
   const [email, setEmail] = useState<string>("");
@@ -11,7 +10,6 @@ const Login = () => {
   const [error, setError] = useState<string>("");
   const navigate = useNavigate();
   const url = "https://api-linkup.id.vn/api/auth/login";
-  const [token, setToken] = useState<string | null>(localStorage.getItem("accessToken"));
   const [isSun, setIsSun] = useState<boolean>(true);
 
     // useEffect(() => {
@@ -61,8 +59,8 @@ const Login = () => {
       console.log("📥 Request body:", body);
       console.log("📤 Sending request to:", url);
 
-      const response = await axios.post(url, body, {
-        headers: { "Content-Type": "application/json" },
+      const response = await axiosInstance.post(url, body, {
+        withCredentials: true
       });
 
       console.log("📥 API Response:", response);
@@ -127,7 +125,7 @@ const Login = () => {
         <div className="flex justify-center items-center w-full mt-10">
           <form onSubmit={handleLogin} className={`max-w-sm p-6 border rounded-2xl border-stone-800 w-full bg-opacity-75 ${isSun ? "shadow-[3px_3px_0px_rgba(100,100,100,0.3)] bg-black" : "shadow-[3px_3px_0px_rgba(10,10,10,0.5)] bg-white"}`} style={{ maxWidth: "32rem", height: "auto" }}>
             <div className="flex relative">
-              <p className={`text-center mb-8 font-bold block mb-2 text-2xl ${isSun ? "text-white" : "text-black"}`}>
+              <p className={`text-center font-bold block mb-2 text-2xl ${isSun ? "text-white" : "text-black"}`}>
                 Đăng nhập
               </p>
               <button type="reset" className={`p-1.5 rounded-xl backdrop-blur-md hover:backdrop-blur-lg absolute right-0 transition-all ${isSun ? "bg-[#f9d134] text-black shadow-[0px_0px_30px_5px_rgba(255,255,255,0.5)] hover:shadow-[0px_0px_5px_3px_rgba(255,255,255,0.5)] duration-1000" : "bg-[#757271] text-blue-700 duration-1000"}`} onClick={() => setIsSun(!isSun)}>

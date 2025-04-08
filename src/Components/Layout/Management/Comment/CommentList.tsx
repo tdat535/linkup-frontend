@@ -64,19 +64,16 @@ const CommentList: React.FC = () => {
         field: 'id', 
         headerName: 'ID', 
         width: 70,
-        hide: isMobile 
       },
       { 
         field: 'post_id', 
         headerName: 'ID Bài viết', 
         width: 90,
-        hide: isMobile 
       },
       { 
         field: 'user_id', 
         headerName: 'ID Người dùng', 
         width: 110,
-        hide: isMobile 
       },
       { 
         field: 'content', 
@@ -142,7 +139,6 @@ const CommentList: React.FC = () => {
         headerName: 'Ngày tạo', 
         flex: 0.7,
         minWidth: 120,
-        hide: isMobile
       },
       { 
         field: 'actions', 

@@ -1,7 +1,6 @@
 // Code for Post component
 // This component is used to display a post
 // It contains the avatar of the user who posted, the post image, and the like and comment buttons
-import React from 'react';
 
 const Post = () => (
   <div className="bg-[#080A0B] text-white shadow-md p-4 border-b border-gray-400">

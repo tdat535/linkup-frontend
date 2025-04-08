@@ -81,7 +81,7 @@ const Register = () => {
                 <div className="flex justify-center items-center w-full mt-10">
                     <form onSubmit={handleSubmit} className={`max-w-sm mx-auto p-6 border rounded-2xl border-stone-800 w-full bg-opacity-75 ${isSun ? 'shadow-[3px_3px_0px_rgba(100,100,100,0.3)] bg-black' : 'shadow-[3px_3px_0px_rgba(10,10,10,0.5)] bg-white'}`} style={{ maxWidth: '32rem', height: '43rem' }}>
                         <div className='flex relative'>
-                            <p className={`text-center mb-2 font-bold block mb-2 text-2xl ${isSun ? 'text-white' : 'text-black'}`}>Đăng kí</p>
+                            <p className={`text-center font-bold block mb-2 text-2xl ${isSun ? 'text-white' : 'text-black'}`}>Đăng kí</p>
                             <button type='reset'className={`p-1.5 rounded-xl  backdrop-blur-md hover:backdrop-blur-lg absolute right-0 transition-all ${isSun 
                                 ? 'bg-[#f9d134] text-black shadow-[0px_0px_30px_5px_rgba(255,255,255,0.5)] hover:shadow-[0px_0px_5px_3px_rgba(255,255,255,0.5)] duration-1000' 
                                 : 'bg-[#757271] text-blue-700 duration-1000'}`}  onClick={() => setIsSun(!isSun)}>

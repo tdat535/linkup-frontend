@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Tabs } from "flowbite";
 import type { TabsOptions, TabItem } from "flowbite";
 import { useTheme } from "../../../context/ThemeContext";

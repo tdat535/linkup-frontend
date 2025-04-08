@@ -2,8 +2,8 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Home, Search, MessageSquare, Bell, User, MoreHorizontal, Sun, Moon, Plus, Settings } from "lucide-react";
 import { motion } from "framer-motion";
-import Post_Button from "../../Buttons/Post_Button";
-import Post_Modal from "../Modal/Post_Modal";
+import Post_Button from "../../buttons/PostButton";
+import Post_Modal from "../modal/PostModal";
 import { useTheme } from "../../../context/ThemeContext"; // Import useTheme
 
 const Sidebar = () => {

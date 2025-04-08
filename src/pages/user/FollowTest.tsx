@@ -1,7 +1,7 @@
 // src/components/FollowTest.tsx
 
 import React, { useState } from 'react';
-import axios from 'axios';
+import axiosInstance from '../../components/TokenRefresher';
 
 interface FollowTestProps {
   accessToken: string;
@@ -21,7 +21,7 @@ const FollowTest: React.FC<FollowTestProps> = ({ accessToken }) => {
 
     setLoading(true);
     try {
-      const response = await axios.post(
+      const response = await axiosInstance.post(
         'https://api-linkup.id.vn/api/follow/createFollow',
         {
           followerId,
@@ -51,7 +51,7 @@ const FollowTest: React.FC<FollowTestProps> = ({ accessToken }) => {
 
     setLoading(true);
     try {
-      const response = await axios.post(
+      const response = await axiosInstance.post(
         'https://api-linkup.id.vn/api/follow/acceptedFollow',
         {
           followerId,

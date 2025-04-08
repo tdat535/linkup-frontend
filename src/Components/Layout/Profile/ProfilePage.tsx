@@ -1,13 +1,13 @@
 // Đây là trang hồ sơ người dùng, 
 // hiển thị thông tin cá nhân và các bài đăng của người dùng.
 
-import React, { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { FaHeart, FaComment, FaShare } from "react-icons/fa";
 import TextareaAutosize from "react-textarea-autosize";
 import { useSearchParams } from "react-router-dom";
-import axios from "axios";
 import { useTheme } from "../../../context/ThemeContext";
 import ErrorPage from "../../../pages/ErrorPage";
+import axiosInstance from "../../TokenRefresher";
 
 const ProfilePage = () => {
   // Khai báo các state
@@ -52,9 +52,12 @@ const ProfilePage = () => {
       try {
         console.log("Fetching profile for userId:", userId, "currentUserId:", currentUserId);
 
-        const response = await axios.get(
-          `https://api-linkup.id.vn/api/auth/profile?userId=${userId}&currentUserId=${currentUserId}`,
-          { headers: { Authorization: `Bearer ${accessToken}` } }
+        const response = await axiosInstance.get(
+          `https://api-linkup.id.vn/api/auth/profile?userId=${userId}&currentUserId=${currentUserId}`,{
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+            },
+          }
         );
 
         console.log("API Response:", response.data);
@@ -97,7 +100,7 @@ const ProfilePage = () => {
     try {
       if (isFollowing) {
         // 🟢 Nếu đang follow -> Unfollow
-        await axios.post(
+        await axiosInstance.post(
           "https://api-linkup.id.vn/api/follow/unfollow",
           { userId, followerId: currentUserId },
           { headers: { Authorization: `Bearer ${accessToken}` } }
@@ -105,7 +108,7 @@ const ProfilePage = () => {
         setIsFollowing(false);
       } else {
         // 🟢 Nếu chưa follow -> Follow
-        const response = await axios.post(
+        const response = await axiosInstance.post(
           "https://api-linkup.id.vn/api/follow/createFollow",
           { userId, followerId: currentUserId },
           { headers: { Authorization: `Bearer ${accessToken}` } }
@@ -140,7 +143,7 @@ const ProfilePage = () => {
   );
 
   if (error) return (
-      <ErrorPage message={error} />
+      <ErrorPage/>
   );
 
   if (!user || !profileData) return (

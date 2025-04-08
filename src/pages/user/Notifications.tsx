@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Noti from '../../components/Layout/Noti/Noti';
+import Notification from '../../components/layout/noti/Noti';
 const Notifications: React.FC = () => {
   
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
@@ -12,7 +12,7 @@ const Notifications: React.FC = () => {
   
   return (
     <div  className={isMobile ? 'mt-20' : ''}>
-      <Noti />
+      <Notification />
     </div>
   );
 };

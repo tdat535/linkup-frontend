@@ -1,6 +1,6 @@
 
 import React from 'react';
-import ProfilePage from '../../components/Layout/Profile/ProfilePage';
+import ProfilePage from '../../components/layout/profile/ProfilePage';
 
 const Profile: React.FC = () => {
   return (

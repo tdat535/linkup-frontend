@@ -13,13 +13,8 @@ import { useNavigate } from 'react-router-dom';
 import BuildCircleIcon from '@mui/icons-material/BuildCircle';
 import ConstructionIcon from '@mui/icons-material/Construction';
 
-interface FeatureDevelopingPageProps {
-  featureName?: string;
-}
+const FeatureDeveloping = () => {
 
-const FeatureDeveloping: React.FC<FeatureDevelopingPageProps> = ({ 
-  featureName = "Tính năng"
-}) => {
   const navigate = useNavigate();
   const theme = useTheme();
 

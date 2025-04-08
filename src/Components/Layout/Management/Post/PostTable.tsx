@@ -25,10 +25,10 @@ import {
   VideoLibrary as VideoIcon,
   Image as ImageIcon
 } from "@mui/icons-material";
-import axios from "axios";
 
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
-import VideoThumbnail from "../../VideoThumbnail";
+import VideoThumbnail from "../../videothumbnail/Index";
+import axiosInstance from "../../../TokenRefresher";
 
 interface Post {
   id: string;
@@ -46,31 +46,31 @@ interface Post {
   type: string;
 }
 
-interface TabPanelProps {
-  children?: React.ReactNode;
-  index: number;
-  value: number;
-}
+// interface TabPanelProps {
+//   children?: React.ReactNode;
+//   index: number;
+//   value: number;
+// }
 
-function TabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props;
+// function TabPanel(props: TabPanelProps) {
+//   const { children, value, index, ...other } = props;
 
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`post-tabpanel-${index}`}
-      aria-labelledby={`post-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          {children}
-        </Box>
-      )}
-    </div>
-  );
-}
+//   return (
+//     <div
+//       role="tabpanel"
+//       hidden={value !== index}
+//       id={`post-tabpanel-${index}`}
+//       aria-labelledby={`post-tab-${index}`}
+//       {...other}
+//     >
+//       {value === index && (
+//         <Box sx={{ p: 3 }}>
+//           {children}
+//         </Box>
+//       )}
+//     </div>
+//   );
+// }
 
 function a11yProps(index: number) {
   return {
@@ -115,10 +115,11 @@ const PostTable: React.FC = () => {
       try {
         const token = getToken();
         console.log("Token:", token);
-        const response = await axios.get(
-          "https://api-linkup.id.vn/api/admin/getAllMediaPost",
-          {
-            headers: { Authorization: `Bearer ${token}` },
+        const response = await axiosInstance.get(
+          "https://api-linkup.id.vn/api/admin/getAllMediaPost", {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+            },
           }
         );
 
@@ -158,7 +159,7 @@ const PostTable: React.FC = () => {
     }
   }, [tabValue, posts]);
 
-  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
     setTabValue(newValue);
   };
 
@@ -393,7 +394,7 @@ const PostTable: React.FC = () => {
         const token = getToken();
         if (!token) throw new Error("Token không hợp lệ");
 
-        const response = await axios.put(
+        const response = await axiosInstance.put(
           `https://api-linkup.id.vn/api/media/hidePost/${postId}`,
           {},
           {
@@ -445,7 +446,7 @@ const PostTable: React.FC = () => {
         const token = getToken();
         if (!token) throw new Error("Token không hợp lệ");
 
-        const response = await axios.put(
+        const response = await axiosInstance.put(
           `https://api-linkup.id.vn/api/media/unHidePost/${postId}`,
           {},
           {

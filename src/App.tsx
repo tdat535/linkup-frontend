@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 import AppRoutes from './routes/routes';
 import { ThemeProvider } from './context/ThemeContext';

@@ -1,10 +1,10 @@
 import React from 'react';
-import ChatUI from '../../components/Layout/Messages/ChatUI';
+import ChatPage from '../../components/layout/messages/ChatUI';
 
 const Messages: React.FC = () => {
   return (
     <div className="messages-container">
-      <ChatUI />
+      <ChatPage theme={''} />
     </div>
   );
 };

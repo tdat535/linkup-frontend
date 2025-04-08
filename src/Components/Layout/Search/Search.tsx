@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { useTheme } from "../../../context/ThemeContext";
+import axiosInstance from "../../TokenRefresher";
 const Search = () => {
     const [query, setQuery] = useState("");
     const [results, setResults] = useState<any[]>([]);
@@ -19,7 +19,7 @@ const Search = () => {
             const timeoutId = setTimeout(async () => {
                 try {
                     console.log("🔍 Đang tìm kiếm:", query);
-                    const response = await axios.post(
+                    const response = await axiosInstance.post(
                         `https://api-linkup.id.vn/api/auth/search`,
                         {
                             email: query,

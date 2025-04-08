@@ -1,4 +1,4 @@
-import Dashboard from "../../components/Layout/Management/Dashboard/Dashboard";
+import Dashboard from "../../components/layout/management/dashboard/Dashboard";
 
 
 const DashboardPage = () => {

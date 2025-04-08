@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { ArrowLeft, Send } from "lucide-react";
 import TextareaAutosize from "react-textarea-autosize";
-
+import axiosInstance from "../../TokenRefresher";
 
 interface MessengerDetail {
   id: number;
@@ -12,14 +11,14 @@ interface MessengerDetail {
   createdAt: string;
   updatedAt: string;
   sender: {
-      id: number;
-      username: string;
-      avatar?: string | null;
+    id: number;
+    username: string;
+    avatar?: string | null;
   };
   receiver: {
-      id: number;
-      username: string;
-      avatar?: string | null;
+    id: number;
+    username: string;
+    avatar?: string | null;
   };
 }
 
@@ -27,9 +26,9 @@ interface MessengerOverview {
   lastMessage: string;
   lastMessageTime: string;
   user: {
-      id: number;
-      username: string;
-      avatar?: string | null;
+    id: number;
+    username: string;
+    avatar?: string | null;
   };
 }
 
@@ -53,7 +52,7 @@ const ChatPage = ({ theme }: { theme: string }) => {
     const fetchConversations = async () => {
       try {
         const token = localStorage.getItem("accessToken");
-        const res = await axios.get(
+        const res = await axiosInstance.get(
           "https://api-linkup.id.vn/api/texting/getMessenger",
           {
             headers: { Authorization: `Bearer ${token}` },
@@ -75,7 +74,7 @@ const ChatPage = ({ theme }: { theme: string }) => {
     if (!token || !userId) return;
 
     try {
-      const res = await axios.get(
+      const res = await axiosInstance.get(
         "https://api-linkup.id.vn/api/texting/getMessengerDetail",
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -87,7 +86,9 @@ const ChatPage = ({ theme }: { theme: string }) => {
         console.log("Dữ liệu chi tiết tin nhắn:", res.data.data);
         setMessages(res.data.data);
         const messageData = res.data.data.find(
-          (msg: MessengerDetail) => msg.receiver?.id === Number(userId) || msg.sender?.id === Number(userId)
+          (msg: MessengerDetail) =>
+            msg.receiver?.id === Number(userId) ||
+            msg.sender?.id === Number(userId)
         );
         if (messageData) {
           const user =
@@ -113,7 +114,7 @@ const ChatPage = ({ theme }: { theme: string }) => {
     // if (!input.trim() || !selectedUserId) return;
     // const token = localStorage.getItem("accessToken");
     // try {
-    //   await axios.post(
+    //   await axiosInstance.post(
     //     "https://api-linkup.id.vn/messenger/sendMessage",
     //     {
     //       receiverId: selectedUserId,
@@ -217,44 +218,44 @@ const ChatPage = ({ theme }: { theme: string }) => {
           }`}
         >
           {messages.map((msg, index) => (
-  <div
-    key={index}
-    className={`flex ${
-      msg.sender?.id === Number(currentUserId)
-        ? "justify-end"
-        : "justify-start"
-    } items-center gap-2`}
-  >
-    {/* Nếu người gửi không phải currentUserId, ảnh nằm phía trước */}
-    {msg.sender?.id !== Number(currentUserId) && (
-      <img
-        className="w-8 h-8 rounded-full"
-        src={msg.sender?.avatar || "/default-avatar.jpg"}
-        alt="Avatar"
-      />
-    )}
+            <div
+              key={index}
+              className={`flex ${
+                msg.sender?.id === Number(currentUserId)
+                  ? "justify-end"
+                  : "justify-start"
+              } items-center gap-2`}
+            >
+              {/* Nếu người gửi không phải currentUserId, ảnh nằm phía trước */}
+              {msg.sender?.id !== Number(currentUserId) && (
+                <img
+                  className="w-8 h-8 rounded-full"
+                  src={msg.sender?.avatar || "/default-avatar.jpg"}
+                  alt="Avatar"
+                />
+              )}
 
-    {/* Tin nhắn */}
-    <div
-      className={`break-all whitespace-pre-wrap max-w-[80%] md:max-w-[60%] p-3 rounded-lg ${
-        msg.sender?.id === Number(currentUserId)
-          ? "bg-blue-500 text-white ml-auto"
-          : "bg-gray-700 text-white"
-      }`}
-    >
-      {msg.content}
-    </div>
+              {/* Tin nhắn */}
+              <div
+                className={`break-all whitespace-pre-wrap max-w-[80%] md:max-w-[60%] p-3 rounded-lg ${
+                  msg.sender?.id === Number(currentUserId)
+                    ? "bg-blue-500 text-white ml-auto"
+                    : "bg-gray-700 text-white"
+                }`}
+              >
+                {msg.content}
+              </div>
 
-    {/* Nếu người gửi là currentUserId, ảnh nằm phía sau */}
-    {msg.sender?.id === Number(currentUserId) && (
-      <img
-        className="w-8 h-8 rounded-full"
-        src={msg.sender?.avatar || "/default-avatar.jpg"}
-        alt="Avatar"
-      />
-    )}
-  </div>
-))} 
+              {/* Nếu người gửi là currentUserId, ảnh nằm phía sau */}
+              {msg.sender?.id === Number(currentUserId) && (
+                <img
+                  className="w-8 h-8 rounded-full"
+                  src={msg.sender?.avatar || "/default-avatar.jpg"}
+                  alt="Avatar"
+                />
+              )}
+            </div>
+          ))}
         </div>
 
         {/* Nhập tin nhắn */}

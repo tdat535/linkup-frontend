@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Outlet } from "react-router-dom";
 import { useTheme } from "../context/ThemeContext";
-import Admin_Sidebar from "./Layout/Sidebar/Admin_Sidebar";
-import AdminHeader from "./Layout/Header/AdminHeader";
-import { Drawer, Box, useMediaQuery, useTheme as useMuiTheme } from "@mui/material";
+import Admin_Sidebar from "./layout/sidebar/AdminSidebar";
+import AdminHeader from "./layout/header/AdminHeader";
+import { Drawer, useMediaQuery, useTheme as useMuiTheme } from "@mui/material";
 
 const Admin_Layout: React.FC = () => {
   const { theme } = useTheme();

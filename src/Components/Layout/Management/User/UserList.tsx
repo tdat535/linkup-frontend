@@ -3,7 +3,6 @@ import {
   Box,
   Typography,
   Button,
-  TextField,
   Dialog,
   DialogTitle,
   DialogContent,
@@ -21,8 +20,8 @@ import {
   LockOpen as LockOpenIcon,
   LockOutline as LockOutlineIcon,
 } from "@mui/icons-material";
-import axios from "axios";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
+import axiosInstance from "../../../TokenRefresher";
 
 // Define the User interface
 interface User {
@@ -48,7 +47,7 @@ const UserList: React.FC = () => {
   // Sample static data
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  const [error] = useState<string | null>(null);
 
   const [openDialog, setOpenDialog] = useState<boolean>(false);
   const [currentUser, setCurrentUser] = useState<Partial<User> | null>(null);
@@ -73,7 +72,7 @@ const UserList: React.FC = () => {
         const token = getToken();
         console.log("Token:", token);
 
-        const response = await axios.get(
+        const response = await axiosInstance.get(
           "https://api-linkup.id.vn/api/admin/getAllUser",
           {
             headers: { Authorization: `Bearer ${token}` },
@@ -215,8 +214,8 @@ const UserList: React.FC = () => {
         const token = getToken();
         if (!token) throw new Error("Token không hợp lệ");
 
-        const response = await axios.put(
-          `https://api-linkup.id.vn/api/auth/hideUser/${userId}`,
+        const response = await axiosInstance.put(
+          `https://api-linkup.id.vn/api/admin/hideUser/${userId}`,
           {},
           {
             headers: { Authorization: `Bearer ${token}` },
@@ -254,8 +253,8 @@ const UserList: React.FC = () => {
         const token = getToken();
         if (!token) throw new Error("Token không hợp lệ");
 
-        const response = await axios.put(
-          `https://api-linkup.id.vn/api/auth/unHideUser/${userId}`,
+        const response = await axiosInstance.put(
+          `https://api-linkup.id.vn/api/admin/unHideUser/${userId}`,
           {},
           {
             headers: { Authorization: `Bearer ${token}` },

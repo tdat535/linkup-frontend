@@ -1,4 +1,4 @@
-import Error from "../components/ErrorPage/Error";
+import Error from "../components/errorpage/Error";
 
 const ErrorPage : React.FC = () => {
   return (

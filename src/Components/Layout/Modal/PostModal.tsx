@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Modal from "./Modal";
 import TextareaAutosize from "react-textarea-autosize";
-import axios from "axios";
 import { useTheme } from "../../../context/ThemeContext";
-import Post_Button from "../../Buttons/Post_Button";
+import Post_Button from "../../buttons/PostButton";
+import axiosInstance from "../../TokenRefresher";
 
 interface PostModalProps {
   isOpen: boolean;
@@ -115,7 +115,7 @@ const Post_Modal: React.FC<PostModalProps> = ({ isOpen, onClose }) => {
         console.log(`${key}:`, value);
       }
 
-      const response = await axios.post(url, formData, {
+      const response = await axiosInstance.post(url, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

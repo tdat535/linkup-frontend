@@ -1,53 +1,80 @@
-// src/components/TokenRefresher.tsx
-import { useEffect, useState } from 'react';
-import authService from '../services/auth';
+import axios from "axios";
 
-interface TokenRefresherProps {
-  refreshInterval?: number; // in milliseconds
-}
+let accessToken: string = localStorage.getItem("accessToken") ?? "";
+let isRefreshing = false;
+let failedQueue: any[] = [];
 
-const TokenRefresher: React.FC<TokenRefresherProps> = ({ 
-  refreshInterval = 4 * 60 * 1000 // Check every 4 minutes by default
-}) => {
-  const [lastRefreshed, setLastRefreshed] = useState<number>(Date.now());
-  
-  useEffect(() => {
-    const checkAndRefreshToken = async () => {
-      const token = localStorage.getItem('accessToken');
-      
-      if (!token) {
-        console.log('No access token found');
-        return;
-      }
-      
-      // Check if token is expiring soon
-      if (authService.isTokenExpiringSoon(token)) {
-        console.log('Token is expiring soon, refreshing...');
-        const success = await authService.refreshToken();
-        
-        if (success) {
-          setLastRefreshed(Date.now());
-          console.log('Token refreshed at:', new Date().toISOString());
-        } else {
-          console.log('Failed to refresh token, may need to re-login');
-        }
-      } else {
-        console.log('Token is still valid, no refresh needed');
-      }
-    };
-    
-    // Check token immediately on component mount
-    checkAndRefreshToken();
-    
-    // Set up interval to check token periodically
-    const intervalId = setInterval(checkAndRefreshToken, refreshInterval);
-    
-    // Clean up on unmount
-    return () => clearInterval(intervalId);
-  }, [refreshInterval]);
-  
-  // This component doesn't render anything visible
-  return null;
+const processQueue = (error: any, token: string | null = null) => {
+  failedQueue.forEach((prom) => {
+    if (error) {
+      prom.reject(error);
+    } else {
+      prom.resolve(token);
+    }
+  });
+  failedQueue = [];
 };
 
-export default TokenRefresher;
+const axiosInstance = axios.create({
+  baseURL: "https://api-linkup.id.vn/api",
+  withCredentials: true,
+});
+
+axiosInstance.interceptors.request.use((config) => {
+  if (accessToken) {
+    console.log("✅ Access token hợp lệ, dùng luôn:", accessToken);
+    config.headers.Authorization = `Bearer ${accessToken}`;
+  }
+  return config;
+});
+
+axiosInstance.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const originalRequest = error.config;
+
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      if (isRefreshing) {
+        return new Promise(function (resolve, reject) {
+          failedQueue.push({
+            resolve: (token: string) => {
+              originalRequest.headers.Authorization = `Bearer ${token}`;
+              resolve(axiosInstance(originalRequest));
+            },
+            reject: (err: any) => reject(err),
+          });
+        });
+      }
+
+      originalRequest._retry = true;
+      isRefreshing = true;
+
+      try {
+        console.log("⚠️ Token hết hạn, đang gọi /auth/refresh...");
+        const res = await axios.post(
+          "https://api-linkup.id.vn/api/auth/refresh",
+          {},
+          { withCredentials: true }
+        );
+
+        accessToken = res.data.accessToken;
+        localStorage.setItem("accessToken", accessToken);
+
+        console.log("🔄 Refresh token thành công, token mới:", accessToken);
+        processQueue(null, accessToken);
+
+        originalRequest.headers.Authorization = `Bearer ${accessToken}`;
+        return axiosInstance(originalRequest);
+      } catch (err) {
+        processQueue(err, null);
+        return Promise.reject(err);
+      } finally {
+        isRefreshing = false;
+      }
+    }
+
+    return Promise.reject(error);
+  }
+);
+
+export default axiosInstance;
