@@ -2,16 +2,6 @@
   "files": [],
   "references": [
     { "path": "./tsconfig.app.json" },
-  ],
-  "compilerOptions": {
-    "baseUrl": "./src",  // Đảm bảo baseUrl trỏ tới thư mục 'src'
-    "paths": {
-      "@components/*": ["components/*"]
-    },
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "noUnusedLocals": false,
-    "noUnusedParameters": false
-  },
-  "include": ["./src/**/*"]
+    { "path": "./tsconfig.node.json" }
+  ]
 }
