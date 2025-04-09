@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { ArrowLeft, Send } from "lucide-react";
 import TextareaAutosize from "react-textarea-autosize";
-import axiosInstance from "../../TokenRefresher";
+import axiosInstance from "Components/TokenRefresher";
 import React from "react";
 
 interface MessengerDetail {

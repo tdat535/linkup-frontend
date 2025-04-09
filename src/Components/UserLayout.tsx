@@ -3,7 +3,7 @@ import { Outlet, useLocation } from 'react-router-dom';
 
 import { useTheme } from '../context/ThemeContext';
 import FollowSidebar from './Layout/FollowSidebar/FollowSidebar';
-import Sidebar from "@Components/Layout/Sidebar/Sidebar";
+import Sidebar from './Layout/Sidebar/Sidebar';
 
 const UserLayout: React.FC = () => {
   const location = useLocation();

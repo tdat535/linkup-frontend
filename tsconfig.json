@@ -1,14 +1,16 @@
+// tsconfig.json
 {
   "compilerOptions": {
     "target": "ESNext",
     "module": "ESNext",
     "moduleResolution": "node",
     "jsx": "react-jsx",
-    "baseUrl": "./src",
-    "paths": {
-      "@Components/*": ["Components/*"],
-      "@Pages/*": ["Pages/*"]
-    },
+    "baseUrl": "./src", // dòng này vẫn giữ được
+    // ❌ Xoá paths
+    // "paths": {
+    //   "@Components/*": ["Components/*"],
+    //   "@Pages/*": ["Pages/*"]
+    // },
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,

@@ -1,5 +1,5 @@
 import React from 'react';
-import ChatPage from '@Components/Layout/Messages/ChatUI';
+import ChatPage from 'Components/Layout/Messages/ChatUI';
 
 const Messages: React.FC = () => {
   return (

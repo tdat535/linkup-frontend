@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../../../context/ThemeContext";
-import axiosInstance from "../../TokenRefresher";
+import axiosInstance from "Components/TokenRefresher";
 import React from "react";
 
 const Search = () => {
