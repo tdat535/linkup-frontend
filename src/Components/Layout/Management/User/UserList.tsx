@@ -21,7 +21,7 @@ import {
   LockOutline as LockOutlineIcon,
 } from "@mui/icons-material";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
-import axiosInstance from "Components/TokenRefresher";
+import axiosInstance from "../../../TokenRefresher";
 
 // Define the User interface
 interface User {

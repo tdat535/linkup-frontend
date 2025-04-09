@@ -28,7 +28,7 @@ import {
 
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import VideoThumbnail from "Components/Layout/VideoThumbnail/VideoThumbnail";
-import axiosInstance from "Components/TokenRefresher";
+import axiosInstance from "../../../TokenRefresher";
 
 interface Post {
   id: string;

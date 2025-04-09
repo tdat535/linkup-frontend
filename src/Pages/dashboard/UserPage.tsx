@@ -1,5 +1,5 @@
 import React from "react";
-import UserList from "Components/Layout/Management/User/UserList";
+import UserList from "../../Components/Layout/Management/User/UserList";
 
 const UsersPage = () => {
 

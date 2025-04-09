@@ -26,7 +26,7 @@ import ExcelJS from "exceljs";
 import { saveAs } from "file-saver";
 import logoImage from "./Nội dung đoạn văn bản của bạn.jpg"; // Giả sử bạn có file logo tại đây
 import html2canvas from "html2canvas";
-import axiosInstance from "Components/TokenRefresher";
+import axiosInstance from "../../../TokenRefresher";
 
 const Dashboard: React.FC = () => {
   const [stats, setStats] = useState<any>(null);

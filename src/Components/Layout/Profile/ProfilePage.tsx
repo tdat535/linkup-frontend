@@ -6,8 +6,8 @@ import { FaHeart, FaComment, FaShare } from "react-icons/fa";
 import TextareaAutosize from "react-textarea-autosize";
 import { useSearchParams } from "react-router-dom";
 import { useTheme } from "../../../context/ThemeContext";
-import ErrorPage from "Pages/ErrorPage";
-import axiosInstance from "Components/TokenRefresher";
+import ErrorPage from "../../Errorpage/Error";
+import axiosInstance from "../../TokenRefresher";
 import React from "react";
 
 const ProfilePage = () => {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { PostProps } from "./PostProps";
 import PostItem from "./PostItems";
-import axiosInstance from "Components/TokenRefresher";
+import axiosInstance from "../../TokenRefresher";
 const PostList: React.FC = () => {
   const [posts, setPosts] = useState<PostProps[]>([]);
 
